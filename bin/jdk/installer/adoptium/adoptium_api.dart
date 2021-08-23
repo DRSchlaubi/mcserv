@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/http.dart';
 
@@ -21,7 +22,7 @@ abstract class AdoptiumApi {
 }
 
 @JsonSerializable()
-class AdoptiumReleases {
+class AdoptiumReleases extends Equatable {
   @JsonKey(name: 'available_lts_releases')
   final List<int> availableLtsReleases;
   @JsonKey(name: 'available_releases')
@@ -41,30 +42,14 @@ class AdoptiumReleases {
   Map<String, dynamic> toJson() => _$AdoptiumReleasesToJson(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AdoptiumReleases &&
-          runtimeType == other.runtimeType &&
-          availableLtsReleases == other.availableLtsReleases &&
-          availableReleases == other.availableReleases &&
-          mostResentFeatureRelease == other.mostResentFeatureRelease &&
-          mostResentLtsRelease == other.mostResentLtsRelease;
+  List<Object?> get props => [availableLtsReleases, availableReleases, mostResentFeatureRelease, mostResentLtsRelease];
 
   @override
-  int get hashCode =>
-      availableLtsReleases.hashCode ^
-      availableReleases.hashCode ^
-      mostResentFeatureRelease.hashCode ^
-      mostResentLtsRelease.hashCode;
-
-  @override
-  String toString() {
-    return 'AdoptiumReleases{availableLtsReleases: $availableLtsReleases, availableReleases: $availableReleases, mostResentFeatureRelease: $mostResentFeatureRelease, mostResentLtsRelease: $mostResentLtsRelease}';
-  }
+  bool? get stringify => true;
 }
 
 @JsonSerializable()
-class AdoptiumFeatureRelease {
+class AdoptiumFeatureRelease extends Equatable {
   final List<AdoptiumBinary> binaries;
 
   const AdoptiumFeatureRelease(this.binaries);
@@ -75,23 +60,14 @@ class AdoptiumFeatureRelease {
   Map<String, dynamic> toJson() => _$AdoptiumFeatureReleaseToJson(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AdoptiumFeatureRelease &&
-          runtimeType == other.runtimeType &&
-          binaries == other.binaries;
+  List<Object?> get props => [binaries];
 
   @override
-  int get hashCode => binaries.hashCode;
-
-  @override
-  String toString() {
-    return 'AdoptiumFeatureRelease{binaries: $binaries}';
-  }
+  bool? get stringify => true;
 }
 
 @JsonSerializable()
-class AdoptiumBinary {
+class AdoptiumBinary extends Equatable {
   final String architecture;
   @JsonKey(name: 'image_type')
   final String imageType;
@@ -109,32 +85,14 @@ class AdoptiumBinary {
   Map<String, dynamic> toJson() => _$AdoptiumBinaryToJson(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AdoptiumBinary &&
-          runtimeType == other.runtimeType &&
-          architecture == other.architecture &&
-          imageType == other.imageType &&
-          jvmImpl == other.jvmImpl &&
-          os == other.os &&
-          package == other.package;
+  List<Object?> get props => [architecture, imageType, jvmImpl, os, package];
 
   @override
-  int get hashCode =>
-      architecture.hashCode ^
-      imageType.hashCode ^
-      jvmImpl.hashCode ^
-      os.hashCode ^
-      package.hashCode;
-
-  @override
-  String toString() {
-    return 'AdoptiumBinary{architecture: $architecture, imageType: $imageType, jvmImpl: $jvmImpl, os: $os, package: $package}';
-  }
+  bool? get stringify => true;
 }
 
 @JsonSerializable()
-class AdoptiumPackage {
+class AdoptiumPackage extends Equatable {
   final String checksum;
   final String link;
   final String name;
@@ -147,18 +105,8 @@ class AdoptiumPackage {
   Map<String, dynamic> toJson() => _$AdoptiumPackageToJson(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AdoptiumPackage &&
-          runtimeType == other.runtimeType &&
-          checksum == other.checksum &&
-          link == other.link;
+  List<Object?> get props => [checksum, link, name];
 
   @override
-  int get hashCode => checksum.hashCode ^ link.hashCode;
-
-  @override
-  String toString() {
-    return 'AdoptiumPackage{checksum: $checksum, link: $link}';
-  }
+  bool? get stringify => true;
 }

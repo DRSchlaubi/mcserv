@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -27,7 +28,7 @@ abstract class PaperApi {
 }
 
 @JsonSerializable()
-class PaperVersion {
+class PaperVersion extends Equatable {
   @JsonKey(name: 'project_id')
   final String projectId;
   @JsonKey(name: 'project_name')
@@ -44,30 +45,14 @@ class PaperVersion {
   Map<String, dynamic> toJson() => _$PaperVersionToJson(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaperVersion &&
-          runtimeType == other.runtimeType &&
-          projectId == other.projectId &&
-          projectName == other.projectName &&
-          version == other.version &&
-          builds == other.builds;
+  List<Object?> get props => [projectId, projectName, version, builds];
 
   @override
-  int get hashCode =>
-      projectId.hashCode ^
-      projectName.hashCode ^
-      version.hashCode ^
-      builds.hashCode;
-
-  @override
-  String toString() {
-    return 'PaperVersion{projectId: $projectId, projectName: $projectName, version: $version, builds: $builds}';
-  }
+  bool? get stringify => true;
 }
 
 @JsonSerializable()
-class PaperProject {
+class PaperProject extends Equatable {
   @JsonKey(name: 'project_id')
   final String projectId;
   @JsonKey(name: 'project_name')
@@ -85,30 +70,14 @@ class PaperProject {
   Map<String, dynamic> toJson() => _$PaperProjectToJson(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaperProject &&
-          runtimeType == other.runtimeType &&
-          projectId == other.projectId &&
-          projectName == other.projectName &&
-          versionGroups == other.versionGroups &&
-          versions == other.versions;
+  List<Object?> get props => [projectId, projectName, versionGroups, versions];
 
   @override
-  int get hashCode =>
-      projectId.hashCode ^
-      projectName.hashCode ^
-      versionGroups.hashCode ^
-      versions.hashCode;
-
-  @override
-  String toString() {
-    return 'PaperProject{projectId: $projectId, projectName: $projectName, versionGroups: $versionGroups, versions: $versions}';
-  }
+  bool? get stringify => true;
 }
 
 @JsonSerializable()
-class PaperBuild {
+class PaperBuild extends Equatable {
   @JsonKey(name: 'project_id')
   final String projectId;
   @JsonKey(name: 'project_name')
@@ -125,30 +94,14 @@ class PaperBuild {
   Map<String, dynamic> toJson() => _$PaperBuildToJson(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaperBuild &&
-          runtimeType == other.runtimeType &&
-          projectId == other.projectId &&
-          projectName == other.projectName &&
-          build == other.build &&
-          downloads == other.downloads;
+  List<Object?> get props => [projectId, projectName, build, downloads];
 
   @override
-  int get hashCode =>
-      projectId.hashCode ^
-      projectName.hashCode ^
-      build.hashCode ^
-      downloads.hashCode;
-
-  @override
-  String toString() {
-    return 'PaperBuild{projectId: $projectId, projectName: $projectName, build: $build, downloads: $downloads}';
-  }
+  bool? get stringify => true;
 }
 
 @JsonSerializable()
-class PaperDownloads {
+class PaperDownloads extends Equatable{
   final PaperDownload application;
 
   const PaperDownloads(this.application);
@@ -159,23 +112,11 @@ class PaperDownloads {
   Map<String, dynamic> toJson() => _$PaperDownloadsToJson(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaperDownloads &&
-          runtimeType == other.runtimeType &&
-          application == other.application;
-
-  @override
-  int get hashCode => application.hashCode;
-
-  @override
-  String toString() {
-    return 'PaperDownloads{application: $application}';
-  }
+  List<Object?> get props => [application];
 }
 
 @JsonSerializable()
-class PaperDownload {
+class PaperDownload extends Equatable {
   final String name;
   final String sha256;
 
@@ -187,24 +128,14 @@ class PaperDownload {
   Map<String, dynamic> toJson() => _$PaperDownloadToJson(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaperDownload &&
-          runtimeType == other.runtimeType &&
-          name == other.name &&
-          sha256 == other.sha256;
+  List<Object?> get props => [name, sha256];
 
   @override
-  int get hashCode => name.hashCode ^ sha256.hashCode;
-
-  @override
-  String toString() {
-    return 'PaperDownloads{name: $name, sha256: $sha256}';
-  }
+  bool? get stringify => true;
 }
 
 @JsonSerializable()
-class PaperVersionGroup {
+class PaperVersionGroup extends Equatable {
   @JsonKey(name: 'version_group')
   final String versionGroup;
 
@@ -221,18 +152,8 @@ class PaperVersionGroup {
   VersionGroup toVersionGroup() => VersionGroup(versionGroup, versions);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaperVersionGroup &&
-          runtimeType == other.runtimeType &&
-          versionGroup == other.versionGroup &&
-          versions == other.versions;
+  List<Object?> get props => [versionGroup, versions];
 
   @override
-  int get hashCode => versionGroup.hashCode ^ versions.hashCode;
-
-  @override
-  String toString() {
-    return 'PaperVersionGroup{versionGroup: $versionGroup, versions: $versions}';
-  }
+  bool? get stringify => true;
 }

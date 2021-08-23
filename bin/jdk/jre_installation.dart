@@ -1,4 +1,6 @@
-class JreInstallation {
+import 'package:equatable/equatable.dart';
+
+class JreInstallation extends Equatable {
   final JreVersion version;
   final String path;
 
@@ -7,43 +9,17 @@ class JreInstallation {
   JreInstallation(this.version, this.path);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is JreInstallation &&
-          runtimeType == other.runtimeType &&
-          version == other.version &&
-          path == other.path;
+  List<Object?> get props => [version, path];
 
   @override
-  int get hashCode => version.hashCode ^ path.hashCode;
-
-  @override
-  String toString() {
-    return 'JreInstallation{version: $version, path: $path}';
-  }
+  bool? get stringify => true;
 }
 
-class JreVersion extends Comparable<JreVersion> {
+class JreVersion extends Comparable<JreVersion> with EquatableMixin {
   final int languageVersion;
   final int update;
 
   JreVersion(this.languageVersion, this.update);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is JreVersion &&
-          runtimeType == other.runtimeType &&
-          languageVersion == other.languageVersion &&
-          update == other.update;
-
-  @override
-  int get hashCode => languageVersion.hashCode ^ update.hashCode;
-
-  @override
-  String toString() {
-    return 'JreVersion{languageVersion: $languageVersion, update: $update}';
-  }
 
   @override
   int compareTo(JreVersion other) {
@@ -53,4 +29,10 @@ class JreVersion extends Comparable<JreVersion> {
 
     return update - other.update;
   }
+
+  @override
+  List<Object?> get props => [languageVersion, update];
+
+  @override
+  bool? get stringify => true;
 }
