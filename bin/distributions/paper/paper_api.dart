@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../distribution.dart';
+
 part 'paper_api.g.dart';
 
 @RestApi(baseUrl: 'https://papermc.io/api/v2/')
@@ -18,6 +20,10 @@ abstract class PaperApi {
   @GET('/projects/{project}/versions/{version}/builds/{build}')
   Future<PaperBuild> getBuild(@Path('project') String project,
       @Path('version') String version, @Path('build') int build);
+
+  @GET('/projects/{project}/version_group/{versionGroup}')
+  Future<PaperVersionGroup> getVersionGroup(@Path('project') String project,
+      @Path('versionGroup') String versionGroup);
 }
 
 @JsonSerializable()
@@ -29,7 +35,8 @@ class PaperVersion {
   final String version;
   final List<int> builds;
 
-  PaperVersion(this.projectId, this.projectName, this.version, this.builds);
+  const PaperVersion(
+      this.projectId, this.projectName, this.version, this.builds);
 
   factory PaperVersion.fromJson(Map<String, dynamic> json) =>
       _$PaperVersionFromJson(json);
@@ -69,11 +76,11 @@ class PaperProject {
   final List<String> versionGroups;
   final List<String> versions;
 
+  const PaperProject(
+      this.projectId, this.projectName, this.versionGroups, this.versions);
+
   factory PaperProject.fromJson(Map<String, dynamic> json) =>
       _$PaperProjectFromJson(json);
-
-  PaperProject(
-      this.projectId, this.projectName, this.versionGroups, this.versions);
 
   Map<String, dynamic> toJson() => _$PaperProjectToJson(this);
 
@@ -109,7 +116,8 @@ class PaperBuild {
   final int build;
   final PaperDownloads downloads;
 
-  PaperBuild(this.projectId, this.projectName, this.build, this.downloads);
+  const PaperBuild(
+      this.projectId, this.projectName, this.build, this.downloads);
 
   factory PaperBuild.fromJson(Map<String, dynamic> json) =>
       _$PaperBuildFromJson(json);
@@ -143,7 +151,7 @@ class PaperBuild {
 class PaperDownloads {
   final PaperDownload application;
 
-  PaperDownloads(this.application);
+  const PaperDownloads(this.application);
 
   factory PaperDownloads.fromJson(Map<String, dynamic> json) =>
       _$PaperDownloadsFromJson(json);
@@ -171,7 +179,7 @@ class PaperDownload {
   final String name;
   final String sha256;
 
-  PaperDownload(this.name, this.sha256);
+  const PaperDownload(this.name, this.sha256);
 
   factory PaperDownload.fromJson(Map<String, dynamic> json) =>
       _$PaperDownloadFromJson(json);
@@ -192,5 +200,39 @@ class PaperDownload {
   @override
   String toString() {
     return 'PaperDownloads{name: $name, sha256: $sha256}';
+  }
+}
+
+@JsonSerializable()
+class PaperVersionGroup {
+  @JsonKey(name: 'version_group')
+  final String versionGroup;
+
+  @JsonKey(name: 'versions')
+  final List<String> versions;
+
+  const PaperVersionGroup(this.versionGroup, this.versions);
+
+  factory PaperVersionGroup.fromJson(Map<String, dynamic> json) =>
+      _$PaperVersionGroupFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PaperVersionGroupToJson(this);
+
+  VersionGroup toVersionGroup() => VersionGroup(versionGroup, versions);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PaperVersionGroup &&
+          runtimeType == other.runtimeType &&
+          versionGroup == other.versionGroup &&
+          versions == other.versions;
+
+  @override
+  int get hashCode => versionGroup.hashCode ^ versions.hashCode;
+
+  @override
+  String toString() {
+    return 'PaperVersionGroup{versionGroup: $versionGroup, versions: $versions}';
   }
 }

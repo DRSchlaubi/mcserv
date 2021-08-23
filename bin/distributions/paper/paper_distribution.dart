@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
+import '../distribution.dart';
 import '../download.dart';
 import '../paperclip_distribution.dart';
 import 'paper_api.dart';
@@ -11,11 +12,13 @@ var _log = Logger('PaperApi');
 
 abstract class PaperDistribution extends PaperclipDistribution {
   String get project;
+
   final _paper = PaperApi(_makeDio());
 
   @override
   Future<Download> retrieveLatestBuildFor(String version) async {
-    var buildId = (await _paper.findVersion(project, version)).builds.reduce(max);
+    var buildId =
+        (await _paper.findVersion(project, version)).builds.reduce(max);
     var build = await _paper.getBuild(project, version, buildId);
 
     var application = build.downloads.application;
@@ -26,23 +29,23 @@ abstract class PaperDistribution extends PaperclipDistribution {
   }
 
   @override
-  Future<List<String>> retrieveVersions() =>
-      _paper.findProject(project).then((value) {
-        var versions = value.versions;
-        versions.sort((a, b) => a.compareTo(b));
-        return versions;
-      });
+  Future<VersionGroup> retrieveVersions(String version) => _paper
+      .getVersionGroup(project, version)
+      .then((value) => value.toVersionGroup());
+
+  @override
+  Future<List<String>> retrieveVersionGroups() =>
+      _paper.findProject(project).then((value) => value.versionGroups);
 }
 
 Dio _makeDio() {
   var dio = Dio();
 
-  dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (request, handler) {
-        _log.fine('${request.method} => ${request.uri.toString()}');
+  dio.interceptors.add(InterceptorsWrapper(onRequest: (request, handler) {
+    _log.fine('${request.method} => ${request.uri.toString()}');
 
-        handler.next(request);
-      }));
+    handler.next(request);
+  }));
 
   return dio;
 }

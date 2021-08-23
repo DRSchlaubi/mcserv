@@ -15,7 +15,16 @@ abstract class Distribution {
 
   String get displayName;
 
-  Future<List<String>> retrieveVersions();
+  Future<VersionGroup> retrieveVersions(String version);
+
+  Future<List<String>> retrieveVersionGroups();
 
   Future<void> downloadTo(String version, File destination);
+}
+
+class VersionGroup {
+  final String name;
+  final List<String> versions;
+
+  const VersionGroup(this.name, this.versions);
 }

@@ -75,6 +75,18 @@ Map<String, dynamic> _$PaperDownloadToJson(PaperDownload instance) =>
       'sha256': instance.sha256,
     };
 
+PaperVersionGroup _$PaperVersionGroupFromJson(Map<String, dynamic> json) =>
+    PaperVersionGroup(
+      json['version_group'] as String,
+      (json['versions'] as List<dynamic>).map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$PaperVersionGroupToJson(PaperVersionGroup instance) =>
+    <String, dynamic>{
+      'version_group': instance.versionGroup,
+      'versions': instance.versions,
+    };
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -131,6 +143,22 @@ class _PaperApi implements PaperApi {
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = PaperBuild.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<PaperVersionGroup> getVersionGroup(project, versionGroup) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<PaperVersionGroup>(Options(
+                method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+            .compose(
+                _dio.options, '/projects/$project/version_group/$versionGroup',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = PaperVersionGroup.fromJson(_result.data!);
     return value;
   }
 

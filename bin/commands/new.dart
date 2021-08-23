@@ -93,9 +93,17 @@ class NewCommand extends Command {
   }
 
   Future<String> _askVersion(Distribution distribution) async {
-    var versions = await distribution.retrieveVersions();
-    var ask = Select(prompt: 'Chose Server Version', options: versions);
-    var versionIndex = ask.interact();
-    return versions[versionIndex];
+    var versionsGroups = await distribution.retrieveVersionGroups();
+    var ask = Select(prompt: 'Choose Server Version', options: versionsGroups);
+    var versionGroupIndex = ask.interact();
+    var selectedVersionGroup = versionsGroups[versionGroupIndex];
+    var versions =
+        (await distribution.retrieveVersions(selectedVersionGroup)).versions;
+    if (versions.length > 1) {
+      var versionAsk = Select(prompt: 'Choose Subversion', options: versions);
+      var versionIndex = versionAsk.interact();
+      return versions[versionIndex];
+    }
+    return versions.first;
   }
 }
