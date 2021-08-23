@@ -2,13 +2,13 @@ import 'package:file/file.dart';
 
 import 'paper/paper_mc_distribution.dart';
 import 'paper/waterfall_distribution.dart';
-import 'paper/traventine_distribution.dart';
+import 'paper/travertine_distribution.dart';
 
 abstract class Distribution {
   static List<Distribution> all = [
     PaperMCDistribution(),
     WaterfallDistribution(),
-    TraventineDistribution()
+    TravertineDistribution()
   ];
 
   bool get requiresEula => true;

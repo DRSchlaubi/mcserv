@@ -1,8 +1,8 @@
 import 'paper_distribution.dart';
 
-class TraventineDistribution extends PaperDistribution {
+class TravertineDistribution extends PaperDistribution {
   @override
-  String get displayName => 'Traventine';
+  String get displayName => 'Travertine';
 
   @override
   String get project => 'travertine';
