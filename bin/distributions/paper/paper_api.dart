@@ -8,14 +8,15 @@ part 'paper_api.g.dart';
 abstract class PaperApi {
   factory PaperApi(Dio dio, {String baseUrl}) = _PaperApi;
 
-  @GET('/projects/paper/')
-  Future<PaperProject> findPaper();
+  @GET('/projects/{project}/')
+  Future<PaperProject> findProject(@Path('project') String project);
 
-  @GET('/projects/paper/versions/{version}/')
-  Future<PaperVersion> findVersion(@Path('version') String version);
+  @GET('/projects/{project}/versions/{version}/')
+  Future<PaperVersion> findVersion(
+      @Path('project') String project, @Path('version') String version);
 
-  @GET('/projects/paper/versions/{version}/builds/{build}')
-  Future<PaperBuild> getBuild(
+  @GET('/projects/{project}/versions/{version}/builds/{build}')
+  Future<PaperBuild> getBuild(@Path('project') String project,
       @Path('version') String version, @Path('build') int build);
 }
 

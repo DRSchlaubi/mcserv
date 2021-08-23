@@ -25,8 +25,10 @@ class NewCommand extends Command {
     var finder = JreFinder.forPlatform();
     var directory = await _askDirectory();
     var distribution = _askDistribution();
-    var acceptEula =
-        confirm('Do you accept the MC Eula? ($_mcEula)', defaultValue: true);
+    var acceptEula = distribution.requiresEula
+        ? confirm('Do you accept the MC Eula? ($_mcEula)', defaultValue: true)
+        : false;
+
     var aikarFlags =
         confirm("Do you want to use Aikar's JVM flags?", defaultValue: true);
 
@@ -48,9 +50,8 @@ class NewCommand extends Command {
     await distribution.downloadTo(version, directory.childFile('server.jar'));
     var scriptGen = ScriptGenerator.forPlatform();
 
-    await scriptGen.writeStartScript(directory, 'server.jar', jre.path, [
-      if(aikarFlags) ...aikar.aikarFlags
-    ]);
+    await scriptGen.writeStartScript(directory, 'server.jar', jre.path,
+        [if (aikarFlags) ...aikar.aikarFlags]);
 
     if (acceptEula) {
       var eula = directory.childFile('eula.txt');

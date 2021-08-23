@@ -89,14 +89,14 @@ class _PaperApi implements PaperApi {
   String? baseUrl;
 
   @override
-  Future<PaperProject> findPaper() async {
+  Future<PaperProject> findProject(project) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<PaperProject>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/projects/paper/',
+                .compose(_dio.options, '/projects/$project/',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = PaperProject.fromJson(_result.data!);
@@ -104,14 +104,14 @@ class _PaperApi implements PaperApi {
   }
 
   @override
-  Future<PaperVersion> findVersion(version) async {
+  Future<PaperVersion> findVersion(project, version) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<PaperVersion>(
             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/projects/paper/versions/$version/',
+                .compose(_dio.options, '/projects/$project/versions/$version/',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = PaperVersion.fromJson(_result.data!);
@@ -119,17 +119,17 @@ class _PaperApi implements PaperApi {
   }
 
   @override
-  Future<PaperBuild> getBuild(version, build) async {
+  Future<PaperBuild> getBuild(project, version, build) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<PaperBuild>(Options(
-                method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-            .compose(
-                _dio.options, '/projects/paper/versions/$version/builds/$build',
-                queryParameters: queryParameters, data: _data)
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        _setStreamType<PaperBuild>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options,
+                    '/projects/$project/versions/$version/builds/$build',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = PaperBuild.fromJson(_result.data!);
     return value;
   }
