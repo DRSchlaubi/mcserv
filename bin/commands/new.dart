@@ -3,7 +3,7 @@ import 'package:file/local.dart';
 import 'package:interact/interact.dart';
 
 import '../distributions/distribution.dart';
-import '../jdk/finder/jre_finder.dart';
+import '../jdk/chooser.dart';
 import '../script/script_generator.dart';
 import '../utils/aikar_flags.dart' as aikar;
 import '../utils/confirm.dart';
@@ -22,7 +22,6 @@ class NewCommand extends Command {
 
   @override
   Future<void> execute() async {
-    var finder = JreFinder.forPlatform();
     var directory = await _askDirectory();
     var distribution = _askDistribution();
     var acceptEula = distribution.requiresEula
@@ -34,17 +33,7 @@ class NewCommand extends Command {
 
     var version = await _askVersion(distribution);
 
-    var jres = await finder.findInstalledJres();
-
-    var options = jres.map((element) {
-      return 'Java ${element.version.languageVersion} (${element.version.update}) in ${element.path}';
-    }).toList();
-
-    var jreIndex = Select(
-            prompt: 'Which java version do you want to use?', options: options)
-        .interact();
-
-    var jre = jres[jreIndex];
+    var jre = await choseJRE();
 
     print('Downloading Distribution');
     await distribution.downloadTo(version, directory.childFile('server.jar'));

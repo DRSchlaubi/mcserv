@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
+import '../../utils/dio_util.dart';
 import '../distribution.dart';
 import '../download.dart';
 import '../paperclip_distribution.dart';
@@ -13,7 +13,7 @@ var _log = Logger('PaperApi');
 abstract class PaperDistribution extends PaperclipDistribution {
   String get project;
 
-  final _paper = PaperApi(_makeDio());
+  final _paper = PaperApi(makeDio(_log));
 
   @override
   Future<Download> retrieveLatestBuildFor(String version) async {
@@ -36,16 +36,4 @@ abstract class PaperDistribution extends PaperclipDistribution {
   @override
   Future<List<String>> retrieveVersionGroups() =>
       _paper.findProject(project).then((value) => value.versionGroups);
-}
-
-Dio _makeDio() {
-  var dio = Dio();
-
-  dio.interceptors.add(InterceptorsWrapper(onRequest: (request, handler) {
-    _log.fine('${request.method} => ${request.uri.toString()}');
-
-    handler.next(request);
-  }));
-
-  return dio;
 }
