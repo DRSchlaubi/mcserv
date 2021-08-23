@@ -8,7 +8,7 @@ import 'unix_jre_finder.dart';
 import 'windows_jre_finder.dart';
 
 //language=RegExp
-var _javaVersionRegex = RegExp('version "([0-9_.]*)"');
+final _javaVersionRegex = RegExp('version "([0-9_.]*)"');
 
 abstract class JreFinder {
   factory JreFinder.forPlatform() {
@@ -25,24 +25,24 @@ abstract class JreFinder {
   JreFinder();
 
   @protected
-  var log = Logger('JreFinder');
+  final log = Logger('JreFinder');
 
   Future<List<JreInstallation>> findInstalledJres() async {
-    var javaHome = Platform.environment['JAVA_HOME'];
-    var javaCommand = await runWhich('java');
-    var additionalPaths = await produceAdditionalDirs();
-    var paths = <String>{
+    final javaHome = Platform.environment['JAVA_HOME'];
+    final javaCommand = await runWhich('java');
+    final additionalPaths = await produceAdditionalDirs();
+    final paths = <String>{
       if (javaHome != null) javaHome,
       javaCommand,
       ...additionalPaths
     };
 
-    var foundVersions = <JreInstallation>[];
+    final foundVersions = <JreInstallation>[];
 
     for (var element in paths) {
-      var binary = element + '/bin/java';
+      final binary = element + '/bin/java';
 
-      var version = await detectVersion(binary);
+      final version = await detectVersion(binary);
       if (version != null) {
         foundVersions.add(JreInstallation(version, binary));
       }
@@ -62,7 +62,7 @@ abstract class JreFinder {
       return null;
     }
 
-    var result = await Process.run(binary, ['-version']);
+    final result = await Process.run(binary, ['-version']);
     String stdout = result.stdout;
     String output = stdout.isEmpty ? result.stderr : stdout;
 
@@ -73,24 +73,24 @@ abstract class JreFinder {
       return null;
     }
 
-    var match = _javaVersionRegex.firstMatch(output);
+    final match = _javaVersionRegex.firstMatch(output);
     if (match == null) {
       log.severe('Could not parse java version output: $output');
       return null;
     }
-    var version = match.group(1)!;
+    final version = match.group(1)!;
     if (version.startsWith('1.')) {
       // pre java 10 versioning
-      var languageVersion = int.parse(version[2]); // 1.<version>
-      var updateSeparator = version.indexOf('_');
-      var update = int.parse(version.substring(updateSeparator + 1));
+      final languageVersion = int.parse(version[2]); // 1.<version>
+      final updateSeparator = version.indexOf('_');
+      final update = int.parse(version.substring(updateSeparator + 1));
 
       return JreVersion(languageVersion, update);
     } else {
       // java 10+ versioning
-      var languageVersion = int.parse(version.substring(0, 2)); // first 2 chars
-      var lastVersionSeparator = version.lastIndexOf('.');
-      var update = int.parse(version.substring(lastVersionSeparator + 1));
+      final languageVersion = int.parse(version.substring(0, 2)); // first 2 chars
+      final lastVersionSeparator = version.lastIndexOf('.');
+      final update = int.parse(version.substring(lastVersionSeparator + 1));
 
       return JreVersion(languageVersion, update);
     }

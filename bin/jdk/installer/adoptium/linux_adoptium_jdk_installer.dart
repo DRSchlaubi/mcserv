@@ -5,18 +5,18 @@ import 'package:logging/logging.dart';
 import 'adoptium_api.dart';
 import 'adoptium_jdk_installer.dart';
 
-var _log = Logger('LinuxAdoptiumJDKInstaller');
+final _log = Logger('LinuxAdoptiumJDKInstaller');
 
 class LinuxAdoptiumJDKInstaller extends AdoptiumJDKInstaller {
   @override
   Future<void> installJre(AdoptiumBinary binary, File jre) async {
-    var destination = fs.directory('/usr/lib/jvm');
+    final destination = fs.directory('/usr/lib/jvm');
     if (!await destination.exists()) {
       await destination.create();
     }
     _log.fine('Unpacking ${jre.path} to ${destination.path}');
 
-    var result = await Process.run(
+    final result = await Process.run(
         'tar', ['-xzvf', jre.absolute.path, '-C', destination.path],
         runInShell: true);
 

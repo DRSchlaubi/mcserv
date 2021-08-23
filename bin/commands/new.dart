@@ -22,37 +22,37 @@ class NewCommand extends Command {
 
   @override
   Future<void> execute() async {
-    var directory = await _askDirectory();
-    var distribution = _askDistribution();
-    var acceptEula = distribution.requiresEula
+    final directory = await _askDirectory();
+    final distribution = _askDistribution();
+    final acceptEula = distribution.requiresEula
         ? confirm('Do you accept the MC Eula? ($_mcEula)', defaultValue: true)
         : false;
 
-    var aikarFlags =
+    final aikarFlags =
         confirm("Do you want to use Aikar's JVM flags?", defaultValue: true);
 
-    var version = await _askVersion(distribution);
+    final version = await _askVersion(distribution);
 
-    var jre = await choseJRE();
+    final jre = await choseJRE();
 
     print('Downloading Distribution');
     await distribution.downloadTo(version, directory.childFile('server.jar'));
-    var scriptGen = ScriptGenerator.forPlatform();
+    final scriptGen = ScriptGenerator.forPlatform();
 
     await scriptGen.writeStartScript(directory, 'server.jar', jre.path,
         [if (aikarFlags) ...aikar.aikarFlags]);
 
     if (acceptEula) {
-      var eula = directory.childFile('eula.txt');
+      final eula = directory.childFile('eula.txt');
       await eula.writeAsString('eula=true');
     }
   }
 
   Future<Directory> _askDirectory() async {
-    var ask = Input(prompt: 'Destination directory');
+    final ask = Input(prompt: 'Destination directory');
 
-    var path = ask.interact();
-    var directory = _fs.directory(path);
+    final path = ask.interact();
+    final directory = _fs.directory(path);
     if (!await directory.exists()) {
       if (!confirm(
           'Specified directory does not exist, do you want to create it?')) {
@@ -73,24 +73,24 @@ class NewCommand extends Command {
   }
 
   Distribution _askDistribution() {
-    var ask = Select(
+    final ask = Select(
         prompt: 'Chose Server Distribution',
         options: Distribution.all.map((e) => e.displayName).toList());
 
-    var distributionIndex = ask.interact();
+    final distributionIndex = ask.interact();
     return Distribution.all[distributionIndex];
   }
 
   Future<String> _askVersion(Distribution distribution) async {
-    var versionsGroups = await distribution.retrieveVersionGroups();
-    var ask = Select(prompt: 'Choose Server Version', options: versionsGroups);
-    var versionGroupIndex = ask.interact();
-    var selectedVersionGroup = versionsGroups[versionGroupIndex];
-    var versions =
+    final versionsGroups = await distribution.retrieveVersionGroups();
+    final ask = Select(prompt: 'Choose Server Version', options: versionsGroups);
+    final versionGroupIndex = ask.interact();
+    final selectedVersionGroup = versionsGroups[versionGroupIndex];
+    final versions =
         (await distribution.retrieveVersions(selectedVersionGroup)).versions;
     if (versions.length > 1) {
-      var versionAsk = Select(prompt: 'Choose Subversion', options: versions);
-      var versionIndex = versionAsk.interact();
+      final versionAsk = Select(prompt: 'Choose Subversion', options: versions);
+      final versionIndex = versionAsk.interact();
       return versions[versionIndex];
     }
     return versions.first;

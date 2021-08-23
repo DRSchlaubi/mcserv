@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
 Dio makeDio(Logger log) {
-  var dio = Dio();
+  final dio = Dio();
 
   dio.interceptors.add(InterceptorsWrapper(onRequest: (request, handler) {
     log.fine('${request.method} => ${request.uri.toString()}');
