@@ -85,8 +85,8 @@ class NewCommand extends Command {
   Distribution _askDistribution() {
     var ask = Select(
         prompt: 'Chose Server Distribution',
-        options:
-            Distribution.all.map((e) => e.runtimeType.toString()).toList());
+        options: Distribution.all.map((e) => e.displayName).toList());
+
     var distributionIndex = ask.interact();
     return Distribution.all[distributionIndex];
   }

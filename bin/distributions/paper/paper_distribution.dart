@@ -13,6 +13,9 @@ class PaperDistribution extends PaperclipDistribution {
   final _paper = PaperApi(_makeDio());
 
   @override
+  String get displayName => 'Paper MC';
+
+  @override
   Future<Download> retrieveLatestBuildFor(String version) async {
     var buildId = (await _paper.findVersion(version)).builds.reduce(max);
     var build = await _paper.getBuild(version, buildId);
