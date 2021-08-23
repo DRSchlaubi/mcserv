@@ -1,4 +1,3 @@
-
 import 'package:file/file.dart';
 import 'package:logging/logging.dart';
 
@@ -13,7 +12,7 @@ class UnixScriptGenerator extends ScriptGenerator {
       List<String> additionalArgs) async {
     var stringBuffer = StringBuffer();
     //language=sh
-    stringBuffer.writeln('#!/bin/sh');
+    stringBuffer.writeln('#!/usr/bin/env sh');
     //language=sh
     stringBuffer.write('$javaPath');
 
@@ -32,8 +31,7 @@ class UnixScriptGenerator extends ScriptGenerator {
     // See https://github.com/dart-lang/sdk/issues/15078 for native calls
     var exitCode = NativeLib.runChmod(file, 0x755);
     if (exitCode != 0) {
-      _log.warning(
-          'Could not modify script permissions: $exitCode');
+      _log.warning('Could not modify script permissions: $exitCode');
     }
   }
 }
