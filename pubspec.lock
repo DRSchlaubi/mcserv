@@ -113,6 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.3"
+  clock:
+    dependency: transitive
+    description:
+      name: clock
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   code_builder:
     dependency: transitive
     description:
@@ -246,6 +253,22 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.17.0"
+  intl_translation:
+    dependency: "direct dev"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "7f0ab9fd09dfc8564c80279a937c2c7bc63d6020"
+      url: "https://github.com/DRSchlaubi/intl_translation.git"
+    source: git
+    version: "0.17.10+1"
   io:
     dependency: transitive
     description:
@@ -323,6 +346,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.2.0"
   pool:
     dependency: transitive
     description:

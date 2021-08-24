@@ -1,5 +1,6 @@
 import 'package:interact/interact.dart';
 
+import '../mcserve.dart';
 import 'finder/jre_finder.dart';
 import 'installer/adoptium/adoptium_jdk_installer.dart';
 import 'jre_installation.dart';
@@ -12,13 +13,14 @@ Future<JreInstallation> choseJRE() async {
 
   final options = [
     ...jres.map((element) {
-      return 'Java ${element.version.languageVersion} (${element.version.update}) in ${element.path}';
+      return localizations.javaInstallation(element.version.languageVersion,
+          element.version.update, element.path);
     }),
     _installPrompt
   ];
 
   final jreIndex =
-      Select(prompt: 'Which java version do you want to use?', options: options)
+      Select(prompt: localizations.pickJavaInstallation, options: options)
           .interact();
 
   if (jreIndex == jres.length) {
@@ -33,7 +35,7 @@ Future<JreInstallation> _installJre() async {
   final versions = await installer.retrieveVersions();
 
   final askVersion = Select(
-      prompt: 'Which version do you want to install?',
+      prompt: localizations.pickLanguageVersion,
       options: versions.map((e) => e.toString()).toList());
   final versionIndex = askVersion.interact();
 

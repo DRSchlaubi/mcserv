@@ -5,6 +5,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 import '../../../distributions/download.dart';
+import '../../../mcserve.dart';
 import '../../../utils/confirm.dart';
 import '../../../utils/dio_util.dart';
 import '../../../utils/mcserv_home.dart';
@@ -61,9 +62,7 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
     var destination = await getJDKFolder();
     var jdkFolder = destination.childDirectory(release.releaseName);
     if (await jdkFolder.exists()) {
-      if (confirm(
-          'Selected JDK is already installed, do you want to overwrite it?',
-          defaultValue: false)) {
+      if (confirm(localizations.overwriteExistingJava, defaultValue: false)) {
         await jdkFolder.delete(recursive: true);
       } else {
         return; // Just skip installation process
@@ -92,7 +91,7 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
   }
 
   @override
-  List<String> get supportedVariants => ['hotspot', 'openj9'];
+  List<String> get supportedVariants => ['hotspot', /*'openj9'*/];
 
   @protected
   Future<void> processUnpackedJDK(Directory jdk) async {}

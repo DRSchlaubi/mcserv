@@ -1,0 +1,94 @@
+{
+  "@@last_modified": "2021-08-24T18:01:35.481282",
+  "verboseLoggingHelp": "Enables verbose logging",
+  "@verboseLoggingHelp": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "helpFlagHelp": "Prints this help message",
+  "@helpFlagHelp": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "logLevelHelp": "Sets the log level",
+  "@logLevelHelp": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "pickCommand": "What do you want to do?",
+  "@pickCommand": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "newCommand": "Create a new server",
+  "@newCommand": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "acceptEula": "Do you accept the MC Eula? ({eula})",
+  "@acceptEula": {
+    "type": "text",
+    "placeholders": {
+      "eula": {}
+    }
+  },
+  "useAikarFlags": "Do you want to use Aikar's JVM flags?",
+  "@useAikarFlags": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "downloadingDistro": "Downloading Distribution",
+  "@downloadingDistro": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "overwriteDestinationDirectory": "Specified directory does not exist, do you want to create it?",
+  "@overwriteDestinationDirectory": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "createDestinationDirectory": "The specified directory is not empty, do you want to proceed?",
+  "@createDestinationDirectory": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "chooseServerDistro": "Chose Server Distribution",
+  "@chooseServerDistro": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "chooseServerVersion": "Choose Server Version",
+  "@chooseServerVersion": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "chooseServerSubVersion": "Choose Subversion",
+  "@chooseServerSubVersion": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "pickJavaInstallation": "Which Java installation do you want to use?",
+  "@pickJavaInstallation": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "javaInstallation": "Java {languageVersion} ({update}) in {path}",
+  "@javaInstallation": {
+    "type": "text",
+    "placeholders": {
+      "languageVersion": {},
+      "update": {},
+      "path": {}
+    }
+  },
+  "pickLanguageVersion": "Which version do you want to install?",
+  "@pickLanguageVersion": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "overwriteExistingJava": "Selected JDK is already installed, do you want to overwrite it?",
+  "@overwriteExistingJava": {
+    "type": "text",
+    "placeholders": {}
+  }
+}
