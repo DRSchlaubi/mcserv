@@ -3,208 +3,208 @@
     {
       "version": "1.17.1",
       "java": {
-        "min": "16",
-        "max": "17"
+        "min": 16,
+        "max": 17
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.17",
       "java": {
-        "min": "16",
-        "max": "17"
+        "min": 16,
+        "max": 17
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.16.5",
       "java": {
-        "min": "8",
-        "max": "16"
+        "min": 8,
+        "max": 16
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.16.4",
       "java": {
-        "min": "8",
-        "max": "15"
+        "min": 8,
+        "max": 15
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.16.3",
       "java": {
-        "min": "8",
-        "max": "15"
+        "min": 8,
+        "max": 15
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.16.2",
       "java": {
-        "min": "8",
-        "max": "14"
+        "min": 8,
+        "max": 14
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.16.1",
       "java": {
-        "min": "8",
-        "max": "14"
+        "min": 8,
+        "max": 14
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.15.2",
       "java": {
-        "min": "8",
-        "max": "14"
+        "min": 8,
+        "max": 14
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.15.1",
       "java": {
-        "min": "8",
-        "max": "13"
+        "min": 8,
+        "max": 13
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.15",
       "java": {
-        "min": "8",
-        "max": "13"
+        "min": 8,
+        "max": 13
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.14.4",
       "java": {
-        "min": "8",
-        "max": "13"
+        "min": 8,
+        "max": 13
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.14.3",
       "java": {
-        "min": "8",
-        "max": "12"
+        "min": 8,
+        "max": 12
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.14.2",
       "java": {
-        "min": "8",
-        "max": "12"
+        "min": 8,
+        "max": 12
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.14.1",
       "java": {
-        "min": "8",
-        "max": "12"
+        "min": 8,
+        "max": 12
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.14",
       "java": {
-        "min": "8",
-        "max": "12"
+        "min": 8,
+        "max": 12
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.13.2",
       "java": {
-        "min": "8",
-        "max": "11"
+        "min": 8,
+        "max": 11
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.13.1",
       "java": {
-        "min": "8",
-        "max": "11"
+        "min": 8,
+        "max": 11
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.13",
       "java": {
-        "min": "8",
-        "max": "11"
+        "min": 8,
+        "max": 11
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.13-pre7",
       "java": {
-        "min": "8",
-        "max": "11"
+        "min": 8,
+        "max": 11
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.12.2",
       "java": {
-        "min": "8",
-        "max": "11"
+        "min": 8,
+        "max": 11
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.12.1",
       "java": {
-        "min": "8",
-        "max": "8"
+        "min": 8,
+        "max": 8
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.12",
       "java": {
-        "min": "8",
-        "max": "8"
+        "min": 8,
+        "max": 8
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.11.2",
       "java": {
-        "min": "8",
-        "max": "8"
+        "min": 8,
+        "max": 8
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.10.2",
       "java": {
-        "min": "8",
-        "max": "8"
+        "min": 8,
+        "max": 8
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.9.4",
       "java": {
-        "min": "8",
-        "max": "8"
+        "min": 8,
+        "max": 8
       },
       "recommendedFlags": "aikar"
     },
     {
       "version": "1.8.8",
       "java": {
-        "min": "8",
-        "max": "8"
+        "min": 8,
+        "max": 8
       },
       "recommendedFlags": "aikar"
     }
