@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:file/local.dart';
-
+import '../../utils/fs_util.dart';
 import '../../utils/process_util.dart';
 import 'jre_finder.dart';
 
@@ -12,25 +11,13 @@ class UnixJreFinder extends JreFinder {
 
   @override
   Future<List<String>> produceAdditionalDirs() async {
-    final jdks = <String>[];
-
-    Future<void> addDirs(Directory dir) async {
-      if (await dir.exists()) {
-        jdks.addAll(await dir
-            .list(followLinks: false)
-            .map((event) => event.path)
-            .toList());
-      }
-    }
-
-    final fs = LocalFileSystem();
     final userHome = Platform.environment['HOME']!;
     final sdkManJava = fs.directory('$userHome/.sdkman/candidates/java/');
     final lib = fs.directory('/usr/lib/jvm');
 
-    await addDirs(sdkManJava);
-    await addDirs(lib);
+    final sdkManJres = await scanDir(sdkManJava);
+    final linuxJres = await scanDir(lib);
 
-    return jdks;
+    return [...sdkManJres, ...linuxJres];
   }
 }

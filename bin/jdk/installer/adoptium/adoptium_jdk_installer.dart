@@ -1,13 +1,15 @@
-import 'dart:io';
+import 'dart:io' show Platform;
 
-import 'package:file/local.dart';
+import 'package:file/file.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 import '../../../distributions/download.dart';
+import '../../../utils/confirm.dart';
 import '../../../utils/dio_util.dart';
 import '../../../utils/mcserv_home.dart';
 import '../../../utils/plattform_utils/system_info/system_info.dart';
+import '../../../utils/tar_util.dart';
 import '../jdk_installer.dart';
 import 'adoptium_api.dart';
 import 'linux_adoptium_jdk_installer.dart';
@@ -16,8 +18,6 @@ final _log = Logger('AdoptiumJDKInstaller');
 
 abstract class AdoptiumJDKInstaller extends JDKInstaller {
   final _adoptium = AdoptiumApi(makeDio(_log));
-  @protected
-  final fs = LocalFileSystem();
 
   @protected
   AdoptiumJDKInstaller();
@@ -51,13 +51,35 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
     if (!await jre.exists()) {
       await jre.create();
     }
-    await download.download(jre);
 
-    await installJre(binary, jre);
+    await installJre(download, release, jre);
   }
 
   @protected
-  Future<void> installJre(AdoptiumBinary binary, File jre);
+  Future<void> installJre(
+      Download download, AdoptiumFeatureRelease release, File jre) async {
+    var destination = await getJDKFolder();
+    var jdkFolder = destination.childDirectory(release.releaseName);
+    if (await jdkFolder.exists()) {
+      if (confirm(
+          'Selected JDK is already installed, do you want to overwrite it?',
+          defaultValue: false)) {
+        await jdkFolder.delete(recursive: true);
+      } else {
+        return; // Just skip installation process
+      }
+    }
+
+    await download.download(jre);
+
+    _log.fine('Unpacking ${jre.path} to ${destination.path}');
+
+    await untargz(destination, jre);
+
+    await processUnpackedJDK(jdkFolder);
+
+    await jre.delete();
+  }
 
   @override
   Future<List<int>> retrieveVersions() async {
@@ -71,4 +93,7 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
 
   @override
   List<String> get supportedVariants => ['hotspot', 'openj9'];
+
+  @protected
+  Future<void> processUnpackedJDK(Directory jdk) async {}
 }

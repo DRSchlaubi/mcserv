@@ -1,5 +1,4 @@
 import 'package:file/file.dart';
-import 'package:file/local.dart';
 import 'package:interact/interact.dart';
 
 import '../distributions/distribution.dart';
@@ -7,13 +6,12 @@ import '../jdk/chooser.dart';
 import '../script/script_generator.dart';
 import '../utils/aikar_flags.dart' as aikar;
 import '../utils/confirm.dart';
+import '../utils/fs_util.dart';
 import 'command.dart';
 
 const String _mcEula = 'https://account.mojang.com/documents/minecraft_eula';
 
 class NewCommand extends Command {
-  final _fs = LocalFileSystem();
-
   @override
   String get prompt => 'Create a new server';
 
@@ -52,7 +50,7 @@ class NewCommand extends Command {
     final ask = Input(prompt: 'Destination directory');
 
     final path = ask.interact();
-    final directory = _fs.directory(path);
+    final directory = fs.directory(path);
     if (!await directory.exists()) {
       if (!confirm(
           'Specified directory does not exist, do you want to create it?')) {

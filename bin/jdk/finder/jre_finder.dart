@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
+import '../../utils/mcserv_home.dart';
 import '../jre_installation.dart';
 import 'unix_jre_finder.dart';
 import 'windows_jre_finder.dart';
@@ -31,9 +32,11 @@ abstract class JreFinder {
     final javaHome = Platform.environment['JAVA_HOME'];
     final javaCommand = await runWhich('java');
     final additionalPaths = await produceAdditionalDirs();
+    final mcservJres = await scanDir(await getJDKFolder());
     final paths = <String>{
       if (javaHome != null) javaHome,
       javaCommand,
+      ...mcservJres,
       ...additionalPaths
     };
 
@@ -49,6 +52,17 @@ abstract class JreFinder {
     }
 
     return foundVersions;
+  }
+
+  @protected
+  Future<List<String>> scanDir(Directory dir) async {
+    if (await dir.exists()) {
+      return await dir
+          .list(followLinks: false)
+          .map((event) => event.path)
+          .toList();
+    }
+    return [];
   }
 
   Future<List<String>> produceAdditionalDirs();

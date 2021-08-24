@@ -7,8 +7,14 @@ import 'package:path/path.dart' as path;
 
 final _log = Logger('NativeCaller');
 
+Future<void> recursiveChmod(Directory directory, int mode) async {
+  var files = directory.list();
+
+  await files.forEach((element) => NativeLib.runChmod(element, mode));
+}
+
 class NativeLib {
-  static int runChmod(File file, int mode) {
+  static int runChmod(FileSystemEntity file, int mode) {
     final path = file.absolute.path;
     _log.fine('Calling native chmod lib for file $path -> $mode');
     final chmod = _dylib.lookupFunction<_ChmodNative, _Chmod>('run_chmod');

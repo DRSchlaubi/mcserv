@@ -51,8 +51,10 @@ class AdoptiumReleases extends Equatable {
 @JsonSerializable()
 class AdoptiumFeatureRelease extends Equatable {
   final List<AdoptiumBinary> binaries;
+  @JsonKey(name: 'release_name')
+  final String releaseName;
 
-  const AdoptiumFeatureRelease(this.binaries);
+  const AdoptiumFeatureRelease(this.binaries, this.releaseName);
 
   factory AdoptiumFeatureRelease.fromJson(Map<String, dynamic> json) =>
       _$AdoptiumFeatureReleaseFromJson(json);
@@ -60,7 +62,7 @@ class AdoptiumFeatureRelease extends Equatable {
   Map<String, dynamic> toJson() => _$AdoptiumFeatureReleaseToJson(this);
 
   @override
-  List<Object?> get props => [binaries];
+  List<Object?> get props => [binaries, releaseName];
 
   @override
   bool? get stringify => true;

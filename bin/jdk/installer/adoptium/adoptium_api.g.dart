@@ -32,12 +32,14 @@ AdoptiumFeatureRelease _$AdoptiumFeatureReleaseFromJson(
       (json['binaries'] as List<dynamic>)
           .map((e) => AdoptiumBinary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      json['release_name'] as String,
     );
 
 Map<String, dynamic> _$AdoptiumFeatureReleaseToJson(
         AdoptiumFeatureRelease instance) =>
     <String, dynamic>{
       'binaries': instance.binaries,
+      'release_name': instance.releaseName,
     };
 
 AdoptiumBinary _$AdoptiumBinaryFromJson(Map<String, dynamic> json) =>
