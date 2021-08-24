@@ -12,7 +12,7 @@ import '../jdk_installer.dart';
 import 'adoptium_api.dart';
 import 'linux_adoptium_jdk_installer.dart';
 
-var _log = Logger('AdoptiumJDKInstaller');
+final _log = Logger('AdoptiumJDKInstaller');
 
 abstract class AdoptiumJDKInstaller extends JDKInstaller {
   final _adoptium = AdoptiumApi(makeDio(_log));
@@ -33,21 +33,21 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
   @override
   Future<void> installVersion(int version, String variant) async {
     print(version <= 8 ? 'jre' : 'jdk');
-    var release = (await _adoptium.retrieveRelease(
+    final release = (await _adoptium.retrieveRelease(
             version, Platform.operatingSystem, variant, architecture,
             imageType: version <= 8 ? 'jre' : 'jdk'))
         .first;
 
-    var binary = release.binaries.first;
-    var package = binary.package;
-    var download = Download(Uri.parse(package.link), package.checksum);
+    final binary = release.binaries.first;
+    final package = binary.package;
+    final download = Download(Uri.parse(package.link), package.checksum);
 
-    var home = await getMCServHome();
-    var jreCache = home.childDirectory(JDKInstaller.cacheFolder);
+    final home = await getMCServHome();
+    final jreCache = home.childDirectory(JDKInstaller.cacheFolder);
     if (!await jreCache.exists()) {
       await jreCache.create();
     }
-    var jre = jreCache.childFile(package.name);
+    final jre = jreCache.childFile(package.name);
     if (!await jre.exists()) {
       await jre.create();
     }
@@ -61,7 +61,7 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
 
   @override
   Future<List<int>> retrieveVersions() async {
-    var versions = await _adoptium.retrieveReleases();
+    final versions = await _adoptium.retrieveReleases();
 
     return [
       ...versions.availableLtsReleases,

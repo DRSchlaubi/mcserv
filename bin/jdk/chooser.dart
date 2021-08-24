@@ -7,17 +7,17 @@ import 'jre_installation.dart';
 const String _installPrompt = 'Install a new JRE';
 
 Future<JreInstallation> choseJRE() async {
-  var finder = JreFinder.forPlatform();
-  var jres = await finder.findInstalledJres();
+  final finder = JreFinder.forPlatform();
+  final jres = await finder.findInstalledJres();
 
-  var options = [
+  final options = [
     ...jres.map((element) {
       return 'Java ${element.version.languageVersion} (${element.version.update}) in ${element.path}';
     }),
     _installPrompt
   ];
 
-  var jreIndex =
+  final jreIndex =
       Select(prompt: 'Which java version do you want to use?', options: options)
           .interact();
 
@@ -29,15 +29,15 @@ Future<JreInstallation> choseJRE() async {
 }
 
 Future<JreInstallation> _installJre() async {
-  var installer = AdoptiumJDKInstaller.forPlatform();
-  var versions = await installer.retrieveVersions();
+  final installer = AdoptiumJDKInstaller.forPlatform();
+  final versions = await installer.retrieveVersions();
 
-  var askVersion = Select(
+  final askVersion = Select(
       prompt: 'Which version do you want to install?',
       options: versions.map((e) => e.toString()).toList());
-  var versionIndex = askVersion.interact();
+  final versionIndex = askVersion.interact();
 
-  var version = versions[versionIndex];
+  final version = versions[versionIndex];
 
   await installer.installVersion(version, installer.supportedVariants.first);
 

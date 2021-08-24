@@ -12,7 +12,7 @@ class UnixJreFinder extends JreFinder {
 
   @override
   Future<List<String>> produceAdditionalDirs() async {
-    var jdks = <String>[];
+    final jdks = <String>[];
 
     Future<void> addDirs(Directory dir) async {
       if (await dir.exists()) {
@@ -23,10 +23,10 @@ class UnixJreFinder extends JreFinder {
       }
     }
 
-    var fs = LocalFileSystem();
-    var userHome = Platform.environment['HOME']!;
-    var sdkManJava = fs.directory('$userHome/.sdkman/candidates/java/');
-    var lib = fs.directory('/usr/lib/jvm');
+    final fs = LocalFileSystem();
+    final userHome = Platform.environment['HOME']!;
+    final sdkManJava = fs.directory('$userHome/.sdkman/candidates/java/');
+    final lib = fs.directory('/usr/lib/jvm');
 
     await addDirs(sdkManJava);
     await addDirs(lib);

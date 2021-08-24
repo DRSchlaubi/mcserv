@@ -11,7 +11,7 @@ import 'package:logging/logging.dart';
 
 import '../utils/confirm.dart';
 
-var _log = Logger('Downloader');
+final _log = Logger('Downloader');
 
 class Download {
   final Uri uri;
@@ -22,13 +22,13 @@ class Download {
   Future<void> download(File destination) async {
     _log.fine('Starting download to $uri');
 
-    var client = Client();
-    var request = await client.send(Request('GET', uri));
-    var contentLength = request.contentLength!;
-    var progress =
+    final client = Client();
+    final request = await client.send(Request('GET', uri));
+    final contentLength = request.contentLength!;
+    final progress =
         ProgressBar(complete: contentLength);
 
-    var chunks = await request.stream.map((s) {
+    final chunks = await request.stream.map((s) {
       progress.update(progress.current + s.length);
       return s;
     }).toList();
@@ -46,7 +46,7 @@ class Download {
     }
 
     _log.fine('Expected SHA-256 checksum: $checksum');
-    var digestHex = sha256.convert(bytes).toString();
+    final digestHex = sha256.convert(bytes).toString();
     _log.fine('Actual SHA-256 checksum: $digestHex');
 
     if (digestHex != checksum) {

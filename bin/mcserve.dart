@@ -7,8 +7,8 @@ import 'package:logging/logging.dart';
 import 'commands/command.dart';
 
 ArgResults _parseArguments(List<String> arguments) {
-  var commandNames = Command.COMMANDS.map((e) => e.name);
-  var parser = ArgParser();
+  final commandNames = Command.COMMANDS.map((e) => e.name);
+  final parser = ArgParser();
   commandNames.forEach((name) {
     parser.addCommand(name);
   });
@@ -22,7 +22,7 @@ ArgResults _parseArguments(List<String> arguments) {
       allowed: Level.LEVELS.map((e) => e.name));
 
   try {
-    var args = parser.parse(arguments);
+    final args = parser.parse(arguments);
     if (args['help']) {
       _help(parser);
     }
@@ -41,7 +41,7 @@ Never _help(ArgParser parser, {FormatException? e}) {
 }
 
 void _initLogger(ArgResults args) {
-  var level = args['verbose']
+  final level = args['verbose']
       ? Level.FINE
       : Level.LEVELS.firstWhere((element) => element.name == args['log-level']);
 
@@ -51,12 +51,12 @@ void _initLogger(ArgResults args) {
 }
 
 Command _pickCommand(ArgResults arguments) {
-  var name = arguments.command?.name;
+  final name = arguments.command?.name;
   if (name != null) {
     return Command.COMMANDS.firstWhere((element) => element.name == name);
   }
 
-  var select = Select(
+  final select = Select(
           prompt: 'What do you want to do?',
           options: Command.COMMANDS.map((e) => e.prompt).toList())
       .interact();
@@ -65,10 +65,10 @@ Command _pickCommand(ArgResults arguments) {
 }
 
 void main(List<String> arguments) async {
-  var args = _parseArguments(arguments);
+  final args = _parseArguments(arguments);
   _initLogger(args);
 
-  var command = _pickCommand(args);
+  final command = _pickCommand(args);
 
   await command.execute();
 }
