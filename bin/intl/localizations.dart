@@ -36,7 +36,19 @@ class Localizations {
   String get newCommand => Intl.message('Create a new server',
       name: 'newCommand', locale: localeName);
 
+  String get deleteCommand => Intl.message('Delete a server',
+      name: 'deleteCommand', locale: localeName);
+
+  String get detectCommand => Intl.message('Add an existing server',
+      name: 'detectCommand', locale: localeName);
+
+  String get updateCommand => Intl.message('Update an existing Server',
+      name: 'updateCommand', locale: localeName);
+
   // new Command
+  String get destinationDirectory => Intl.message('Destination Directory',
+      name: 'destinationDirectory', locale: localeName);
+
   String acceptEula(String eula) =>
       Intl.message('Do you accept the MC Eula? ($eula)',
           name: 'acceptEula', locale: localeName, args: [eula]);
@@ -85,4 +97,9 @@ class Localizations {
       'Selected JDK is already installed, do you want to overwrite it?',
       name: 'overwriteExistingJava',
       locale: localeName);
+
+  // Downloader
+  String get downloadDone =>
+      Intl.message('Download finished, syncing changes to fs!',
+          name: 'downloadDone', locale: localeName);
 }

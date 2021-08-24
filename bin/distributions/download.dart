@@ -9,6 +9,7 @@ import 'package:file/file.dart';
 import 'package:http/http.dart';
 import 'package:logging/logging.dart';
 
+import '../mcserve.dart';
 import '../utils/confirm.dart';
 
 final _log = Logger('Downloader');
@@ -58,7 +59,7 @@ class Download {
     }
 
     _log.fine('Checksum test passed! Writing bytes to file!');
-    print('Download finished, syncing changes to fs!');
+    print(localizations.downloadDone);
     await destination.writeAsBytes(bytes);
   }
 }

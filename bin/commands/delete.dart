@@ -1,3 +1,4 @@
+import '../mcserve.dart';
 import 'command.dart';
 
 class DeleteCommand extends Command {
@@ -5,6 +6,6 @@ class DeleteCommand extends Command {
   String get name => 'delete';
 
   @override
-  String get prompt => 'Delete a server';
+  String get prompt => localizations.deleteCommand;
 
 }

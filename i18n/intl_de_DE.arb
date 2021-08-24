@@ -1,0 +1,165 @@
+{
+   "@@last_modified":"2021-08-24T18:01:35.481282",
+   "verboseLoggingHelp":"Enables verbose logging",
+   "@verboseLoggingHelp":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "helpFlagHelp":"Gibt diese Hilfsnachricht aus",
+   "@helpFlagHelp":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "logLevelHelp":"Setzt das Level des Loggers",
+   "@logLevelHelp":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "pickCommand":"Was möchtest du tun?",
+   "@pickCommand":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "newCommand":"Neuen Server erstellen",
+   "@newCommand":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "deleteCommand":"Einen Server Löschen",
+   "@deleteCommand":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "detectCommand":"Einen existierenden Server hinzufügen",
+   "@detectCommand":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "updateCommand":"Einen existierenden Sever aktualisieren",
+   "@updateCommand":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "destinationDirectory":"Zielverzeichniss",
+   "@destinationDirectory":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "acceptEula":"Akzeptierst du die MC Eula? ({eula})",
+   "@acceptEula":{
+      "type":"text",
+      "placeholders":{
+         "eula":{
+
+         }
+      }
+   },
+   "useAikarFlags":"Möchtest du Aikar's JVM flags nutzen?",
+   "@useAikarFlags":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "downloadingDistro":"Distribution wird heruntergeladen",
+   "@downloadingDistro":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "overwriteDestinationDirectory":"Der angegebene Ordner existiert nicht, möchtest du ihn erstellen?",
+   "@overwriteDestinationDirectory":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "createDestinationDirectory":"Der angegebene Ordner enthält bereits Dateien, möchtest du trotzdem fortfahren?",
+   "@createDestinationDirectory":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "chooseServerDistro":"Server Distribution auswählen",
+   "@chooseServerDistro":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "chooseServerVersion":"Server Version auswählen",
+   "@chooseServerVersion":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "chooseServerSubVersion":"Unterversion auswählen",
+   "@chooseServerSubVersion":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "pickJavaInstallation":"Welche Java Installation möchtest du benutzen?",
+   "@pickJavaInstallation":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "javaInstallation":"Java {languageVersion} ({update}) in {path}",
+   "@javaInstallation":{
+      "type":"text",
+      "placeholders":{
+         "languageVersion":{
+
+         },
+         "update":{
+
+         },
+         "path":{
+
+         }
+      }
+   },
+   "pickLanguageVersion":"Welche Version möchtest du installieren?",
+   "@pickLanguageVersion":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+   "overwriteExistingJava":"Das ausgewählte JDK ist bereits installiert, möchtest du es überschreiben?",
+   "@overwriteExistingJava":{
+      "type":"text",
+      "placeholders":{
+
+      }
+   },
+  "downloadDone": "Download abgeschlossen, Änderungen werden mit dem Dateisystem synchronisiert!",
+  "@downloadDone": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

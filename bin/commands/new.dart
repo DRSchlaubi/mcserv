@@ -47,7 +47,7 @@ class NewCommand extends Command {
   }
 
   Future<Directory> _askDirectory() async {
-    final ask = Input(prompt: 'Destination directory');
+    final ask = Input(prompt: localizations.destinationDirectory);
 
     final path = ask.interact();
     final directory = fs.directory(path);

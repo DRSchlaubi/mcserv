@@ -1,3 +1,4 @@
+import '../mcserve.dart';
 import 'command.dart';
 
 class DetectCommand extends Command {
@@ -5,6 +6,6 @@ class DetectCommand extends Command {
   String get name => 'detect';
 
   @override
-  String get prompt => 'Add an existing server';
+  String get prompt => localizations.detectCommand;
 
 }

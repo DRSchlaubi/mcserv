@@ -73,7 +73,7 @@ Future<void> _initI18n() async {
   final systemLocale = await findSystemLocale();
 
   var name =
-      systemLocale.length >= 4 ? systemLocale.substring(0, 4) : systemLocale;
+      systemLocale.length >= 4 ? systemLocale.substring(0, 5) : systemLocale;
   localizations =
       await Localizations.load(Locale.parse(name));
 }

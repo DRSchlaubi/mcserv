@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-08-24T18:01:35.481282",
+  "@@last_modified": "2021-08-24T18:18:07.473196",
   "verboseLoggingHelp": "Enables verbose logging",
   "@verboseLoggingHelp": {
     "type": "text",
@@ -22,6 +22,26 @@
   },
   "newCommand": "Create a new server",
   "@newCommand": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "deleteCommand": "Delete a server",
+  "@deleteCommand": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "detectCommand": "Add an existing server",
+  "@detectCommand": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "updateCommand": "Update an existing Server",
+  "@updateCommand": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "destinationDirectory": "Destination Directory",
+  "@destinationDirectory": {
     "type": "text",
     "placeholders": {}
   },
@@ -88,6 +108,11 @@
   },
   "overwriteExistingJava": "Selected JDK is already installed, do you want to overwrite it?",
   "@overwriteExistingJava": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "downloadDone": "Download finished, syncing changes to fs!",
+  "@downloadDone": {
     "type": "text",
     "placeholders": {}
   }

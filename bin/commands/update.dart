@@ -1,3 +1,4 @@
+import '../mcserve.dart';
 import 'command.dart';
 
 class UpdateCommand extends Command {
@@ -5,6 +6,6 @@ class UpdateCommand extends Command {
   String get name => 'update';
 
   @override
-  String get prompt => 'Update an existing Server';
+  String get prompt => localizations.updateCommand;
 
 }

@@ -31,6 +31,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "chooseServerSubVersion" : MessageLookupByLibrary.simpleMessage("Choose Subversion"),
     "chooseServerVersion" : MessageLookupByLibrary.simpleMessage("Choose Server Version"),
     "createDestinationDirectory" : MessageLookupByLibrary.simpleMessage("The specified directory is not empty, do you want to proceed?"),
+    "deleteCommand" : MessageLookupByLibrary.simpleMessage("Delete a server"),
+    "destinationDirectory" : MessageLookupByLibrary.simpleMessage("Destination Directory"),
+    "detectCommand" : MessageLookupByLibrary.simpleMessage("Add an existing server"),
+    "downloadDone" : MessageLookupByLibrary.simpleMessage("Download finished, syncing changes to fs!"),
     "downloadingDistro" : MessageLookupByLibrary.simpleMessage("Downloading Distribution"),
     "helpFlagHelp" : MessageLookupByLibrary.simpleMessage("Prints this help message"),
     "javaInstallation" : m1,
@@ -41,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pickCommand" : MessageLookupByLibrary.simpleMessage("What do you want to do?"),
     "pickJavaInstallation" : MessageLookupByLibrary.simpleMessage("Which Java installation do you want to use?"),
     "pickLanguageVersion" : MessageLookupByLibrary.simpleMessage("Which version do you want to install?"),
+    "updateCommand" : MessageLookupByLibrary.simpleMessage("Update an existing Server"),
     "useAikarFlags" : MessageLookupByLibrary.simpleMessage("Do you want to use Aikar\'s JVM flags?"),
     "verboseLoggingHelp" : MessageLookupByLibrary.simpleMessage("Enables verbose logging")
   };
