@@ -1,5 +1,5 @@
-import '../mcserve.dart';
-import 'command.dart';
+import 'package:mcserve/commands/command.dart';
+import 'package:mcserve/utils/utils.dart';
 
 class DetectCommand extends Command {
   @override
@@ -7,5 +7,4 @@ class DetectCommand extends Command {
 
   @override
   String get prompt => localizations.detectCommand;
-
 }

@@ -1,5 +1,7 @@
-import '../mcserve.dart';
-import 'command.dart';
+import 'package:mcserve/commands/command.dart';
+import 'package:mcserve/settings/server_chooser.dart';
+import 'package:mcserve/settings/settings_helper.dart';
+import 'package:mcserve/utils/utils.dart';
 
 class DeleteCommand extends Command {
   @override
@@ -8,4 +10,17 @@ class DeleteCommand extends Command {
   @override
   String get prompt => localizations.deleteCommand;
 
+  @override
+  Future<void> execute() async {
+    var server = await chooseServer();
+    if (server == null) {
+      return;
+    }
+
+    if (confirm(localizations.confirmDelete,
+        waitForNewLine: true)) {
+      await fs.directory(server.location).delete(recursive: true);
+      await removeServer(server.location);
+    }
+  }
 }

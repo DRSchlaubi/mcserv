@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-08-24T18:18:07.473196",
+  "@@last_modified": "2021-08-24T20:12:30.054954",
   "verboseLoggingHelp": "Enables verbose logging",
   "@verboseLoggingHelp": {
     "type": "text",
@@ -87,12 +87,27 @@
     "type": "text",
     "placeholders": {}
   },
+  "confirmDelete": "Do you really want to delete this server?",
+  "@confirmDelete": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "alreadyOnLatestBuild": "You already have the latest build",
+  "@alreadyOnLatestBuild": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "upgradeVersion": "Do you want to upgrade the version instead?",
+  "@upgradeVersion": {
+    "type": "text",
+    "placeholders": {}
+  },
   "pickJavaInstallation": "Which Java installation do you want to use?",
   "@pickJavaInstallation": {
     "type": "text",
     "placeholders": {}
   },
-  "javaInstallation": "Java {languageVersion} ({update}) in {path}",
+  "javaInstallation": "Java {languageVersion} ({update}) at {path}",
   "@javaInstallation": {
     "type": "text",
     "placeholders": {
@@ -105,6 +120,26 @@
   "@pickLanguageVersion": {
     "type": "text",
     "placeholders": {}
+  },
+  "noServersYet": "You don't have any servers yet",
+  "@noServersYet": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "chooseServer": "Choose a server",
+  "@chooseServer": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "serverInstallation": "{distributionName} {version} ({build}) at {location}",
+  "@serverInstallation": {
+    "type": "text",
+    "placeholders": {
+      "distributionName": {},
+      "version": {},
+      "build": {},
+      "location": {}
+    }
   },
   "overwriteExistingJava": "Selected JDK is already installed, do you want to overwrite it?",
   "@overwriteExistingJava": {

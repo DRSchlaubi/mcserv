@@ -1,14 +1,14 @@
 import 'package:file/file.dart';
 import 'package:interact/interact.dart';
-
-import '../distributions/distribution.dart';
-import '../jdk/chooser.dart';
-import '../mcserve.dart';
-import '../script/script_generator.dart';
-import '../utils/aikar_flags.dart' as aikar;
-import '../utils/confirm.dart';
-import '../utils/fs_util.dart';
-import 'command.dart';
+import 'package:mcserve/commands/command.dart';
+import 'package:mcserve/distributions/distribution.dart';
+import 'package:mcserve/jdk/chooser.dart';
+import 'package:mcserve/script/script_generator.dart';
+import 'package:mcserve/mc_installer/mc_installer_helper.dart';
+import 'package:mcserve/utils/utils.dart';
+import 'package:mcserve/utils/aikar_flags.dart' as aikar;
+import 'package:mcserve/settings/settings.dart';
+import 'package:mcserve/settings/settings_helper.dart';
 
 const String _mcEula = 'https://account.mojang.com/documents/minecraft_eula';
 
@@ -29,12 +29,11 @@ class NewCommand extends Command {
 
     final aikarFlags = confirm(localizations.useAikarFlags, defaultValue: true);
 
-    final version = await _askVersion(distribution);
+    final version = await distribution.askForVersion();
 
     final jre = await choseJRE();
 
-    print(localizations.downloadingDistro);
-    await distribution.downloadTo(version, directory.childFile('server.jar'));
+    final build = await distribution.installServer(version, directory);
     final scriptGen = ScriptGenerator.forPlatform();
 
     await scriptGen.writeStartScript(directory, 'server.jar', jre.path,
@@ -44,6 +43,9 @@ class NewCommand extends Command {
       final eula = directory.childFile('eula.txt');
       await eula.writeAsString('eula=true');
     }
+
+    await addServer(Installation(
+        distribution.name, version, directory.absolute.path, build));
   }
 
   Future<Directory> _askDirectory() async {
@@ -75,22 +77,5 @@ class NewCommand extends Command {
 
     final distributionIndex = ask.interact();
     return Distribution.all[distributionIndex];
-  }
-
-  Future<String> _askVersion(Distribution distribution) async {
-    final versionsGroups = await distribution.retrieveVersionGroups();
-    final ask = Select(
-        prompt: localizations.chooseServerVersion, options: versionsGroups);
-    final versionGroupIndex = ask.interact();
-    final selectedVersionGroup = versionsGroups[versionGroupIndex];
-    final versions =
-        (await distribution.retrieveVersions(selectedVersionGroup)).versions;
-    if (versions.length > 1) {
-      final versionAsk = Select(
-          prompt: localizations.chooseServerSubVersion, options: versions);
-      final versionIndex = versionAsk.interact();
-      return versions[versionIndex];
-    }
-    return versions.first;
   }
 }
