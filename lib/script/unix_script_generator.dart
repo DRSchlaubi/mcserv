@@ -1,6 +1,6 @@
 import 'package:file/file.dart';
 import 'package:logging/logging.dart';
-import 'package:mcserve/utils/plattform_utils/chmod_lib.dart';
+import 'package:mcserve/utils/platform_utils/platform_utils.dart';
 
 import 'script_generator.dart';
 
