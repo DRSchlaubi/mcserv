@@ -1,0 +1,236 @@
+{
+  "versions": [
+    {
+      "version": "1.17.1",
+      "java": {
+        "min": "16",
+        "max": "17"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.17",
+      "java": {
+        "min": "16",
+        "max": "17"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.16.5",
+      "java": {
+        "min": "8",
+        "max": "16"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.16.4",
+      "java": {
+        "min": "8",
+        "max": "15"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.16.3",
+      "java": {
+        "min": "8",
+        "max": "15"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.16.2",
+      "java": {
+        "min": "8",
+        "max": "14"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.16.1",
+      "java": {
+        "min": "8",
+        "max": "14"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.15.2",
+      "java": {
+        "min": "8",
+        "max": "14"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.15.1",
+      "java": {
+        "min": "8",
+        "max": "13"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.15",
+      "java": {
+        "min": "8",
+        "max": "13"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.14.4",
+      "java": {
+        "min": "8",
+        "max": "13"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.14.3",
+      "java": {
+        "min": "8",
+        "max": "12"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.14.2",
+      "java": {
+        "min": "8",
+        "max": "12"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.14.1",
+      "java": {
+        "min": "8",
+        "max": "12"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.14",
+      "java": {
+        "min": "8",
+        "max": "12"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.13.2",
+      "java": {
+        "min": "8",
+        "max": "11"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.13.1",
+      "java": {
+        "min": "8",
+        "max": "11"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.13",
+      "java": {
+        "min": "8",
+        "max": "11"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.13-pre7",
+      "java": {
+        "min": "8",
+        "max": "11"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.12.2",
+      "java": {
+        "min": "8",
+        "max": "11"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.12.1",
+      "java": {
+        "min": "8",
+        "max": "8"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.12",
+      "java": {
+        "min": "8",
+        "max": "8"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.11.2",
+      "java": {
+        "min": "8",
+        "max": "8"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.10.2",
+      "java": {
+        "min": "8",
+        "max": "8"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.9.4",
+      "java": {
+        "min": "8",
+        "max": "8"
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
+      "version": "1.8.8",
+      "java": {
+        "min": "8",
+        "max": "8"
+      },
+      "recommendedFlags": "aikar"
+    }
+  ],
+  "flags": {
+    "aikar": [
+      "-XX:+UseG1GC",
+      "-XX:+ParallelRefProcEnabled",
+      "-XX:MaxGCPauseMillis=200",
+      "-XX:+UnlockExperimentalVMOptions",
+      "-XX:+DisableExplicitGC",
+      "-XX:+AlwaysPreTouch",
+      "-XX:G1NewSizePercent=30",
+      "-XX:G1MaxNewSizePercent=40",
+      "-XX:G1HeapRegionSize=8M",
+      "-XX:G1ReservePercent=20",
+      "-XX:G1HeapWastePercent=5",
+      "-XX:G1MixedGCCountTarget=4",
+      "-XX:InitiatingHeapOccupancyPercent=15",
+      "-XX:G1MixedGCLiveThresholdPercent=90",
+      "-XX:G1RSetUpdatingPauseTimePercent=5",
+      "-XX:SurvivorRatio=32",
+      "-XX:+PerfDisableSharedMem",
+      "-XX:MaxTenuringThreshold=1",
+      "-Dusing.aikars.flags=https://mcflags.emc.gs",
+      "-Daikars.new.flags=true"
+    ]
+  }
+}
