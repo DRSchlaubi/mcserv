@@ -100,3 +100,4 @@ fabric.properties
 # Project specific stuff
 *.exe
 .idea/libraries
+/work
