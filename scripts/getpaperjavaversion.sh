@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+set -e
+
 if [ -z "$1" ]; then
   echo "Please provide paper version!"
-  echo "./getpapercommit.sh 1.17.1"
+  echo "./scripts/getpaperjavaversion.sh 1.17.1"
   exit 1
 fi
 
@@ -17,7 +19,7 @@ if [ "$commit" == "null" ]; then
   exit 1
 fi
 
-echo "Latest commit of $version is $commit"
+[[ -z "$QUIET" ]] && echo "Latest commit of $version is $commit"
 
 git --version 2>&1 >/dev/null
 GIT_IS_AVAILABLE=$?
@@ -32,19 +34,23 @@ if [ ! -d "work/Paper" ]; then
   mkdir work
   git clone https://github.com/PaperMC/Paper.git work/Paper
 else
-  git --git-dir=work/Paper/.git --work-tree=work/Paper fetch
-  git --git-dir=work/Paper/.git --work-tree=work/Paper reset --hard origin/master
+  git --git-dir=work/Paper/.git --work-tree=work/Paper fetch 2>&1 >/dev/null
+  git --git-dir=work/Paper/.git --work-tree=work/Paper reset --hard origin/master 2>&1 >/dev/null
 fi
 
 # checkout the repo at commit in the work/Paper repo
-git --git-dir=work/Paper/.git --work-tree=work/Paper -c advice.detachedHead=false checkout -f $commit
+git --git-dir=work/Paper/.git --work-tree=work/Paper checkout -f $commit 2>&1 >/dev/null
 
 cd work/Paper
 
 if [ -f paper ]; then
-  ./paper p
+  [[ -z "$QUIET" ]] && echo "Applying patches using paper script"
+  ./paper p 2>&1 >/dev/null
+  [[ -z "$QUIET" ]] && echo "Successfully applied patches"
 elif [ -f build.gradle.kts ]; then
-  ./gradlew applyPatches
+  [[ -z "$QUIET" ]] && echo "Applying patches using gradle"
+  ./gradlew applyPatches 2>&1 >/dev/null
+  [[ -z "$QUIET" ]] && echo "Successfully applied patches"
 else
   echo "Unable to apply patches"
   exit 1
