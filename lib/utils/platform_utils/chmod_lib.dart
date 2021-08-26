@@ -38,10 +38,10 @@ typedef _Chmod = int Function(Pointer<Utf8> path, int mode);
 DynamicLibrary _load() {
   // Open the dynamic library
   var libraryPath = path.join(
-      Directory.current.path, 'chmod_lib', 'libmcserv_chmod.so');
+      Directory.current.path, 'libmcserv', 'build', 'lib', 'main', 'debug', 'liblibmcserv.so');
   if (Platform.isMacOS) {
     libraryPath = path.join(
-        Directory.current.path, 'chmod_lib', 'libmcserv_chmod.dylib');
+        Directory.current.path, 'libmcserv', 'build', 'lib', 'main', 'debug', 'liblibmcserv.dylib');
   }
   if (Platform.isWindows) {
     libraryPath = path.join(Directory.current.path, 'chmod_lib',
