@@ -15,9 +15,17 @@ Future<void> recursiveChmod(Directory directory, int mode) async {
 
 class NativeLib {
   static int runChmod(FileSystemEntity file, int mode) {
+    if (Platform.isWindows) {
+      throw Exception('chmod library is not available on windows.');
+    }
+
+    if (_dylib == null) {
+      throw Exception('chmod native library is not loaded');
+    }
+
     final path = file.absolute.path;
     _log.fine('Calling native chmod lib for file $path -> $mode');
-    final chmod = _dylib.lookupFunction<_ChmodNative, _Chmod>('run_chmod');
+    final chmod = _dylib!.lookupFunction<_ChmodNative, _Chmod>('run_chmod');
     final pathUtf8 = path.toNativeUtf8();
 
     final exitCode = chmod(pathUtf8, mode);
@@ -35,17 +43,26 @@ final _dylib = _load();
 typedef _ChmodNative = Int32 Function(Pointer<Utf8> path, Int32 mode);
 typedef _Chmod = int Function(Pointer<Utf8> path, int mode);
 
-DynamicLibrary _load() {
-  // Open the dynamic library
-  var libraryPath = path.join(
-      Directory.current.path, 'libmcserv', 'build', 'lib', 'main', 'debug', 'liblibmcserv.so');
-  if (Platform.isMacOS) {
-    libraryPath = path.join(
-        Directory.current.path, 'libmcserv', 'build', 'lib', 'main', 'debug', 'liblibmcserv.dylib');
-  }
+DynamicLibrary? _load() {
   if (Platform.isWindows) {
-    libraryPath = path.join(Directory.current.path, 'chmod_lib',
-        'Debug', 'libmcserv_chmod.dll');
+    return null;
+  }
+
+  String programDirectory;
+  // Check if we are in a development environment
+  if (!Platform.resolvedExecutable.endsWith('dart') &&
+      !Platform.resolvedExecutable.endsWith('dart.exe')) {
+    programDirectory = path.dirname(Platform.resolvedExecutable);
+  } else {
+    programDirectory = path.join(
+        Directory.current.path, 'libmcserv', 'build', 'lib', 'main', 'debug');
+  }
+
+  // Open the dynamic library
+  var libraryPath = path.join(programDirectory, 'liblibmcserv.so');
+
+  if (Platform.isMacOS) {
+    libraryPath = path.join(programDirectory, 'liblibmcserv.dylib');
   }
 
   return DynamicLibrary.open(libraryPath);
