@@ -61,19 +61,24 @@ tasks {
             val nativeBuild = project.subprojects.first { it.name == "libmcserv" }
                 .tasks.getByName("link$profile")
             group = "packaging"
-            from(dartBuild, project.file("libmcserv/build/lib/main/$lowerCaseProfile/liblibmcserv.so"))
+            from(
+                dartBuild,
+                project.file("libmcserv/build/lib/main/$lowerCaseProfile/liblibmcserv.so"),
+                project.file("LICENSE"),
+                project.file("README.md")
+            )
             into(packageDir)
             dependsOn(assemble, nativeBuild)
         }
         val zipPackage = register<Zip>("zip${profile}Package") {
             group = "packaging"
-            destinationDirectory.set(project.buildDir.resolve("packages"))
+            destinationDirectory.set(project.buildDir.resolve("packages/$lowerCaseProfile"))
             from(packageDir.absolutePath)
             dependsOn(copyPackage)
         }
         val tarPackage = register<Tar>("tar${profile}Package") {
             group = "packaging"
-            destinationDirectory.set(project.buildDir.resolve("packages"))
+            destinationDirectory.set(project.buildDir.resolve("packages/$lowerCaseProfile"))
             from(packageDir.absolutePath)
             dependsOn(copyPackage)
         }
