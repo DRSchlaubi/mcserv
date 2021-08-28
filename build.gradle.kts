@@ -70,18 +70,18 @@ tasks {
             into(packageDir)
             dependsOn(assemble, nativeBuild)
         }
-        val zipPackage = register<Zip>("zip${profile}Package") {
+        val archiveBuilder: AbstractArchiveTask.() -> Unit = {
             group = "packaging"
             destinationDirectory.set(project.buildDir.resolve("packages/$lowerCaseProfile"))
             from(packageDir.absolutePath)
             dependsOn(copyPackage)
+            val customArchiveName = project.findProperty("archiveName")
+            if (customArchiveName != null) {
+                archiveFileName.set("$customArchiveName.${archiveExtension.get()}")
+            }
         }
-        val tarPackage = register<Tar>("tar${profile}Package") {
-            group = "packaging"
-            destinationDirectory.set(project.buildDir.resolve("packages/$lowerCaseProfile"))
-            from(packageDir.absolutePath)
-            dependsOn(copyPackage)
-        }
+        val zipPackage = register<Zip>("zip${profile}Package", archiveBuilder)
+        val tarPackage = register<Tar>("tar${profile}Package", archiveBuilder)
         register("create${profile}Package") {
             group = "packaging"
             dependsOn(zipPackage, tarPackage)
