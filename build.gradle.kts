@@ -7,7 +7,7 @@ version = "1.0.0"
 tasks {
     val dartGenerate = register<Exec>("dartGenerate") {
         group = "dart"
-        commandLine = listOf("dart", "run", "build_runner", "build")
+        commandLine = listOf("dart", "run", "build_runner", "build", "--delete-conflicting-outputs")
     }
 
     register<Exec>("dartBuildArb") {
