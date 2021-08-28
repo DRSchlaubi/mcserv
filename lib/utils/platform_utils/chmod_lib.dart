@@ -59,7 +59,7 @@ DynamicLibrary? _load() {
   }
 
   // Open the dynamic library
-  var libraryPath = path.join(programDirectory, 'liblibmcserv.so');
+  var libraryPath = path.join(programDirectory, '/usr/lib/liblibmcserv.so');
 
   if (Platform.isMacOS) {
     libraryPath = path.join(programDirectory, 'liblibmcserv.dylib');
