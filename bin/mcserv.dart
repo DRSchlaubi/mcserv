@@ -18,7 +18,6 @@ ArgResults _parseArguments(List<String> arguments) {
   commandNames.forEach((name) {
     parser.addCommand(name);
   });
-  parser.addCommand("jre");
   parser.addFlag('verbose',
       abbr: 'v', help: localizations.verboseLoggingHelp, negatable: false);
   parser.addFlag('help',
@@ -83,12 +82,6 @@ void main(List<String> arguments) async {
   await _initI18n();
   final args = _parseArguments(arguments);
   _initLogger(args);
-
-  if (args.command!.name == "jre") {
-    var jres = await JreFinder.forPlatform().findInstalledJres();
-    jres.forEach((element) => print(element));
-    return;
-  }
 
   final command = _pickCommand(args);
 

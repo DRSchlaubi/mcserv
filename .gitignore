@@ -110,3 +110,4 @@ build
 
 # Project specific
 run
+local.properties
