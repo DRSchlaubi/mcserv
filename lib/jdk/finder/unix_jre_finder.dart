@@ -1,6 +1,8 @@
 import 'dart:io';
 
-import 'package:mcserve/utils/utils.dart';
+import 'package:mcserv/utils/utils.dart';
+import 'package:path/path.dart' as path;
+
 import 'jre_finder.dart';
 
 class UnixJreFinder extends JreFinder {
@@ -19,4 +21,7 @@ class UnixJreFinder extends JreFinder {
 
     return [...sdkManJres, ...linuxJres];
   }
+
+  @override
+  String findBinary(String javaHome) => path.join(javaHome, 'bin', 'java');
 }

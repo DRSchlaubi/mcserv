@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:mcserv/utils/fs_util.dart';
+import 'package:path/path.dart' as path;
+
 import '../../utils/process_util.dart';
 import 'jre_finder.dart';
 
@@ -10,6 +13,25 @@ class WindowsJreFinder extends JreFinder {
 
   @override
   Future<List<String>> produceAdditionalDirs() async {
-    return [];
+    final userHome = Platform.environment['UserProfile']!;
+
+    final oracleBinaries =
+        await scanDir(fs.directory('C:\\Program Files\\Java'));
+    final adoptOpenJdkBinaries =
+        await scanDir(fs.directory('C:\\Program Files\\AdoptOpenJDK'));
+    final adoptiumBinaries =
+        await scanDir(fs.directory('C:\\Program Files\\Eclipse Foundation'));
+    final intelliJBinaries =
+        await scanDir(fs.directory(path.join(userHome, '.jdks')));
+
+    return [
+      ...oracleBinaries,
+      ...adoptOpenJdkBinaries,
+      ...adoptiumBinaries,
+      ...intelliJBinaries
+    ];
   }
+
+  @override
+  String findBinary(String javaHome) => path.join(javaHome, 'bin', 'java.exe');
 }

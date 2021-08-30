@@ -6,4 +6,7 @@ class PaperMCDistribution extends PaperDistribution {
 
   @override
   String get project => 'paper';
+
+  @override
+  bool get hasMetadata => true;
 }

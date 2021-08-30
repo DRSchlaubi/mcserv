@@ -1,8 +1,8 @@
 import 'package:file/file.dart';
 import 'package:interact/interact.dart';
-import 'package:mcserve/utils/localizations_util.dart';
+import 'package:mcserv/utils/localizations_util.dart';
 
-import 'package:mcserve/distributions/distribution.dart';
+import 'package:mcserv/distributions/distribution.dart';
 
 extension McInstallerHelper on Distribution {
   Future<int> installServer(String version, Directory directory) async {

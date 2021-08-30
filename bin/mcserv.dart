@@ -5,9 +5,11 @@ import 'package:interact/interact.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:intl/locale.dart';
 import 'package:logging/logging.dart';
-import 'package:mcserve/commands/command.dart';
-import 'package:mcserve/intl/localizations.dart';
-import 'package:mcserve/utils/localizations_util.dart';
+import 'package:mcserv/commands/command.dart';
+import 'package:mcserv/intl/localizations.dart';
+import 'package:mcserv/jdk/finder/jre_finder.dart';
+import 'package:mcserv/utils/localizations_util.dart';
+
 import 'commands/command.dart';
 
 ArgResults _parseArguments(List<String> arguments) {
@@ -16,6 +18,7 @@ ArgResults _parseArguments(List<String> arguments) {
   commandNames.forEach((name) {
     parser.addCommand(name);
   });
+  parser.addCommand("jre");
   parser.addFlag('verbose',
       abbr: 'v', help: localizations.verboseLoggingHelp, negatable: false);
   parser.addFlag('help',
@@ -73,14 +76,19 @@ Future<void> _initI18n() async {
 
   var name =
       systemLocale.length >= 4 ? systemLocale.substring(0, 5) : systemLocale;
-  localizations =
-      await Localizations.load(Locale.parse(name));
+  localizations = await Localizations.load(Locale.parse(name));
 }
 
 void main(List<String> arguments) async {
   await _initI18n();
   final args = _parseArguments(arguments);
   _initLogger(args);
+
+  if (args.command!.name == "jre") {
+    var jres = await JreFinder.forPlatform().findInstalledJres();
+    jres.forEach((element) => print(element));
+    return;
+  }
 
   final command = _pickCommand(args);
 

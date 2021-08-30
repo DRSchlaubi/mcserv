@@ -1,3 +1,3 @@
-import 'package:mcserve/intl/localizations.dart';
+import 'package:mcserv/intl/localizations.dart';
 
 late Localizations localizations;

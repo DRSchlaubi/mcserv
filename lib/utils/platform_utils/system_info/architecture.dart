@@ -5,7 +5,7 @@ String get architecture => _getKernelArchitecture();
 String _getKernelArchitecture() {
   var arch = _getKernelArchitectureRaw();
 
-  if (arch.contains('x')) {
+  if (arch.contains('x') || arch.contains('AMD')) {
     if (arch.contains('64')) {
       return 'x64';
     } else if (arch.contains('86')) {

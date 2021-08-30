@@ -1,5 +1,5 @@
-import 'package:mcserve/commands/command.dart';
-import 'package:mcserve/utils/utils.dart';
+import 'package:mcserv/commands/command.dart';
+import 'package:mcserv/utils/utils.dart';
 
 class DetectCommand extends Command {
   @override

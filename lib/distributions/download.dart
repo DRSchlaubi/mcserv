@@ -8,7 +8,7 @@ import 'package:crypto/crypto.dart';
 import 'package:file/file.dart';
 import 'package:http/http.dart';
 import 'package:logging/logging.dart';
-import 'package:mcserve/utils/localizations_util.dart';
+import 'package:mcserv/utils/localizations_util.dart';
 
 import '../utils/confirm.dart';
 

@@ -1,13 +1,21 @@
 plugins {
     base
     id("local-properties")
+    idea
 }
 
 version = "1.0.0"
 
+idea {
+    module {
+        iml {
+        }
+    }
+}
+
 fun Exec.dart(binary: String, vararg args: String) {
     group = "dart"
-    commandLine = listOf("${localProperties.dartSdk}/bin/$binary", *args)
+    commandLine = listOf(path(localProperties.dartSdk, "bin", binary, appendEnding = true), *args)
 }
 
 tasks {

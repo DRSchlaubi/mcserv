@@ -1,18 +1,24 @@
+
 import 'package:file/file.dart';
 import 'package:interact/interact.dart';
-import 'package:mcserve/commands/command.dart';
-import 'package:mcserve/distributions/distribution.dart';
-import 'package:mcserve/jdk/chooser.dart';
-import 'package:mcserve/script/script_generator.dart';
-import 'package:mcserve/mc_installer/mc_installer_helper.dart';
-import 'package:mcserve/utils/utils.dart';
-import 'package:mcserve/utils/aikar_flags.dart' as aikar;
-import 'package:mcserve/settings/settings.dart';
-import 'package:mcserve/settings/settings_helper.dart';
+import 'package:logging/logging.dart';
+import 'package:mcserv/commands/command.dart';
+import 'package:mcserv/distributions/distribution.dart';
+import 'package:mcserv/distributions/metadata/distribution_api.dart';
+import 'package:mcserv/jdk/chooser.dart';
+import 'package:mcserv/mc_installer/mc_installer_helper.dart';
+import 'package:mcserv/script/script_generator.dart';
+import 'package:mcserv/settings/settings.dart';
+import 'package:mcserv/settings/settings_helper.dart';
+import 'package:mcserv/utils/utils.dart';
 
 const String _mcEula = 'https://account.mojang.com/documents/minecraft_eula';
 
+var _log = Logger('NewCommand');
+
 class NewCommand extends Command {
+  final _metadata = DistributionMetaDataApi(makeDio(_log));
+
   @override
   String get prompt => localizations.newCommand;
 
@@ -27,9 +33,16 @@ class NewCommand extends Command {
         ? confirm(localizations.acceptEula(_mcEula), defaultValue: true)
         : false;
 
-    final aikarFlags = confirm(localizations.useAikarFlags, defaultValue: true);
-
     final version = await distribution.askForVersion();
+
+    final meta = distribution.hasMetadata
+        ? (await _metadata.getDistributionMetaData(distribution.name))
+        : null;
+    final versionMeta =
+        meta?.versions.firstWhere((element) => element.version == version);
+    final useRecommendedFlags = versionMeta?.recommendedFlagKey != null
+        ? confirm(localizations.useAikarFlags, defaultValue: true)
+        : false;
 
     final jre = await choseJRE();
 
@@ -37,7 +50,7 @@ class NewCommand extends Command {
     final scriptGen = ScriptGenerator.forPlatform();
 
     await scriptGen.writeStartScript(directory, 'server.jar', jre.path,
-        [if (aikarFlags) ...aikar.aikarFlags]);
+        [if (useRecommendedFlags) ...meta!.flags[versionMeta!.recommendedFlagKey]!]);
 
     if (acceptEula) {
       final eula = directory.childFile('eula.txt');

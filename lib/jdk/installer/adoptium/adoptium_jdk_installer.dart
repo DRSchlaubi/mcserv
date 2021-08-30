@@ -2,13 +2,14 @@ import 'dart:io' show Platform;
 
 import 'package:file/file.dart';
 import 'package:logging/logging.dart';
-import 'package:mcserve/utils/localizations_util.dart';
-import 'package:mcserve/utils/utils.dart';
+import 'package:mcserv/distributions/download.dart';
+import 'package:mcserv/jdk/installer/adoptium/windows_adoptium_jdk_installer.dart';
+import 'package:mcserv/jdk/installer/jdk_installer.dart';
+import 'package:mcserv/utils/localizations_util.dart';
+import 'package:mcserv/utils/platform_utils/platform_utils.dart';
+import 'package:mcserv/utils/utils.dart';
 import 'package:meta/meta.dart';
 
-import 'package:mcserve/utils/platform_utils/platform_utils.dart';
-import 'package:mcserve/distributions/download.dart';
-import 'package:mcserve/jdk/installer/jdk_installer.dart';
 import 'adoptium_api.dart';
 import 'linux_adoptium_jdk_installer.dart';
 
@@ -23,6 +24,8 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
   factory AdoptiumJDKInstaller.forPlatform() {
     if (Platform.isLinux) {
       return LinuxAdoptiumJDKInstaller();
+    } else if (Platform.isWindows) {
+      return WindowsAdoptiumJdkInstaller();
     } else {
       throw UnsupportedError('Unsupported Platform');
     }
@@ -70,7 +73,7 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
 
     _log.fine('Unpacking ${jre.path} to ${destination.path}');
 
-    await untargz(destination, jre);
+    await unarchive(destination, jre);
 
     await processUnpackedJDK(jdkFolder);
 
@@ -88,7 +91,9 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
   }
 
   @override
-  List<String> get supportedVariants => ['hotspot', /*'openj9'*/];
+  List<String> get supportedVariants => [
+        'hotspot', /*'openj9'*/
+      ];
 
   @protected
   Future<void> processUnpackedJDK(Directory jdk) async {}

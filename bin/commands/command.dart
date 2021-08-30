@@ -1,4 +1,4 @@
-import 'package:mcserve/commands/command.dart';
+import 'package:mcserv/commands/command.dart';
 
 import 'delete.dart';
 import 'detect.dart';

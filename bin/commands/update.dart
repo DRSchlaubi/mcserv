@@ -1,10 +1,10 @@
-import 'package:mcserve/commands/command.dart';
-import 'package:mcserve/distributions/distribution.dart';
-import 'package:mcserve/mc_installer/mc_installer_helper.dart';
-import 'package:mcserve/settings/server_chooser.dart';
-import 'package:mcserve/settings/settings.dart';
-import 'package:mcserve/settings/settings_helper.dart';
-import 'package:mcserve/utils/utils.dart';
+import 'package:mcserv/commands/command.dart';
+import 'package:mcserv/distributions/distribution.dart';
+import 'package:mcserv/mc_installer/mc_installer_helper.dart';
+import 'package:mcserv/settings/server_chooser.dart';
+import 'package:mcserv/settings/settings.dart';
+import 'package:mcserv/settings/settings_helper.dart';
+import 'package:mcserv/utils/utils.dart';
 
 class UpdateCommand extends Command {
   @override

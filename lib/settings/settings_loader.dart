@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mcserve/utils/utils.dart';
+import 'package:mcserv/utils/utils.dart';
 
 import 'settings.dart';
 

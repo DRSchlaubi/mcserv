@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -12,6 +14,16 @@ abstract class DistributionMetaDataApi {
       _DistributionMetaDataApi;
 
   @GET('/{type}.json')
-  Future<DistributionMetaData> getDistributionMetaData(
-      @Path('type') String type);
+  Future<String> _getDistributionMetaData(@Path('type') String type);
+
+}
+
+extension MetaDataTools on DistributionMetaDataApi {
+  Future<DistributionMetaData> getDistributionMetaData(String type) async {
+    // GitHub responds plain/text here so DIO doesn't parse the json automatically
+    final raw = await _getDistributionMetaData(type);
+    final json = jsonDecode(raw);
+
+    return DistributionMetaData.fromJson(json);
+  }
 }

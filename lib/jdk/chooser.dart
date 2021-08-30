@@ -1,5 +1,5 @@
 import 'package:interact/interact.dart';
-import 'package:mcserve/utils/localizations_util.dart';
+import 'package:mcserv/utils/localizations_util.dart';
 
 import 'finder/jre_finder.dart';
 import 'installer/adoptium/adoptium_jdk_installer.dart';

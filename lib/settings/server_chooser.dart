@@ -1,7 +1,7 @@
 import 'package:interact/interact.dart';
-import 'package:mcserve/utils/localizations_util.dart';
+import 'package:mcserv/utils/localizations_util.dart';
 
-import 'package:mcserve/distributions/distribution.dart';
+import 'package:mcserv/distributions/distribution.dart';
 import 'settings.dart';
 import 'settings_loader.dart';
 

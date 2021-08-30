@@ -18,6 +18,7 @@ abstract class Distribution {
   factory Distribution.forName(String name) =>
       all.firstWhere((element) => element.name == name);
 
+  bool get hasMetadata => false;
   bool get requiresEula => true;
 
   String get displayName;

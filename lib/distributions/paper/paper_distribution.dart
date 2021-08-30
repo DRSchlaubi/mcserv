@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:logging/logging.dart';
-import 'package:mcserve/distributions/distribution.dart';
-import 'package:mcserve/distributions/download.dart';
-import 'package:mcserve/distributions/paperclip_distribution.dart';
-import 'package:mcserve/utils/dio_util.dart';
+import 'package:mcserv/distributions/distribution.dart';
+import 'package:mcserv/distributions/download.dart';
+import 'package:mcserv/distributions/paperclip_distribution.dart';
+import 'package:mcserv/utils/dio_util.dart';
 
 import 'paper_api.dart';
 
