@@ -3,9 +3,15 @@ import 'package:mcserv/script/script_generator.dart';
 
 class WindowsScriptGenerator extends ScriptGenerator {
   @override
-  Future<void> writeStartScript(Directory path, String jarPath, String javaPath, List<String> additionalArgs) async {
+  Future<void> writeStartScript(Directory path, String jarPath, String javaPath,
+      List<String> additionalArgs) async {
+
+    // OFC Microsoft called it 'Program Files'
+    final sanitizedJavaPath =
+        javaPath.contains('\\s+') ? '"$javaPath"' : javaPath;
+
     final stringBuffer = StringBuffer();
-    stringBuffer.write('$javaPath');
+    stringBuffer.write(sanitizedJavaPath);
 
     if (additionalArgs.isNotEmpty) {
       stringBuffer.writeln(' \^');
