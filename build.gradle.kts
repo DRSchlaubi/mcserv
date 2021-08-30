@@ -1,24 +1,26 @@
 plugins {
     base
+    id("local-properties")
 }
 
 version = "1.0.0"
 
+fun Exec.dart(binary: String, vararg args: String) {
+    group = "dart"
+    commandLine = listOf("${localProperties.dartSdk}/bin/$binary", *args)
+}
+
 tasks {
     val dartGenerate = register<Exec>("dartGenerate") {
-        group = "dart"
-        commandLine = listOf("dart", "run", "build_runner", "build", "--delete-conflicting-outputs")
+        dart("pub", "run", "build_runner", "build", "--delete-conflicting-outputs")
     }
 
     register<Exec>("dartBuildArb") {
-        group = "dart"
-        commandLine =
-            listOf("pub", "run", "intl_translation:extract_to_arb", "--output-dir=i18n", "bin/intl/localizations.dart")
+        dart("pub", "run", "intl_translation:extract_to_arb", "--output-dir=i18n", "bin/intl/localizations.dart")
     }
 
     register<Exec>("dartReadArb") {
-        group = "dart"
-        commandLine = listOf(
+            dart(
             "pub",
             "run",
             "intl_translation:generate_from_arb",
