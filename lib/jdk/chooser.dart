@@ -7,9 +7,9 @@ import 'jre_installation.dart';
 
 const String _installPrompt = 'Install a new JRE';
 
-Future<JreInstallation> choseJRE() async {
+Future<JreInstallation> choseJRE({int? from, int? to}) async {
   final finder = JreFinder.forPlatform();
-  final jres = await finder.findInstalledJres();
+  final jres = (await finder.findInstalledJres()).filterJdks(from, to).toList();
 
   final options = [
     ...jres.map((element) {
@@ -24,15 +24,15 @@ Future<JreInstallation> choseJRE() async {
           .interact();
 
   if (jreIndex == jres.length) {
-    return _installJre();
+    return _installJre(from, to);
   }
 
   return jres[jreIndex];
 }
 
-Future<JreInstallation> _installJre() async {
+Future<JreInstallation> _installJre(int? from, int? to) async {
   final installer = AdoptiumJDKInstaller.forPlatform();
-  final versions = await installer.retrieveVersions();
+  final versions = (await installer.retrieveVersions()).filterJdks(from, to).toList();
 
   final askVersion = Select(
       prompt: localizations.pickLanguageVersion,
@@ -43,5 +43,16 @@ Future<JreInstallation> _installJre() async {
 
   await installer.installVersion(version, installer.supportedVariants.first);
 
-  return choseJRE();
+  return choseJRE(from: from, to: to);
+}
+
+extension FilterInstallations on Iterable<JreInstallation> {
+  Iterable<JreInstallation> filterJdks(int? from, int? to) => where((element) =>
+      element.version.languageVersion >= (from ?? 0) &&
+      element.version.languageVersion <= (to ?? 100));
+}
+
+extension FilterJdks on List<int> {
+  Iterable<int> filterJdks(int? from, int? to) =>
+      where((element) => element >= (from ?? 0) && element <= (to ?? 100));
 }

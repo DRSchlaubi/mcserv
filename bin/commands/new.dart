@@ -1,4 +1,3 @@
-
 import 'package:file/file.dart';
 import 'package:interact/interact.dart';
 import 'package:logging/logging.dart';
@@ -44,13 +43,15 @@ class NewCommand extends Command {
         ? confirm(localizations.useAikarFlags, defaultValue: true)
         : false;
 
-    final jre = await choseJRE();
+    final jre = await choseJRE(
+        from: versionMeta?.javaOptions.min, to: versionMeta?.javaOptions.max);
 
     final build = await distribution.installServer(version, directory);
     final scriptGen = ScriptGenerator.forPlatform();
 
-    await scriptGen.writeStartScript(directory, 'server.jar', jre.path,
-        [if (useRecommendedFlags) ...meta!.flags[versionMeta!.recommendedFlagKey]!]);
+    await scriptGen.writeStartScript(directory, 'server.jar', jre.path, [
+      if (useRecommendedFlags) ...meta!.flags[versionMeta!.recommendedFlagKey]!
+    ]);
 
     if (acceptEula) {
       final eula = directory.childFile('eula.txt');
