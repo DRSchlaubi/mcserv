@@ -8,7 +8,7 @@ Archive _decodeArchive(String name, List<int> bytes) {
   if (name.endsWith('.gz')) {
     // Un-gzip and unpack again without .gz extension
     return _decodeArchive(
-        name.substring(0, name.length - 4), _decodeGZip(bytes));
+        name.substring(0, name.length - 3), _decodeGZip(bytes));
   } else if (name.endsWith('.tar')) {
     return _decodeTar(bytes);
   } else if (name.endsWith('.zip')) {
