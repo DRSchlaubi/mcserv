@@ -1,17 +1,9 @@
 plugins {
     base
     id("local-properties")
-    idea
 }
 
 version = "1.0.0"
-
-idea {
-    module {
-        iml {
-        }
-    }
-}
 
 fun Exec.dart(binary: String, vararg args: String) {
     group = "dart"
@@ -24,7 +16,10 @@ tasks {
     }
 
     register<Exec>("dartBuildArb") {
-        dart("pub", "run", "intl_translation:extract_to_arb", "--output-dir=i18n", "bin/intl/localizations.dart")
+        dart("pub", "run", "intl_translation:extract_to_arb", "--output-dir=i18n", "lib/intl/localizations.dart")
+
+        inputs.file("lib/intl/localizations.dart")
+        outputs.file("i18n/message_all.arb")
     }
 
     register<Exec>("dartReadArb") {
@@ -37,6 +32,9 @@ tasks {
             "bin/intl/localizations.dart",
             "i18n/intl_*.arb"
         )
+
+        inputs.files("i18n")
+        outputs.files("lib/localizations/*.dart")
     }
 
     val dartBuild = register<Exec>("dartBuild") {
