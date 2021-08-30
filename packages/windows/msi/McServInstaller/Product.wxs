@@ -2,35 +2,27 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="*" Name="McServ" Language="1033" Version="1.0.0.0" Manufacturer="McServ" UpgradeCode="0135830b-4d57-4395-88ed-7bc9933b2eaa">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
-
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate />
-
-    <Feature Id="ProductFeature" Title="McServInstaller" Level="1">
+    <Feature Id="ProductFeature" Title="McServ" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
     </Feature>
   </Product>
-
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="INSTALLFOLDER" Name="McServInstaller" />
+        <Directory Id="INSTALLFOLDER" Name="McServ" />
       </Directory>
     </Directory>
   </Fragment>
-
   <Fragment>
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <Component Id="ProductComponent">
-        <File Source="..\..\..\..\bin\mcserv.exe" />
-        <Environment
-          Id="PATH"
-          Name="PATH"
-          Value="[INSTALLDIR]"
-          Permanent="yes"
-          Part="last"
-          Action="set"
-          System="yes" />
+        <File Source="mcserv.exe" />
+      </Component>
+      <Component Id="PathVariable" Guid="{25c57a5e-28d5-425d-bbfb-8c28f132ce4e}">
+        <CreateFolder />
+        <Environment Id="AddToPath" Name="PATH" Value="[INSTALLFOLDER]" Action="set" Part="last" System="yes" Permanent="no" />
       </Component>
     </ComponentGroup>
   </Fragment>
