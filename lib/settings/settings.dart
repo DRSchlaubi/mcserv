@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -25,8 +24,12 @@ class Installation extends Equatable {
   final String version;
   final String location;
   final int build;
+  final int javaVersion;
+  final String javaPath;
+  final bool useFlags;
 
-  Installation(this.distribution, this.version, this.location, this.build);
+  Installation(this.distribution, this.version, this.location, this.build,
+      this.javaVersion, this.javaPath, this.useFlags);
 
   factory Installation.fromJson(Map<String, dynamic> json) =>
       _$InstallationFromJson(json);

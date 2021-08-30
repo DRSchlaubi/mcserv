@@ -21,6 +21,9 @@ Installation _$InstallationFromJson(Map<String, dynamic> json) => Installation(
       json['version'] as String,
       json['location'] as String,
       json['build'] as int,
+      json['javaVersion'] as int,
+      json['javaPath'] as String,
+      json['useFlags'] as bool,
     );
 
 Map<String, dynamic> _$InstallationToJson(Installation instance) =>
@@ -29,4 +32,7 @@ Map<String, dynamic> _$InstallationToJson(Installation instance) =>
       'version': instance.version,
       'location': instance.location,
       'build': instance.build,
+      'javaVersion': instance.javaVersion,
+      'javaPath': instance.javaPath,
+      'useFlags': instance.useFlags,
     };

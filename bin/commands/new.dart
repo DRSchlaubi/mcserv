@@ -9,6 +9,7 @@ import 'package:mcserv/mc_installer/mc_installer_helper.dart';
 import 'package:mcserv/script/script_generator.dart';
 import 'package:mcserv/settings/settings.dart';
 import 'package:mcserv/settings/settings_helper.dart';
+import 'package:mcserv/utils/constants.dart';
 import 'package:mcserv/utils/utils.dart';
 
 const String _mcEula = 'https://account.mojang.com/documents/minecraft_eula';
@@ -49,7 +50,7 @@ class NewCommand extends Command {
     final build = await distribution.installServer(version, directory);
     final scriptGen = ScriptGenerator.forPlatform();
 
-    await scriptGen.writeStartScript(directory, 'server.jar', jre.path, [
+    await scriptGen.writeStartScript(directory, jarName, jre.path, [
       if (useRecommendedFlags) ...meta!.flags[versionMeta!.recommendedFlagKey]!
     ]);
 
@@ -59,7 +60,13 @@ class NewCommand extends Command {
     }
 
     await addServer(Installation(
-        distribution.name, version, directory.absolute.path, build));
+        distribution.name,
+        version,
+        directory.absolute.path,
+        build,
+        jre.version.languageVersion,
+        jre.path,
+        useRecommendedFlags));
   }
 
   Future<Directory> _askDirectory() async {

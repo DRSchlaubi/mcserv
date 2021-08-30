@@ -8,7 +8,7 @@ class WindowsScriptGenerator extends ScriptGenerator {
 
     // OFC Microsoft called it 'Program Files'
     final sanitizedJavaPath =
-        javaPath.contains('\\s+') ? '"$javaPath"' : javaPath;
+        javaPath.contains(RegExp('\\s+')) ? '"$javaPath"' : javaPath;
 
     final stringBuffer = StringBuffer();
     stringBuffer.write(sanitizedJavaPath);

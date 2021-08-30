@@ -16,7 +16,7 @@ class _DistributionMetaDataApi implements DistributionMetaDataApi {
   String? baseUrl;
 
   @override
-  Future<String> _getDistributionMetaData(type) async {
+  Future<String?> _getDistributionMetaData(type) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -25,7 +25,7 @@ class _DistributionMetaDataApi implements DistributionMetaDataApi {
             .compose(_dio.options, '/$type.json',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data!;
+    final value = _result.data;
     return value;
   }
 
