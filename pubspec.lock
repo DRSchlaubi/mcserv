@@ -361,7 +361,7 @@ packages:
     source: hosted
     version: "1.5.0"
   pub_semver:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: pub_semver
       url: "https://pub.dartlang.org"
@@ -520,7 +520,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.5"
+    version: "2.2.8"
   yaml:
     dependency: transitive
     description:

@@ -8,6 +8,12 @@ Dio makeDio(Logger log) {
     log.fine('${request.method} => ${request.uri.toString()}');
 
     handler.next(request);
+  }, onError: (error, handler) {
+    final request = error.requestOptions;
+    log.severe(
+        'Could not fulfil http request to ${request.method} => ${request.uri}: ${error.response?.data}');
+
+    handler.next(error);
   }));
 
   return dio;

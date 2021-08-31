@@ -1,4 +1,5 @@
 import 'package:file/file.dart';
+import 'package:mcserv/distributions/pl3x/purpur_distribution.dart';
 import 'package:meta/meta.dart';
 
 import 'paper/paper_mc_distribution.dart';
@@ -9,7 +10,8 @@ abstract class Distribution {
   static List<Distribution> all = [
     PaperMCDistribution(),
     WaterfallDistribution(),
-    TravertineDistribution()
+    TravertineDistribution(),
+    PurPurDistribution()
   ];
 
   @protected

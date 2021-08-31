@@ -17,8 +17,10 @@ final _log = Logger('Downloader');
 class Download {
   final Uri uri;
   final String checksum;
+  final HashingAlgorithm hashingAlgorithm;
 
-  Download(this.uri, this.checksum);
+  Download(this.uri, this.checksum,
+      {this.hashingAlgorithm = HashingAlgorithm.SHA256});
 
   Future<void> download(File destination) async {
     _log.fine('Starting download to $uri');
@@ -26,8 +28,7 @@ class Download {
     final client = Client();
     final request = await client.send(Request('GET', uri));
     final contentLength = request.contentLength!;
-    final progress =
-        ProgressBar(complete: contentLength);
+    final progress = ProgressBar(complete: contentLength);
 
     final chunks = await request.stream.map((s) {
       progress.update(progress.current + s.length);
@@ -43,12 +44,13 @@ class Download {
 
     if (request.statusCode > 299) {
       throw Exception(
-          'Received invalid status code: ${request.statusCode} Body: ${utf8.decode(bytes)}');
+          'Received invalid status code: ${request.statusCode} Body: ${utf8
+              .decode(bytes)}');
     }
 
-    _log.fine('Expected SHA-256 checksum: $checksum');
-    final digestHex = sha256.convert(bytes).toString();
-    _log.fine('Actual SHA-256 checksum: $digestHex');
+    _log.fine('Expected ${hashingAlgorithm.name} checksum: $checksum');
+    final digestHex = hashingAlgorithm.hash(bytes);
+    _log.fine('Actual ${hashingAlgorithm.name} checksum: $digestHex');
 
     if (digestHex != checksum) {
       if (!confirm(
@@ -62,4 +64,25 @@ class Download {
     print(localizations.downloadDone);
     await destination.writeAsBytes(bytes);
   }
+}
+
+enum HashingAlgorithm { SHA256, MD5 }
+
+extension ByteHasher on HashingAlgorithm {
+  String hash(List<int> bytes) {
+    Hash hash;
+
+    switch (this) {
+      case HashingAlgorithm.SHA256:
+        hash = sha256;
+        break;
+      case HashingAlgorithm.MD5:
+        hash = md5;
+        break;
+    }
+
+    return hash.convert(bytes).toString();
+  }
+
+  String get name => toString().substring('$HashingAlgorithm.'.length);
 }
