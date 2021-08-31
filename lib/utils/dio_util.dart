@@ -11,7 +11,7 @@ Dio makeDio(Logger log) {
   }, onError: (error, handler) {
     final request = error.requestOptions;
     log.severe(
-        'Could not fulfil http request to ${request.method} => ${request.uri}: ${error.response?.data}');
+        'Could not fulfill http request to ${request.method} => ${request.uri}: ${error.response?.data}');
 
     handler.next(error);
   }));
