@@ -6,3 +6,8 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+/runConfigurations.xml
+/misc.xml
+/vcs.xml
+/libraries
+/kotlinScripting.xml
