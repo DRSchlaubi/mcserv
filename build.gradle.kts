@@ -11,6 +11,10 @@ fun Exec.dart(binary: String, vararg args: String) {
 }
 
 tasks {
+    register<Exec>("dartPubGet") {
+        dart("pub", "get")
+    }
+
     val dartGenerate = register<Exec>("dartGenerate") {
         dart("pub", "run", "build_runner", "build", "--delete-conflicting-outputs")
     }
