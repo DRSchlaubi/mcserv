@@ -7,7 +7,7 @@ version = "1.0.0"
 
 fun Exec.dart(binary: String, vararg args: String) {
     group = "dart"
-    commandLine = listOf(path(localProperties.dartSdk, "bin", binary, appendEnding = true), *args)
+    commandLine = listOf(path(localProperties.dartSdk, "bin", binary), *args)
 }
 
 tasks {
