@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC2069
+
 set -e
 
 if [ -z "$1" ]; then
@@ -39,7 +41,7 @@ else
 fi
 
 # checkout the repo at commit in the work/Paper repo
-git --git-dir=work/Paper/.git --work-tree=work/Paper checkout -f $commit 2>&1 >/dev/null
+git --git-dir=work/Paper/.git --work-tree=work/Paper checkout -f "$commit" 2>&1 >/dev/null
 
 cd work/Paper
 
@@ -56,7 +58,7 @@ else
   exit 1
 fi
 
-leastVersion=$(cat Paper-Server/src/main/java/org/bukkit/craftbukkit/Main.java | grep -oP 'at least Java (\d+)' | awk '{print $4}')
-upToVersion=$(cat Paper-Server/src/main/java/org/bukkit/craftbukkit/Main.java | grep -oP 'up to Java (\d+)' | awk '{print $4}')
+leastVersion=$(grep <Paper-Server/src/main/java/org/bukkit/craftbukkit/Main.java -oP 'at least Java (\d+)' | awk '{print $4}')
+upToVersion=$(grep <Paper-Server/src/main/java/org/bukkit/craftbukkit/Main.java -oP 'up to Java (\d+)' | awk '{print $4}')
 echo "At least Java ${leastVersion:=8}"
 echo "Up to Java $upToVersion"

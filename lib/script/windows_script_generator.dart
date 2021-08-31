@@ -11,6 +11,9 @@ class WindowsScriptGenerator extends ScriptGenerator {
         javaPath.contains(RegExp('\\s+')) ? '"$javaPath"' : javaPath;
 
     final stringBuffer = StringBuffer();
+    //language=bash
+    stringBuffer.writeln('@echo off');
+
     stringBuffer.write(sanitizedJavaPath);
 
     if (additionalArgs.isNotEmpty) {
