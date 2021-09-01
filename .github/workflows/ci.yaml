@@ -31,12 +31,12 @@ jobs:
       - name: Install Dart
         uses: crazy-max/ghaction-chocolatey@v1
         with:
-          args: install dart-sdk
+          args: install dart-sdk --no-progress
       - uses: actions/setup-java@v1
         with:
           java-version: 11
       - name: Download Wix
-        run: curl -fsSL https://wixtoolset.org/releases/v3.11.2/stable -o wix.exe
+        run: curl -fsSL https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311.exe -o wix.exe
       - name: Install Wix
         run: .\wix.exe /install /quiet /norestart
       - uses: gradle/gradle-build-action@v1
