@@ -86,7 +86,7 @@ tasks {
         )
     }
 
-    register<Exec>("assembleMsi") {
+    register("assembleMsi") {
         onlyIf {
             System.getProperty("os.name").startsWith("Windows")
         }
