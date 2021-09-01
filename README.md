@@ -89,7 +89,7 @@ dart.sdk=C:\\Program Files\\Dart\\dart-sdk
 ## Build on macOS and Linux
 
 ```
-gradlew assemble
+./gradlew assemble
 ```
 
 ## Build on Windows
