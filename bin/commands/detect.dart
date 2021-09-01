@@ -7,4 +7,9 @@ class DetectCommand extends Command {
 
   @override
   String get prompt => localizations.detectCommand;
+
+  @override
+  Future<void> execute() async {
+    print('This feature is currently in development');
+  }
 }
