@@ -38,9 +38,11 @@ jobs:
       - name: Download Wix
         run: curl -fsSL https://wixtoolset.org/releases/v3.11.2/stable -o wix.exe
       - name: Install Wix
-        run: wix.exe /install /quiet /norestart
+        run: .\wix.exe /install /quiet /norestart
       - uses: gradle/gradle-build-action@v1
         name: Build MSI
+        env:
+          DART_SDK: C:\tools\dart-sdk
         with:
           arguments: assembleMsi
       - uses: gradle/gradle-build-action@v1

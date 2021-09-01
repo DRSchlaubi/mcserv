@@ -87,6 +87,9 @@ tasks {
     }
 
     register<Exec>("assembleMsi") {
+        onlyIf {
+            System.getProperty("os.name").startsWith("Windows")
+        }
         dependsOn(wixLink)
     }
 

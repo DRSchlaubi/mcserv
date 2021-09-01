@@ -31,7 +31,7 @@ abstract class LocalProperties(private val properties: Properties) {
     val dartSdk: String
         get() = this["dart.sdk"]
 
-    operator fun get(name: String) = properties.getProperty(name) ?: notFound(name)
+    operator fun get(name: String) = System.getenv("DART_SDK") ?: properties.getProperty(name) ?: notFound(name)
 
     private fun notFound(name: String): Nothing = error("Please specify $name in local.properties")
 }
