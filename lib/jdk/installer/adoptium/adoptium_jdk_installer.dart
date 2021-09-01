@@ -41,7 +41,8 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
 
     final binary = release.binaries.first;
     final package = binary.package;
-    final download = Download(Uri.parse(package.link), package.checksum);
+    final download =
+        Download(Uri.parse(package.link), checksum: package.checksum);
 
     final home = await getMCServHome();
     final jreCache = home.childDirectory(JDKInstaller.cacheFolder);

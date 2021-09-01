@@ -2,6 +2,7 @@ import 'package:logging/logging.dart';
 import 'package:mcserv/commands/command.dart';
 import 'package:mcserv/distributions/distribution.dart';
 import 'package:mcserv/distributions/metadata/distribution_api.dart';
+import 'package:mcserv/distributions/plain/plain_distribution.dart';
 import 'package:mcserv/jdk/chooser.dart';
 import 'package:mcserv/mc_installer/mc_installer_helper.dart';
 import 'package:mcserv/script/script_generator.dart';
@@ -44,7 +45,8 @@ class UpdateCommand extends Command {
     var version = server.version;
     var reinstall = false;
     var newVersion = installedVersion;
-    if (server.build >= latestBuild) {
+    if (server.build >= latestBuild &&
+        latestBuild != PlainDistribution.plainVersionBuild) {
       print(localizations.alreadyOnLatestBuild);
       if (!confirm(localizations.upgradeVersion)) {
         return;
@@ -55,9 +57,9 @@ class UpdateCommand extends Command {
           meta?.versions.firstWhere((element) => element.version == version);
     }
 
-
     if (reinstall) {
-      _log.warning('This will reinstall the server, starting the new server might corrupt world data');
+      _log.warning(
+          'This will reinstall the server, starting the new server might corrupt world data');
       var jre = server.javaPath;
       if ((newVersion?.javaOptions.min ?? -1) > server.javaVersion) {
         print(

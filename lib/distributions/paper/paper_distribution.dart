@@ -28,7 +28,7 @@ abstract class PaperDistribution extends PaperclipDistribution {
     final downloadUrl = Uri.parse(
         'https://papermc.io/api/v2/projects/$project/versions/$version/builds/$buildId/downloads/${application.name}');
 
-    var download = Download(downloadUrl, application.sha256);
+    var download = Download(downloadUrl, checksum: application.sha256);
     return PaperDownloadItem(download, build.build);
   }
 

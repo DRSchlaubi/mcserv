@@ -29,7 +29,7 @@ abstract class Pl3xDistribution extends PaperclipDistribution {
     final build = await _pl3x.retrieveLatestBuild(project, version);
     final download = Download(
         Uri.parse('https://api.pl3x.net/v2/$project/$version/latest/download'),
-        build.md5,
+        checksum: build.md5,
         hashingAlgorithm: HashingAlgorithm.MD5);
 
     return PaperDownloadItem(download, build.buildInt);

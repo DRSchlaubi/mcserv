@@ -11,14 +11,20 @@ extension McInstallerHelper on Distribution {
         version, directory.childFile('server.jar'));
   }
 
-  Future<String> askForVersion() async{
+  Future<String> _askVersionGroup() async {
+    if(!supportsVersionGroups) return 'internal_version_group';
     final versionsGroups = await retrieveVersionGroups();
     final ask = Select(
         prompt: localizations.chooseServerVersion, options: versionsGroups);
     final versionGroupIndex = ask.interact();
-    final selectedVersionGroup = versionsGroups[versionGroupIndex];
+    return versionsGroups[versionGroupIndex];
+  }
+
+  Future<String> askForVersion() async {
+    final versionGroup = await _askVersionGroup();
+
     final versions =
-        (await retrieveVersions(selectedVersionGroup)).versions;
+        (await retrieveVersions(versionGroup)).versions;
     if (versions.length > 1) {
       final versionAsk = Select(
           prompt: localizations.chooseServerSubVersion, options: versions);

@@ -1,5 +1,6 @@
 import 'package:file/file.dart';
 import 'package:mcserv/distributions/pl3x/purpur_distribution.dart';
+import 'package:mcserv/distributions/plain/velocity_distributions.dart';
 import 'package:meta/meta.dart';
 
 import 'paper/paper_mc_distribution.dart';
@@ -11,7 +12,8 @@ abstract class Distribution {
     PaperMCDistribution(),
     WaterfallDistribution(),
     TravertineDistribution(),
-    PurPurDistribution()
+    PurPurDistribution(),
+    VelocityDistribution()
   ];
 
   @protected
@@ -22,6 +24,7 @@ abstract class Distribution {
 
   bool get hasMetadata => false;
   bool get requiresEula => true;
+  bool get supportsVersionGroups => true;
 
   String get displayName;
 

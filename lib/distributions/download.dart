@@ -16,11 +16,11 @@ final _log = Logger('Downloader');
 
 class Download {
   final Uri uri;
-  final String checksum;
+  final String? checksum;
   final HashingAlgorithm hashingAlgorithm;
 
-  Download(this.uri, this.checksum,
-      {this.hashingAlgorithm = HashingAlgorithm.SHA256});
+  Download(this.uri, {this.checksum,
+      this.hashingAlgorithm = HashingAlgorithm.SHA256});
 
   Future<void> download(File destination) async {
     _log.fine('Starting download to $uri');
@@ -48,19 +48,25 @@ class Download {
               .decode(bytes)}');
     }
 
-    _log.fine('Expected ${hashingAlgorithm.name} checksum: $checksum');
-    final digestHex = hashingAlgorithm.hash(bytes);
-    _log.fine('Actual ${hashingAlgorithm.name} checksum: $digestHex');
+    if (checksum != null) {
+      _log.fine('Expected ${hashingAlgorithm.name} checksum: $checksum');
+      final digestHex = hashingAlgorithm.hash(bytes);
+      _log.fine('Actual ${hashingAlgorithm.name} checksum: $digestHex');
 
-    if (digestHex != checksum) {
-      if (!confirm(
-          'Checksum validation failed, do you want to continue anyways?',
-          waitForNewLine: true)) {
-        exit(1);
+      if (digestHex != checksum) {
+        if (!confirm(
+            'Checksum validation failed, do you want to continue anyways?',
+            waitForNewLine: true)) {
+          exit(1);
+        }
       }
+
+      _log.fine('Checksum test passed! Writing bytes to file!');
+    } else {
+      _log.warning(
+          'No checksum was provided on this Download, therefore integrity of the file cannot be ensured');
     }
 
-    _log.fine('Checksum test passed! Writing bytes to file!');
     print(localizations.downloadDone);
     await destination.writeAsBytes(bytes);
   }
