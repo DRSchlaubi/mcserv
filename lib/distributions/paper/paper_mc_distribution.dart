@@ -9,4 +9,7 @@ class PaperMCDistribution extends PaperDistribution {
 
   @override
   bool get hasMetadata => true;
+
+  @override
+  bool get recommended => true;
 }

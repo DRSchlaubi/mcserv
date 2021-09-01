@@ -27,6 +27,7 @@ abstract class Distribution {
   bool get hasMetadata => false;
   bool get requiresEula => true;
   bool get supportsVersionGroups => true;
+  bool get recommended => false;
 
   String get displayName;
 

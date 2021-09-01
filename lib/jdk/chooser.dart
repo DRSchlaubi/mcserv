@@ -1,5 +1,6 @@
 import 'package:interact/interact.dart';
 import 'package:mcserv/utils/localizations_util.dart';
+import 'package:mcserv/utils/recommendation_util.dart';
 
 import 'finder/jre_finder.dart';
 import 'installer/adoptium/adoptium_jdk_installer.dart';
@@ -13,8 +14,10 @@ Future<JreInstallation> choseJRE({int? from, int? to}) async {
 
   final options = [
     ...jres.map((element) {
-      return localizations.javaInstallation(element.version.languageVersion,
-          element.version.update, element.path);
+      return recommend(
+          localizations.javaInstallation(element.version.languageVersion,
+              element.version.update, element.path),
+          element.version.languageVersion == to);
     }),
     _installPrompt
   ];
@@ -32,11 +35,12 @@ Future<JreInstallation> choseJRE({int? from, int? to}) async {
 
 Future<JreInstallation> _installJre(int? from, int? to) async {
   final installer = AdoptiumJDKInstaller.forPlatform();
-  final versions = (await installer.retrieveVersions()).filterJdks(from, to).toList();
+  final versions =
+      (await installer.retrieveVersions()).filterJdks(from, to).toList();
 
   final askVersion = Select(
       prompt: localizations.pickLanguageVersion,
-      options: versions.map((e) => e.toString()).toList());
+      options: versions.map((e) => recommend(e.toString(), e == to)).toList());
   final versionIndex = askVersion.interact();
 
   final version = versions[versionIndex];

@@ -9,4 +9,7 @@ class WaterfallDistribution extends PaperDistribution {
 
   @override
   bool get requiresEula => false;
+
+  @override
+  bool get recommended => true;
 }

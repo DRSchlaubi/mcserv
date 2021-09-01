@@ -131,4 +131,8 @@ class Localizations {
   String get downloadDone =>
       Intl.message('Download finished, syncing changes to fs!',
           name: 'downloadDone', locale: localeName);
+
+  // Misc
+  String get recommended =>
+      Intl.message('Recommended', name: 'recommended', locale: localeName);
 }

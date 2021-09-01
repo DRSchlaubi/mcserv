@@ -10,6 +10,7 @@ import 'package:mcserv/script/script_generator.dart';
 import 'package:mcserv/settings/settings.dart';
 import 'package:mcserv/settings/settings_helper.dart';
 import 'package:mcserv/utils/constants.dart';
+import 'package:mcserv/utils/recommendation_util.dart';
 import 'package:mcserv/utils/utils.dart';
 
 const String _mcEula = 'https://account.mojang.com/documents/minecraft_eula';
@@ -94,7 +95,9 @@ class NewCommand extends Command {
   Distribution _askDistribution() {
     final ask = Select(
         prompt: localizations.chooseServerDistro,
-        options: Distribution.all.map((e) => e.displayName).toList());
+        options: Distribution.all
+            .map((e) => recommend(e.displayName, e.recommended))
+            .toList());
 
     final distributionIndex = ask.interact();
     return Distribution.all[distributionIndex];
