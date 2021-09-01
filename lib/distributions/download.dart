@@ -17,7 +17,7 @@ final _log = Logger('Downloader');
 class Download {
   final Uri uri;
   final String? checksum;
-  final HashingAlgorithm hashingAlgorithm;
+  final HashingAlgorithm? hashingAlgorithm;
 
   Download(this.uri, {this.checksum,
       this.hashingAlgorithm = HashingAlgorithm.SHA256});
@@ -49,9 +49,10 @@ class Download {
     }
 
     if (checksum != null) {
-      _log.fine('Expected ${hashingAlgorithm.name} checksum: $checksum');
-      final digestHex = hashingAlgorithm.hash(bytes);
-      _log.fine('Actual ${hashingAlgorithm.name} checksum: $digestHex');
+      final alg = hashingAlgorithm!;
+      _log.fine('Expected ${alg.name} checksum: $checksum');
+      final digestHex = alg.hash(bytes);
+      _log.fine('Actual ${alg.name} checksum: $digestHex');
 
       if (digestHex != checksum) {
         if (!confirm(

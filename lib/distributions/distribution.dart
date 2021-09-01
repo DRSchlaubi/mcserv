@@ -1,5 +1,6 @@
 import 'package:file/file.dart';
 import 'package:mcserv/distributions/pl3x/purpur_distribution.dart';
+import 'package:mcserv/distributions/plain/bungeecord_distribution.dart';
 import 'package:mcserv/distributions/plain/velocity_distributions.dart';
 import 'package:meta/meta.dart';
 
@@ -13,7 +14,8 @@ abstract class Distribution {
     WaterfallDistribution(),
     TravertineDistribution(),
     PurPurDistribution(),
-    VelocityDistribution()
+    VelocityDistribution(),
+    BungeeCordDistribution()
   ];
 
   @protected

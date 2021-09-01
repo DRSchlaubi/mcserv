@@ -26,6 +26,6 @@ class VelocityDistribution extends PlainDistribution {
   @override
   Future<VersionGroup> retrieveVersions(String version) async {
     return VersionGroup(
-        'no_versionGroups', ['3.0.0', '3.0.x', '1.1.9', '1.0.10']);
+        'no_version_groups', ['3.0.0', '3.0.x', '1.1.9', '1.0.10']);
   }
 }
