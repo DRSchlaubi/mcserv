@@ -11,6 +11,7 @@ jobs:
   test:
     name: "Check Dart Code"
     runs-on: ubuntu-20.04
+    needs: validation
     container:
       image: google/dart:latest
     steps:
@@ -23,6 +24,7 @@ jobs:
   build_windows:
     name: "Build Windows installers"
     runs-on: windows-2019
+    needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
