@@ -47,6 +47,11 @@ Velocity each time you run the update command.
 Spigot still uses the ancient [Spigot BuildTools](https://www.spigotmc.org/wiki/buildtools/) to distribute itself,
 because those take very long to run and only run in Git Bash (on Windows) we decided to not support Spigot
 
+## Do you support ARM?
+
+Whilst we generally support arm, we do not provide precompiled binaries for ARM (since GitHub actions doesn't support
+ARM runners). However, you can compile the project yourself (See [Compiling from source](#compiling-from-source))
+
 # For developers
 
 **Note: Gradle requires a JDK, if you don't have one installed, we recommend installing it
@@ -63,3 +68,34 @@ If you edit files that also use `json_serializable` or `retrofit` please run the
 ```
 ./gradlew dartGenerate
 ```
+
+# Compiling from source
+
+## Prerequisites
+
+- JDK (Get from [SDKMAN!](https://sdkman.io) or [Adoptium](https://adoptium.net))
+- Dart SDK (Get from [here](https://dart.dev/get-dart#install))
+- CPP dev tools (Only if you're on Linux or macOS)
+- [WIX Toolset](https://wixtoolset.org/releases/) (Only if you're on Windows)
+
+If you installed the Dart SDK please add the path to the SDK into the `local.properties` file (if it doesn't exist,
+create it)
+
+```properties
+# (this is when you did 'winget install dart'
+dart.sdk=C:\\Program Files\\Dart\\dart-sdk
+```
+
+## Build on macOS and Linux
+
+```
+gradlew assemble
+```
+
+## Build on Windows
+
+```
+gradlew assembleMsi
+```
+
+In both cases you will find your output in `build/distributions`

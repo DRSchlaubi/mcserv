@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
-import 'package:file/src/interface/file.dart';
+import 'package:file/file.dart';
 import 'package:mcserv/distributions/distribution.dart';
 import 'package:mcserv/distributions/download.dart';
 import 'package:mcserv/utils/utils.dart';

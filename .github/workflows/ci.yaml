@@ -1,0 +1,52 @@
+on:
+  push:
+
+jobs:
+  validation:
+    name: "Gradle Wrapper Validation"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: gradle/wrapper-validation-action@v1
+  test:
+    name: "Check Dart Code"
+    runs-on: ubuntu-20.04
+    container:
+      image: google/dart:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: dart pub get
+      - name: Analyze Dart
+        uses: zgosalvez/github-actions-analyze-dart@v1
+  build_windows:
+    name: "Build Windows installers"
+    runs-on: windows-2019
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Dart
+        uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: install dart-sdk
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Download Wix
+        run: curl -fsSL https://wixtoolset.org/releases/v3.11.2/stable -o wix.exe
+      - name: Install Wix
+        run: wix.exe /install /quiet /norestart
+      - uses: gradle/gradle-build-action@v1
+        name: Build MSI
+        with:
+          arguments: assembleMsi
+      - uses: gradle/gradle-build-action@v1
+        name: Compile Dart
+        with:
+          arguments: dartBuild
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          name: plugin-artifact
+          path: ./build/distributions/mcserv.msi

@@ -12,11 +12,10 @@ import 'package:mcserv/utils/localizations_util.dart';
 import 'commands/command.dart';
 
 ArgResults _parseArguments(List<String> arguments) {
-  final commandNames = ALL_COMMANDS.map((e) => e.name);
+  final commandNames = allCommands.map((e) => e.name);
   final parser = ArgParser();
-  commandNames.forEach((name) {
-    parser.addCommand(name);
-  });
+  commandNames.forEach(parser.addCommand);
+
   parser.addFlag('verbose',
       abbr: 'v', help: localizations.verboseLoggingHelp, negatable: false);
   parser.addFlag('help',
@@ -58,15 +57,15 @@ void _initLogger(ArgResults args) {
 Command _pickCommand(ArgResults arguments) {
   final name = arguments.command?.name;
   if (name != null) {
-    return ALL_COMMANDS.firstWhere((element) => element.name == name);
+    return allCommands.firstWhere((element) => element.name == name);
   }
 
   final select = Select(
           prompt: localizations.pickCommand,
-          options: ALL_COMMANDS.map((e) => e.prompt).toList())
+          options: allCommands.map((e) => e.prompt).toList())
       .interact();
 
-  return ALL_COMMANDS[select];
+  return allCommands[select];
 }
 
 Future<void> _initI18n() async {

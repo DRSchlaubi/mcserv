@@ -29,7 +29,7 @@ class BungeeCordDistribution extends PlainDistribution {
     final bungee =
         fingerprints.firstWhere((element) => element.name == 'BungeeCord.jar');
 
-    return ChecksumInfo(bungee.hash, HashingAlgorithm.MD5);
+    return ChecksumInfo(bungee.hash, HashingAlgorithm.md5);
   }
 
   @override

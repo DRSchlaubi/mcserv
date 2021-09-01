@@ -30,7 +30,7 @@ abstract class Pl3xDistribution extends PaperclipDistribution {
     final download = Download(
         Uri.parse('https://api.pl3x.net/v2/$project/$version/latest/download'),
         checksum: build.md5,
-        hashingAlgorithm: HashingAlgorithm.MD5);
+        hashingAlgorithm: HashingAlgorithm.md5);
 
     return PaperDownloadItem(download, build.buildInt);
   }

@@ -18,7 +18,7 @@
   <Fragment>
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <Component Id="ProductComponent">
-        <File Source="mcserv.exe" />
+        <File Source="..\dart\mcserv.exe" />
       </Component>
       <Component Id="PathVariable" Guid="{25c57a5e-28d5-425d-bbfb-8c28f132ce4e}">
         <CreateFolder />

@@ -27,7 +27,7 @@ tasks {
     }
 
     register<Exec>("dartReadArb") {
-            dart(
+        dart(
             "pub",
             "run",
             "intl_translation:generate_from_arb",
@@ -49,7 +49,7 @@ tasks {
         }
         val destinationFile = destinationDir.resolve(fileName)
         group = "dart"
-        commandLine = listOf(
+        dart(
             "dart2native",
             project.file("bin/mcserv.dart").absolutePath,
             "-o",
@@ -58,6 +58,36 @@ tasks {
         dependsOn(dartGenerate)
         outputs.file(destinationFile)
         inputs.files(project.file("lib"), project.file("i18n"), project.file("bin"))
+    }
+
+    val wixCompile = task<Exec>("wixCompile") {
+        dependsOn(dartBuild)
+        val outDir = rootProject.buildDir.resolve("wix")
+        outputs.dir(outDir)
+        wix(
+            "candle",
+            rootProject.file("packages/windows/msi/McServInstaller/Product.wxs").absolutePath,
+            "-o",
+            outDir.absolutePath + '/' // withou the '/' WIX will create a file instead
+        )
+    }
+
+    val wixLink = task<Exec>("wixLink") {
+        dependsOn(wixCompile)
+
+        val outFile = project.buildDir.resolve("distributions/mcserv.msi")
+        outputs.file(outFile)
+
+        wix(
+            "light",
+            project.buildDir.resolve("wix/Product.wixobj").absolutePath,
+            "-o",
+            outFile.absolutePath
+        )
+    }
+
+    register<Exec>("assembleMsi") {
+        dependsOn(wixLink)
     }
 
     assemble {

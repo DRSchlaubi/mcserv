@@ -20,7 +20,7 @@ class Download {
   final HashingAlgorithm? hashingAlgorithm;
 
   Download(this.uri, {this.checksum,
-      this.hashingAlgorithm = HashingAlgorithm.SHA256});
+      this.hashingAlgorithm = HashingAlgorithm.sha256});
 
   Future<void> download(File destination) async {
     _log.fine('Starting download to $uri');
@@ -73,17 +73,17 @@ class Download {
   }
 }
 
-enum HashingAlgorithm { SHA256, MD5 }
+enum HashingAlgorithm { sha256, md5 }
 
 extension ByteHasher on HashingAlgorithm {
   String hash(List<int> bytes) {
     Hash hash;
 
     switch (this) {
-      case HashingAlgorithm.SHA256:
+      case HashingAlgorithm.sha256:
         hash = sha256;
         break;
-      case HashingAlgorithm.MD5:
+      case HashingAlgorithm.md5:
         hash = md5;
         break;
     }

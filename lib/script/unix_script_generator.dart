@@ -14,13 +14,13 @@ class UnixScriptGenerator extends ScriptGenerator {
     //language=sh
     stringBuffer.writeln('#!/usr/bin/env sh');
     //language=sh
-    stringBuffer.write('$javaPath');
+    stringBuffer.write(javaPath);
 
     if (additionalArgs.isNotEmpty) {
       stringBuffer.writeln(' \\');
-      additionalArgs.forEach((arg) {
+      for(var arg in additionalArgs) {
         stringBuffer.writeln('$arg \\');
-      });
+      }
     }
 
     stringBuffer.write(' -jar $jarPath nogui');
