@@ -1,8 +1,56 @@
 CLI utility to manage MC server installations.
 
+# Features
+
+- Install required JDKs
+- Download server files
+- Generate start scripts (with optimized JVM flags)
+- Update to the latest build
+
+# Installation
+
+Linux and macOS: `curl -fsSL https://get.mcserv.how | sh`
+Windows: `winget install mcserv`
+
+# Supported Platforms
+
+| Platform | Supported |
+| ------ | ----- |
+| Windows | ✔ |
+| Linux | ✔ |
+| macOS¹ | 🚧 |
+
+¹ In theory macOS should be supported, there are just no macOS specific implementations yet
+
+# Supported Server Distributions
+
+| Distribution | Install | Update | Metadata¹ |
+| --- | --- | --- | --- |
+| PaperMC | ✔ | ✔ | ✔ |
+| Waterfall | ✔ | ✔ | ❌ |
+| Travertine | ✔ | ✔ | ❌ |
+| PurPur | ✔ | ✔ | ❌ |
+| Velocity² | ✔ | ✔³ | ❌ |
+
+¹ Metadata is required to ensure the correct Java version is installed and use proper JVM flags
+
+² Velocity does not provide checksums on their Downloads so no checksum verification will be made when downloading
+velocity
+
+³ Velocity does not provide information on when a new build got released over an API, therefore mcserv will re-download
+Velocity each time you run the update command.
+
+# FAQ (Frequently asked Questions)
+
+## Why is Spigot not supported?
+
+Spigot still uses the ancient [Spigot BuildTools](https://www.spigotmc.org/wiki/buildtools/) to distribute itself,
+because those take very long to run and only run in Git Bash (on Windows) we decided to not support Spigot
+
 # For developers
 
-**Note: Gradle requires a JDK, if you don't have one installed, we recommend installing it via [sdkman](https://sdkman.io).**
+**Note: Gradle requires a JDK, if you don't have one installed, we recommend installing it
+via [sdkman](https://sdkman.io).**
 
 If you are on a UNIX based OS you require the native chmod for the script generators. To compile that please run
 
