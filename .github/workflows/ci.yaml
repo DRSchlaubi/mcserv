@@ -44,11 +44,7 @@ jobs:
         env:
           DART_SDK: C:\tools\dart-sdk
         with:
-          arguments: assembleMsi
-      - uses: gradle/gradle-build-action@v1
-        name: Compile Dart
-        with:
-          arguments: dartBuild
+          arguments: dartPubGet assembleMsi
       - name: Upload artifact
         uses: actions/upload-artifact@v2.2.3
         with:
