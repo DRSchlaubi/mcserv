@@ -3,7 +3,6 @@ import 'package:mcserv/distributions/download.dart';
 import 'package:mcserv/distributions/plain/bungeecord/bungeecord_api.dart';
 import 'package:mcserv/distributions/plain/plain_distribution.dart';
 
-
 class BungeeCordDistribution extends PlainDistribution {
   final _jenkins = BungeeCordApi();
 

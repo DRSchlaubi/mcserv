@@ -204,7 +204,7 @@ jobs:
           mv macos/mcserv-$VERSION.tar.gz release_files/mcserv-$VERSION-macos.tar.gz &&
           mv macos/mcserv-$VERSION.tar.gz.sha256 release_files/mcserv-$VERSION-macos.tar.gz.sha256 &&
           mv msi/mcserv.msi release_files/mcserv-$VERSION.msi &&
-          mv msi/mcserv.msi.sha256 msi/mcserv-$VERSION.msi.sha256
+          mv msi/mcserv.msi.sha256 release_files/mcserv-$VERSION.msi.sha256
       - name: Release
         uses: softprops/action-gh-release@v1
         with:

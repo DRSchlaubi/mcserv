@@ -17,8 +17,7 @@ class DeleteCommand extends Command {
       return;
     }
 
-    if (confirm(localizations.confirmDelete,
-        waitForNewLine: true)) {
+    if (confirm(localizations.confirmDelete, waitForNewLine: true)) {
       await fs.directory(server.location).delete(recursive: true);
       await removeServer(server.location);
     }

@@ -19,8 +19,8 @@ class Download {
   final String? checksum;
   final HashingAlgorithm? hashingAlgorithm;
 
-  Download(this.uri, {this.checksum,
-      this.hashingAlgorithm = HashingAlgorithm.sha256});
+  Download(this.uri,
+      {this.checksum, this.hashingAlgorithm = HashingAlgorithm.sha256});
 
   Future<void> download(File destination) async {
     _log.fine('Starting download to $uri');
@@ -44,8 +44,7 @@ class Download {
 
     if (request.statusCode > 299) {
       throw Exception(
-          'Received invalid status code: ${request.statusCode} Body: ${utf8
-              .decode(bytes)}');
+          'Received invalid status code: ${request.statusCode} Body: ${utf8.decode(bytes)}');
     }
 
     if (checksum != null) {

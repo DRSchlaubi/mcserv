@@ -7,12 +7,11 @@ import 'package:mcserv/distributions/distribution.dart';
 extension McInstallerHelper on Distribution {
   Future<int> installServer(String version, Directory directory) async {
     print(localizations.downloadingDistro);
-    return await downloadTo(
-        version, directory.childFile('server.jar'));
+    return await downloadTo(version, directory.childFile('server.jar'));
   }
 
   Future<String> _askVersionGroup() async {
-    if(!supportsVersionGroups) return 'internal_version_group';
+    if (!supportsVersionGroups) return 'internal_version_group';
     final versionsGroups = await retrieveVersionGroups();
     final ask = Select(
         prompt: localizations.chooseServerVersion, options: versionsGroups);
@@ -23,8 +22,7 @@ extension McInstallerHelper on Distribution {
   Future<String> askForVersion() async {
     final versionGroup = await _askVersionGroup();
 
-    final versions =
-        (await retrieveVersions(versionGroup)).versions;
+    final versions = (await retrieveVersions(versionGroup)).versions;
     if (versions.length > 1) {
       final versionAsk = Select(
           prompt: localizations.chooseServerSubVersion, options: versions);

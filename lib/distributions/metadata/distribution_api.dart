@@ -15,14 +15,13 @@ abstract class DistributionMetaDataApi {
 
   @GET('/{type}.json')
   Future<String?> _getDistributionMetaData(@Path('type') String type);
-
 }
 
 extension MetaDataTools on DistributionMetaDataApi {
   Future<DistributionMetaData?> getDistributionMetaData(String type) async {
     // GitHub responds plain/text here so DIO doesn't parse the json automatically
     final raw = await _getDistributionMetaData(type);
-    if(raw == null) return null;
+    if (raw == null) return null;
     final json = jsonDecode(raw);
 
     return DistributionMetaData.fromJson(json);

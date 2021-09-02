@@ -9,3 +9,7 @@ analyzer:
     - lib/intl/**
     - !lib/intl/localizaions.dart
 
+linter:
+  exclude:
+    - lib/intl/**
+

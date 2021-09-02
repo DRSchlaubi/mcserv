@@ -42,7 +42,12 @@ class AdoptiumReleases extends Equatable {
   Map<String, dynamic> toJson() => _$AdoptiumReleasesToJson(this);
 
   @override
-  List<Object?> get props => [availableLtsReleases, availableReleases, mostResentFeatureRelease, mostResentLtsRelease];
+  List<Object?> get props => [
+        availableLtsReleases,
+        availableReleases,
+        mostResentFeatureRelease,
+        mostResentLtsRelease
+      ];
 
   @override
   bool? get stringify => true;

@@ -5,7 +5,6 @@ class WindowsScriptGenerator extends ScriptGenerator {
   @override
   Future<void> writeStartScript(Directory path, String jarPath, String javaPath,
       List<String> additionalArgs) async {
-
     // OFC Microsoft called it 'Program Files'
     final sanitizedJavaPath =
         javaPath.contains(RegExp('\\s+')) ? '"$javaPath"' : javaPath;
@@ -18,7 +17,7 @@ class WindowsScriptGenerator extends ScriptGenerator {
 
     if (additionalArgs.isNotEmpty) {
       stringBuffer.writeln(' ^');
-      for(var arg in additionalArgs) {
+      for (var arg in additionalArgs) {
         stringBuffer.writeln('$arg ^');
       }
     }

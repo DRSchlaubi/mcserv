@@ -18,7 +18,7 @@ class UnixScriptGenerator extends ScriptGenerator {
 
     if (additionalArgs.isNotEmpty) {
       stringBuffer.writeln(' \\');
-      for(var arg in additionalArgs) {
+      for (var arg in additionalArgs) {
         stringBuffer.writeln('$arg \\');
       }
     }

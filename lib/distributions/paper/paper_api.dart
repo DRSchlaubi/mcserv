@@ -101,7 +101,7 @@ class PaperBuild extends Equatable {
 }
 
 @JsonSerializable()
-class PaperDownloads extends Equatable{
+class PaperDownloads extends Equatable {
   final PaperDownload application;
 
   const PaperDownloads(this.application);
