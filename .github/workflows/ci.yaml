@@ -1,5 +1,9 @@
+name: "Ci"
 on:
   push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   validation:
@@ -46,24 +50,126 @@ jobs:
         with:
           arguments: dartPubGet assembleMsi
       - name: Setup MSbuild
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Create Code Signing Certificate
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           New-Item -ItemType directory -Path certificate
           Set-Content -Path certificate\certificate.txt -Value '${{ secrets.WINDOWS_CERTIFICATE }}'
           certutil -decode certificate\certificate.txt certificate\certificate.pfx
       - name: Code Sign 2021
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           & 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe' sign /f certificate\certificate.pfx /p '${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}' /t http://timestamp.sectigo.com/ /d McServ build/distributions/mcserv.msi
-      - name: Generate Checksum
-        run: (Get-FileHash ./build/distributions/mcserv.msi).Hash > mcserv.msi.sha256
       - name: Upload artifact
         uses: actions/upload-artifact@v2.2.3
         with:
           name: mcserv.msi
           path: ./build/distributions/mcserv.msi
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2.2.3
+  build_linux:
+    name: "Build Linux packages"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: gradle/gradle-build-action@v1
+        name: Build Distribution
+        env:
+          DART_SDK: C:\tools\dart-sdk
         with:
-          name: mcserv.msi.sha256
-          path: mcserv.msi.sha256
+          arguments: dartPubGet assemble
+  build_macos:
+    name: "Build macOS packages"
+    runs-on: macos-11
+    steps:
+      - uses: gradle/gradle-build-action@v1
+        name: Build Distribution
+        env:
+          DART_SDK: C:\tools\dart-sdk
+        with:
+          arguments: dartPubGet assemble
+#  build_metadata:
+#    name: "Compile release metadata"
+#    runs-on: ubuntu-20.04
+#    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+#    needs: [ build_linux, build_windows, build_macos ]
+#    outputs:
+#      name: ${{ steps.properties.outputs.name }}
+#      version: ${{ steps.properties.outputs.version }}
+#      changelog: ${{ steps.properties.outputs.changelog }}
+#      artifact: ${{ steps.properties.outputs.artifact }}
+#    steps:
+#      - name: Setup Java
+#        uses: actions/setup-java@v2
+#        with:
+#          distribution: adopt
+#          java-version: 11
+#
+#      # Check out current repository
+#      - name: Fetch Sources
+#        uses: actions/checkout@v2.3.4
+#      # Set environment variables
+#      - name: Export Properties
+#        id: properties
+#        shell: bash
+#        run: |
+#          PROPERTIES="$(./gradlew properties --console=plain -q)"
+#          VERSION="$(echo "$PROPERTIES" | grep "^version:" | cut -f2- -d ' ')"
+#          NAME="$(echo "$PROPERTIES" | grep "^pluginName:" | cut -f2- -d ' ')"
+#          CHANGELOG="$(./gradlew getChangelog --unreleased --no-header --console=plain -q)"
+#          CHANGELOG="${CHANGELOG//'%'/'%25'}"
+#          CHANGELOG="${CHANGELOG//$'\n'/'%0A'}"
+#          CHANGELOG="${CHANGELOG//$'\r'/'%0D'}"
+#          ARTIFACT="${NAME}-${VERSION}.zip"
+#          echo "::set-output name=version::$VERSION"
+#          echo "::set-output name=name::$NAME"
+#          echo "::set-output name=changelog::$CHANGELOG"
+#          echo "::set-output name=artifact::$ARTIFACT"
+#  releaseDraft:
+#    name: Release Draft
+#    needs: [build_metadata]
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      # Check out current repository
+#      - name: Fetch Sources
+#        uses: actions/checkout@v2.3.4
+#
+#      # Remove old release drafts by using the curl request for the available releases with draft flag
+#      - name: Remove Old Release Drafts
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: |
+#          curl -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
+#            | tr '\r\n' ' ' \
+#            | jq '.[] | select(.draft == true) | .id' \
+#            | xargs -I '{}' \
+#          curl -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/$GITHUB_REPOSITORY/releases/{}
+#      # Create new release draft - which is not publicly visible and requires manual acceptance
+#      - name: Create Release Draft
+#        id: createDraft
+#        uses: actions/create-release@v1.1.4
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: v${{ needs.build.outputs.version }}
+#          release_name: v${{ needs.build.outputs.version }}
+#          body: ${{ needs.build.outputs.changelog }}
+#          draft: true
+#
+#      # Download artifacts
+#      - name: Download Artifact
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: plugin-artifact
+#
+#      # Upload artifact as a release asset
+#      - name: Upload Release Asset
+#        id: upload-release-asset
+#        uses: actions/upload-release-asset@v1.0.2
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ steps.createDraft.outputs.upload_url }}
+#          asset_path: ./${{ needs.build.outputs.artifact }}
+#          asset_name: ${{ needs.build.outputs.artifact }}
+#          asset_content_type: application/zip
