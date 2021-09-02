@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
+import 'package:mcserv/utils/utils.dart';
 import 'package:path/path.dart' as path;
 
 final _log = Logger('NativeCaller');
@@ -50,10 +51,8 @@ DynamicLibrary? _load() {
 
   String programDirectory;
   // Check if we are in a development environment
-  if (!Platform.resolvedExecutable.endsWith('dart')) {
-    final scriptLocation = Platform.resolvedExecutable.replaceAll('\\', '/');
-    programDirectory =
-      scriptLocation.substring(0, scriptLocation.lastIndexOf('/'));
+  if (!isDevelopmentEnvironment()) {
+    programDirectory = getInstallationDirectory();
   } else {
     programDirectory = path.join(
         Directory.current.path, 'libmcserv', 'build', 'lib', 'main', 'debug');

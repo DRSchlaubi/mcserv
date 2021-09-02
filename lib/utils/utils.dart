@@ -9,3 +9,4 @@ export 'mcserv_home.dart';
 export 'process_util.dart';
 export 'tar_util.dart';
 export 'collection_utils.dart';
+export 'installation.dart';

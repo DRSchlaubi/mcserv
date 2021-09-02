@@ -9,6 +9,7 @@ import 'package:mcserv/commands/command.dart';
 import 'package:mcserv/intl/localizations.dart';
 import 'package:mcserv/utils/fs_util.dart';
 import 'package:mcserv/utils/localizations_util.dart';
+import 'package:mcserv/utils/utils.dart';
 import 'package:path/path.dart' as path;
 
 import 'commands/command.dart';
@@ -98,9 +99,7 @@ void main(List<String> arguments) async {
 }
 
 Future<void> _version() async {
-  final scriptLocation = Platform.resolvedExecutable.replaceAll('\\', '/');
-  final mcServInstall =
-      scriptLocation.substring(0, scriptLocation.lastIndexOf('/'));
+  final mcServInstall = getInstallationDirectory();
   final versionFile = fs.file(path.join(mcServInstall, 'version.txt'));
   Logger('Main').fine('Reading version from ${versionFile.absolute.path}');
   final versionText = await versionFile.readAsString();
