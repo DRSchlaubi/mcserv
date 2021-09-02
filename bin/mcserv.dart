@@ -100,7 +100,7 @@ void main(List<String> arguments) async {
 
 Future<void> _version() async {
   final mcServInstall = getInstallationDirectory();
-  final versionFile = fs.file(path.join(mcServInstall, 'version.txt'));
+  final versionFile = fs.file(path.joinAll([...mcServInstall, 'version.txt']));
   Logger('Main').fine('Reading version from ${versionFile.absolute.path}');
   final versionText = await versionFile.readAsString();
 

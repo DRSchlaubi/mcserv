@@ -52,7 +52,7 @@ DynamicLibrary? _load() {
   String programDirectory;
   // Check if we are in a development environment
   if (!isDevelopmentEnvironment()) {
-    programDirectory = getInstallationDirectory();
+    programDirectory = path.joinAll(getInstallationDirectory());
   } else {
     programDirectory = path.join(
         Directory.current.path, 'libmcserv', 'build', 'lib', 'main', 'debug');
