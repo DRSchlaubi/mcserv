@@ -7,6 +7,8 @@ fun Exec.wix(binary: String, vararg args: String) {
     if (!System.getProperty("os.name").startsWith("Windows"))
         return
     val wixHome = System.getenv("WIX") ?: error("Please install the WIX toolset")
+
+    environment(mapOf("VERSION" to project.version))
     commandLine = listOf(
         "$wixHome/bin/$binary", *args
     )

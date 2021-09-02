@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="McServ" Language="1033" Version="1.0.0.0" Manufacturer="McServ" UpgradeCode="0135830b-4d57-4395-88ed-7bc9933b2eaa">
+  <Product Id="*" Name="McServ" Language="1033" Version="$(env.VERSION)" Manufacturer="McServ" UpgradeCode="0135830b-4d57-4395-88ed-7bc9933b2eaa">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate EmbedCab="yes" />
@@ -19,6 +19,15 @@
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <Component Id="ProductComponent">
         <File Source="..\dart\mcserv.exe" />
+      </Component>
+      <Component Id="LicenseComponent">
+            <File Source="..\..\LICENSE" />
+      </Component>
+      <Component Id="ReadmeComponent">
+            <File Source="..\..\README.md" />
+      </Component>
+      <Component Id="VersionComponent">
+            <File Source="..\reports\version.txt" />
       </Component>
       <Component Id="PathVariable" Guid="{25c57a5e-28d5-425d-bbfb-8c28f132ce4e}">
         <CreateFolder />

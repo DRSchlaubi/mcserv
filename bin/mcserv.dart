@@ -7,17 +7,20 @@ import 'package:intl/locale.dart';
 import 'package:logging/logging.dart';
 import 'package:mcserv/commands/command.dart';
 import 'package:mcserv/intl/localizations.dart';
+import 'package:mcserv/utils/fs_util.dart';
 import 'package:mcserv/utils/localizations_util.dart';
+import 'package:path/path.dart' as path;
 
 import 'commands/command.dart';
 
-ArgResults _parseArguments(List<String> arguments) {
+Future<ArgResults> _parseArguments(
+    ArgParser parser, List<String> arguments) async {
   final commandNames = allCommands.map((e) => e.name);
-  final parser = ArgParser();
   commandNames.forEach(parser.addCommand);
 
   parser.addFlag('verbose',
       abbr: 'v', help: localizations.verboseLoggingHelp, negatable: false);
+  parser.addFlag('version');
   parser.addFlag('help',
       abbr: 'h', help: localizations.helpFlagHelp, negatable: false);
   parser.addOption('log-level',
@@ -27,9 +30,6 @@ ArgResults _parseArguments(List<String> arguments) {
 
   try {
     final args = parser.parse(arguments);
-    if (args['help']) {
-      _help(parser);
-    }
     return args;
   } on FormatException catch (e) {
     _help(parser, e: e);
@@ -42,6 +42,15 @@ Never _help(ArgParser parser, {FormatException? e}) {
   }
   print(parser.usage);
   exit(1);
+}
+
+Future<void> _initalFlags(ArgParser parser, ArgResults args) async {
+  if (args['help']) {
+    _help(parser);
+  }
+  if (args['version']) {
+    await _version();
+  }
 }
 
 void _initLogger(ArgResults args) {
@@ -78,10 +87,25 @@ Future<void> _initI18n() async {
 
 void main(List<String> arguments) async {
   await _initI18n();
-  final args = _parseArguments(arguments);
+  final parser = ArgParser();
+  final args = await _parseArguments(parser, arguments);
   _initLogger(args);
+  await _initalFlags(parser, args);
 
   final command = _pickCommand(args);
 
   await command.execute();
+}
+
+Future<void> _version() async {
+  final scriptLocation = Platform.resolvedExecutable.replaceAll('\\', '/');
+  final mcServInstall =
+      scriptLocation.substring(0, scriptLocation.lastIndexOf('/')).split('/');
+  final versionFile = fs.file(path.joinAll([...mcServInstall, 'version.txt']));
+  Logger('Main').fine('Reading version from ${versionFile.absolute.path}');
+  final versionText = await versionFile.readAsString();
+
+  print('McServ $versionText');
+
+  exit(0);
 }

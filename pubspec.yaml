@@ -1,5 +1,8 @@
 name: mcserv
 description: CLI util to generate and download mc server files.
+## !!!!!!!!!
+## DO NOT CHANGE THIS VERSION!
+## Change the version in the build.gradle.kts instead
 version: 1.0.0
 homepage: https://mcserv.how
 

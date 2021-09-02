@@ -1,4 +1,7 @@
 import org.jetbrains.changelog.date
+import java.nio.file.Files
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 plugins {
     base
@@ -25,13 +28,17 @@ tasks {
 
     val dartGenerate = register<Exec>("dartGenerate") {
         dart("pub", "run", "build_runner", "build", "--delete-conflicting-outputs")
+
+        inputs.dir(project.file("bin"))
+        inputs.dir(project.file("lib"))
+        outputs.dirs(inputs.files)
     }
 
     register<Exec>("dartBuildArb") {
         dart("pub", "run", "intl_translation:extract_to_arb", "--output-dir=i18n", "lib/intl/localizations.dart")
 
         inputs.file("lib/intl/localizations.dart")
-        outputs.file("i18n/message_all.arb")
+        outputs.dirs("i18n")
     }
 
     register<Exec>("dartReadArb") {
@@ -45,8 +52,32 @@ tasks {
             "i18n/intl_*.arb"
         )
 
-        inputs.files("i18n")
+        inputs.dir("i18n")
         outputs.files("lib/localizations/*.dart")
+    }
+
+    fun gitCommitHash(): String {
+        val process = Runtime.getRuntime().exec("git rev-parse --short HEAD")
+        return BufferedReader(InputStreamReader(process.inputStream)).use {
+            it.readLines().first()
+        }
+    }
+
+    val versionFile = task("versionFile") {
+        val outFile = project.buildDir.resolve("reports").resolve("version.txt").toPath()
+        val parent = outFile.parent
+        if(!Files.isDirectory(parent)) {
+            Files.createDirectories(parent)
+        }
+
+        val version = project.version
+        val buildId = System.getenv("GITHUB_RUN_ID") ?: "<local build>"
+        val commitHash = System.getenv("GITHUB_SHA") ?: gitCommitHash()
+
+        val string = "$version (Build: $buildId) (Commit: $commitHash)"
+
+        Files.writeString(outFile, string)
+        outputs.file(outFile.toFile())
     }
 
     val dartBuild = register<Exec>("dartBuild") {
@@ -63,7 +94,7 @@ tasks {
             "-o",
             destinationFile.absolutePath
         )
-        dependsOn(dartGenerate)
+        dependsOn(dartGenerate, versionFile)
         outputs.file(destinationFile)
         inputs.files(project.file("lib"), project.file("i18n"), project.file("bin"))
     }
@@ -71,6 +102,7 @@ tasks {
     val wixCompile = task<Exec>("wixCompile") {
         dependsOn(dartBuild)
         val outDir = rootProject.buildDir.resolve("wix")
+        inputs.dir(project.rootDir.resolve("packages").resolve("windows").resolve("msi"))
         outputs.dir(outDir)
         wix(
             "candle",
@@ -118,7 +150,8 @@ tasks {
                 dartBuild,
                 project.file("libmcserv/build/lib/main/$lowerCaseProfile/liblibmcserv.so"),
                 project.file("LICENSE"),
-                project.file("README.md")
+                project.file("README.md"),
+                versionFile
             )
             into(packageDir)
             dependsOn(assemble, nativeBuild)
