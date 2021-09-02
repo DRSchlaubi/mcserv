@@ -1,5 +1,10 @@
+name: "Ci"
 on:
   push:
+    branches:
+      - main
+      - feature/ci
+  pull_request:
 
 jobs:
   validation:
@@ -21,10 +26,44 @@ jobs:
         run: dart pub get
       - name: Analyze Dart
         uses: zgosalvez/github-actions-analyze-dart@v1
+  build_metadata:
+    name: "Compile release metadata"
+    runs-on: ubuntu-20.04
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: test
+    outputs:
+      name: ${{ steps.properties.outputs.name }}
+      version: ${{ steps.properties.outputs.version }}
+      changelog: ${{ steps.properties.outputs.changelog }}
+      artifact: ${{ steps.properties.outputs.artifact }}
+    steps:
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: 11
+      - name: Fetch Sources
+        uses: actions/checkout@v2.3.4
+      - name: Export Properties
+        id: properties
+        shell: bash
+        run: |
+          PROPERTIES="$(./gradlew properties --console=plain -q)"
+          VERSION="$(echo "$PROPERTIES" | grep "^version:" | cut -f2- -d ' ')"
+          NAME="$(echo "$PROPERTIES" | grep "^name:" | cut -f2- -d ' ')"
+          CHANGELOG="$(./gradlew getChangelog --unreleased --no-header --console=plain -q)"
+          CHANGELOG="${CHANGELOG//'%'/'%25'}"
+          CHANGELOG="${CHANGELOG//$'\n'/'%0A'}"
+          CHANGELOG="${CHANGELOG//$'\r'/'%0D'}"
+          ARTIFACT="${NAME}-${VERSION}.zip"
+          echo "::set-output name=version::$VERSION"
+          echo "::set-output name=name::$NAME"
+          echo "::set-output name=changelog::$CHANGELOG"
+          echo "::set-output name=artifact::$ARTIFACT"
   build_windows:
     name: "Build Windows installers"
     runs-on: windows-2019
-    needs: test
+    needs: build_metadata
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -46,24 +85,124 @@ jobs:
         with:
           arguments: dartPubGet assembleMsi
       - name: Setup MSbuild
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Create Code Signing Certificate
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           New-Item -ItemType directory -Path certificate
           Set-Content -Path certificate\certificate.txt -Value '${{ secrets.WINDOWS_CERTIFICATE }}'
           certutil -decode certificate\certificate.txt certificate\certificate.pfx
       - name: Code Sign 2021
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           & 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe' sign /f certificate\certificate.pfx /p '${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}' /t http://timestamp.sectigo.com/ /d McServ build/distributions/mcserv.msi
-      - name: Generate Checksum
-        run: (Get-FileHash ./build/distributions/mcserv.msi).Hash > mcserv.msi.sha256
       - name: Upload artifact
         uses: actions/upload-artifact@v2.2.3
         with:
-          name: mcserv.msi
+          name: windows_msi
           path: ./build/distributions/mcserv.msi
+  build_linux:
+    name: "Build Linux packages"
+    runs-on: ubuntu-20.04
+    needs: build_metadata
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
+      - uses: gradle/gradle-build-action@v1
+        name: Build Distribution
+        env:
+          DART_SDK: ${{ runner.tool_cache }}/dart-sdk/
+        with:
+          arguments: dartPubGet assemble createReleasePackage
       - name: Upload artifact
         uses: actions/upload-artifact@v2.2.3
         with:
-          name: mcserv.msi.sha256
-          path: mcserv.msi.sha256
+          name: linux_distribution
+          path: ./build/packages/release/mcserv-${{ needs.build_metadata.outputs.version }}.*
+  build_macos:
+    name: "Build macOS packages"
+    runs-on: macos-11
+    needs: build_metadata
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: 11
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
+      - uses: gradle/gradle-build-action@v1
+        name: Build Distribution
+        env:
+          DART_SDK: ${{ runner.tool_cache }}/dart-sdk/
+        with:
+          arguments: dartPubGet assemble createReleasePackage
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          name: macos_distribution
+          path: ./build/packages/release/mcserv-${{ needs.build_metadata.outputs.version }}.*
+  releaseDraft:
+    name: Release Draft
+    needs: [ build_metadata, build_linux, build_windows, build_macos ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v2.3.4
+      - name: Remove Old Release Drafts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
+            | tr '\r\n' ' ' \
+            | jq '.[] | select(.draft == true) | .id' \
+            | xargs -I '{}' \
+          curl -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/$GITHUB_REPOSITORY/releases/{}
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: linux_distribution
+          path: linux
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: windows_msi
+          path: msi
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: macos_distribution
+          path: macos
+      - name: Generate SHA-256 Checksums
+        env:
+          VERSION: ${{ needs.build_metadata.outputs.version }}
+        run: |
+          sha256sum linux/mcserv-$VERSION.zip > linux/mcserv-$VERSION.zip.sha256 &&
+            sha256sum linux/mcserv-$VERSION.tar.gz > linux/mcserv-$VERSION.tar.gz.sha256 &&
+          sha256sum macos/mcserv-$VERSION.zip > macos/mcserv-$VERSION.zip.sha256 &&
+            sha256sum macos/mcserv-$VERSION.tar.gz > macos/mcserv-$VERSION.tar.gz.sha256 &&
+          sha256sum msi/mcserv.msi > msi/mcserv.msi.sha256
+      - name: Prepare Release Files
+        env:
+          VERSION: ${{ needs.build_metadata.outputs.version }}
+        run: |
+          mkdir release_files &&
+          mv linux/mcserv-$VERSION.zip release_files/$VERSION-linux.zip &&
+          mv linux/mcserv-$VERSION.zip.sha256 release_files/$VERSION-linux.zip.sha256 &&
+          mv macos/mcserv-$VERSION.zip release_files/$VERSION-macos.zip &&
+          mv macos/mcserv-$VERSION.zip.sha256 release_files/$VERSION-macos.zip.sha256 &&
+          mv msi/mcserv.msi release_files/$VERSION.msi &&
+          mv msi/mcserv.msi.sha256 msi/$VERSION.msi.sha256
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ needs.build.outputs.changelog }}
+          draft: true
+          tag_name: v${{ needs.build.outputs.version }}
+          release_name: v${{ needs.build.outputs.version }}
+          files: release_files/*

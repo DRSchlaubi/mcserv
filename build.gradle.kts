@@ -1,13 +1,21 @@
+import org.jetbrains.changelog.date
+
 plugins {
     base
     id("local-properties")
+    id("org.jetbrains.changelog") version "1.2.1"
 }
 
 version = "1.0.0"
 
-fun Exec.dart(binary: String, vararg args: String) {
-    group = "dart"
-    commandLine = listOf(path(localProperties.dartSdk, "bin", binary), *args)
+changelog {
+    version.set(project.version.toString())
+    path.set("${project.projectDir}/CHANGELOG.md")
+    header.set(provider { "[${version.get()}] - ${date()}" })
+    itemPrefix.set("-")
+    keepUnreleasedSection.set(true)
+    unreleasedTerm.set("[Unreleased]")
+    groups.set(listOf("Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"))
 }
 
 tasks {
@@ -126,7 +134,12 @@ tasks {
             }
         }
         val zipPackage = register<Zip>("zip${profile}Package", archiveBuilder)
-        val tarPackage = register<Tar>("tar${profile}Package", archiveBuilder)
+        val tarPackage = register<Tar>("tar${profile}Package") {
+            compression = Compression.GZIP
+            archiveExtension.set("tar.gz")
+            archiveBuilder()
+        }
+
         register("create${profile}Package") {
             group = "packaging"
             dependsOn(zipPackage, tarPackage)

@@ -1,3 +1,5 @@
-## 1.0.0
+# McServ
 
+## [Unreleased]
+### Added
 - Initial version.
