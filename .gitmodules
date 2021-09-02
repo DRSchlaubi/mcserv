@@ -1,3 +1,6 @@
 [submodule "packages/arch/mcserv-git"]
 	path = packages/arch/mcserv-git
 	url = ssh://aur.archlinux.org/mcserv-git
+[submodule "packages/arch/mcserv"]
+	path = packages/arch/mcserv
+	url = aur@aur.archlinux.org:mcserv
