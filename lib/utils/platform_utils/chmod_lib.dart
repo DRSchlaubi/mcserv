@@ -50,16 +50,16 @@ DynamicLibrary? _load() {
 
   String programDirectory;
   // Check if we are in a development environment
-  if (!Platform.resolvedExecutable.endsWith('dart') &&
-      !Platform.resolvedExecutable.endsWith('dart.exe')) {
-    programDirectory = path.dirname(Platform.resolvedExecutable);
+  if (!Platform.resolvedExecutable.endsWith('dart')) {
+    final scriptLocation = Platform.resolvedExecutable.replaceAll('\\', '/');
+    programDirectory =
+      scriptLocation.substring(0, scriptLocation.lastIndexOf('/'));
   } else {
     programDirectory = path.join(
         Directory.current.path, 'libmcserv', 'build', 'lib', 'main', 'debug');
   }
-
   // Open the dynamic library
-  var libraryPath = path.join(programDirectory, '/usr/lib/liblibmcserv.so');
+  var libraryPath = path.join(programDirectory, 'liblibmcserv.so');
 
   if (Platform.isMacOS) {
     libraryPath = path.join(programDirectory, 'liblibmcserv.dylib');

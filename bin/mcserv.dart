@@ -100,8 +100,8 @@ void main(List<String> arguments) async {
 Future<void> _version() async {
   final scriptLocation = Platform.resolvedExecutable.replaceAll('\\', '/');
   final mcServInstall =
-      scriptLocation.substring(0, scriptLocation.lastIndexOf('/')).split('/');
-  final versionFile = fs.file(path.joinAll([...mcServInstall, 'version.txt']));
+      scriptLocation.substring(0, scriptLocation.lastIndexOf('/'));
+  final versionFile = fs.file(path.join(mcServInstall, 'version.txt'));
   Logger('Main').fine('Reading version from ${versionFile.absolute.path}');
   final versionText = await versionFile.readAsString();
 
