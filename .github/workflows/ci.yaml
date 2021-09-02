@@ -45,8 +45,25 @@ jobs:
           DART_SDK: C:\tools\dart-sdk
         with:
           arguments: dartPubGet assembleMsi
+      - name: Setup MSbuild
+        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Create Code Signing Certificate
+        run: |
+          New-Item -ItemType directory -Path certificate
+          Set-Content -Path certificate\certificate.txt -Value '${{ secrets.WINDOWS_CERTIFICATE }}'
+          certutil -decode certificate\certificate.txt certificate\certificate.pfx
+      - name: Code Sign 2021
+        run: |
+          & 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe' sign /f certificate\certificate.pfx /p '${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}' /t http://timestamp.sectigo.com/ /d McServ build/distributions/mcserv.msi
+      - name: Generate Checksum
+        run: (Get-FileHash ./build/distributions/mcserv.msi).Hash > mcserv.msi.sha256
       - name: Upload artifact
         uses: actions/upload-artifact@v2.2.3
         with:
-          name: plugin-artifact
+          name: mcserv.msi
           path: ./build/distributions/mcserv.msi
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          name: mcserv.msi.sha256
+          path: mcserv.msi.sha256
