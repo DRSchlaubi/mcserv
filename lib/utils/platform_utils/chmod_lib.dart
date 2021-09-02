@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
+import 'package:mcserv/utils/utils.dart';
 import 'package:path/path.dart' as path;
 
 final _log = Logger('NativeCaller');
@@ -50,16 +51,14 @@ DynamicLibrary? _load() {
 
   String programDirectory;
   // Check if we are in a development environment
-  if (!Platform.resolvedExecutable.endsWith('dart') &&
-      !Platform.resolvedExecutable.endsWith('dart.exe')) {
-    programDirectory = path.dirname(Platform.resolvedExecutable);
+  if (!isDevelopmentEnvironment()) {
+    programDirectory = path.joinAll(getInstallationDirectory());
   } else {
     programDirectory = path.join(
         Directory.current.path, 'libmcserv', 'build', 'lib', 'main', 'debug');
   }
-
   // Open the dynamic library
-  var libraryPath = path.join(programDirectory, '/usr/lib/liblibmcserv.so');
+  var libraryPath = path.join(programDirectory, 'liblibmcserv.so');
 
   if (Platform.isMacOS) {
     libraryPath = path.join(programDirectory, 'liblibmcserv.dylib');

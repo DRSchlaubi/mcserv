@@ -70,13 +70,15 @@ tasks {
             Files.createDirectories(parent)
         }
 
-        val version = project.version
-        val buildId = System.getenv("GITHUB_RUN_ID") ?: "<local build>"
-        val commitHash = System.getenv("GITHUB_SHA") ?: gitCommitHash()
+        doLast {
+            val version = project.version
+            val buildId = System.getenv("GITHUB_RUN_ID") ?: "<local build>"
+            val commitHash = System.getenv("GITHUB_SHA") ?: gitCommitHash()
 
-        val string = "$version (Build: $buildId) (Commit: $commitHash)"
+            val string = "$version (Build: $buildId) (Commit: $commitHash)"
 
-        Files.writeString(outFile, string)
+            Files.writeString(outFile, string)
+        }
         outputs.file(outFile.toFile())
     }
 
