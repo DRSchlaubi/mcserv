@@ -79,7 +79,7 @@ abstract class JreFinder {
   @protected
   Future<JreVersion?> detectVersion(String binary) async {
     log.fine('Inspecting possible java binary: $binary');
-    if (!await fs.file(binary).exists()) {
+    if (!await findFile(binary).exists()) {
       log.finer("Binary '$binary' doesn't exist");
 
       return null;

@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:args/command_runner.dart';
 import 'package:interact/interact.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:intl/locale.dart';
 import 'package:logging/logging.dart';
-import 'package:mcserv/commands/command.dart';
 import 'package:mcserv/intl/localizations.dart';
 import 'package:mcserv/utils/fs_util.dart';
 import 'package:mcserv/utils/localizations_util.dart';
@@ -16,8 +16,10 @@ import 'commands/command.dart';
 
 Future<ArgResults> _parseArguments(
     ArgParser parser, List<String> arguments) async {
-  final commandNames = allCommands.map((e) => e.name);
-  commandNames.forEach(parser.addCommand);
+  for(var command in allCommands) {
+    parser.addCommand(command.name, command.argParser);
+  }
+  parser.addCommand('help');
 
   parser.addFlag('verbose',
       abbr: 'v', help: localizations.verboseLoggingHelp, negatable: false);
@@ -46,9 +48,6 @@ Never _help(ArgParser parser, {FormatException? e}) {
 }
 
 Future<void> _initalFlags(ArgParser parser, ArgResults args) async {
-  if (args['help']) {
-    _help(parser);
-  }
   if (args['version']) {
     await _version();
   }
@@ -64,10 +63,11 @@ void _initLogger(ArgResults args) {
       print('${record.level.name}: ${record.time}: ${record.message}'));
 }
 
-Command _pickCommand(ArgResults arguments) {
-  final name = arguments.command?.name;
-  if (name != null) {
-    return allCommands.firstWhere((element) => element.name == name);
+ArgResults _pickCommand(
+    Iterable<String> args, ArgParser parser, ArgResults arguments) {
+  final command = arguments.command;
+  if (command != null) {
+    return arguments;
   }
 
   final select = Select(
@@ -75,15 +75,21 @@ Command _pickCommand(ArgResults arguments) {
           options: allCommands.map((e) => e.prompt).toList())
       .interact();
 
-  return allCommands[select];
+  return parser.parse([...args, allCommands[select].name]);
 }
 
 Future<void> _initI18n() async {
   final systemLocale = await findSystemLocale();
 
-  var name =
+  final name =
       systemLocale.length >= 4 ? systemLocale.substring(0, 5) : systemLocale;
-  localizations = await Localizations.load(Locale.parse(name));
+  var locale = Locale.parse("en_US");
+  try {
+    locale = Locale.parse(name);
+  } on FormatException catch(e) {
+    Logger('LocaleLoader').warning('Could not load locale', e);
+  }
+  localizations = await Localizations.load(locale);
 }
 
 void main(List<String> arguments) async {
@@ -93,14 +99,17 @@ void main(List<String> arguments) async {
   _initLogger(args);
   await _initalFlags(parser, args);
 
-  final command = _pickCommand(args);
+  final runner = CommandRunner('mcserv', 'mcservdesc');
+  allCommands.forEach(runner.addCommand);
 
-  await command.execute();
+  final commandArgs = _pickCommand(arguments, parser, args);
+
+  await runner.runCommand(commandArgs);
 }
 
 Future<void> _version() async {
   final mcServInstall = getInstallationDirectory();
-  final versionFile = fs.file(path.joinAll([...mcServInstall, 'version.txt']));
+  final versionFile = findFile(path.joinAll([...mcServInstall, 'version.txt']));
   Logger('Main').fine('Reading version from ${versionFile.absolute.path}');
   final versionText = await versionFile.readAsString();
 

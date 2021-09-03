@@ -8,9 +8,17 @@ import 'jre_installation.dart';
 
 const String _installPrompt = 'Install a new JRE';
 
-Future<JreInstallation> choseJRE({int? from, int? to}) async {
+Future<JreInstallation> chooseJRE(
+    {int? from,
+    int? to,
+    String? preselectedPath,
+    int? preselectedInstallVersion}) async {
   final finder = JreFinder.forPlatform();
   final jres = (await finder.findInstalledJres()).filterJdks(from, to).toList();
+
+  if (preselectedPath != null) {
+    return jres.firstWhere((element) => element.path == preselectedPath);
+  }
 
   final options = [
     ...jres.map((element) {
@@ -27,27 +35,33 @@ Future<JreInstallation> choseJRE({int? from, int? to}) async {
           .interact();
 
   if (jreIndex == jres.length) {
-    return _installJre(from, to);
+    return _installJre(from, to, preselectedInstallVersion);
   }
 
   return jres[jreIndex];
 }
 
-Future<JreInstallation> _installJre(int? from, int? to) async {
+Future<JreInstallation> _installJre(int? from, int? to, int? predefined) async {
   final installer = AdoptiumJDKInstaller.forPlatform();
   final versions =
       (await installer.retrieveVersions()).filterJdks(from, to).toList();
 
-  final askVersion = Select(
-      prompt: localizations.pickLanguageVersion,
-      options: versions.map((e) => recommend(e.toString(), e == to)).toList());
-  final versionIndex = askVersion.interact();
+  final int version;
+  if (predefined != null) {
+    version = predefined;
+  } else {
+    final askVersion = Select(
+        prompt: localizations.pickLanguageVersion,
+        options:
+            versions.map((e) => recommend(e.toString(), e == to)).toList());
+    final versionIndex = askVersion.interact();
 
-  final version = versions[versionIndex];
+    version = versions[versionIndex];
+  }
 
   await installer.installVersion(version, installer.supportedVariants.first);
 
-  return choseJRE(from: from, to: to);
+  return chooseJRE(from: from, to: to);
 }
 
 extension FilterInstallations on Iterable<JreInstallation> {

@@ -39,7 +39,7 @@ abstract class Distribution {
 
   Future<List<String>> retrieveVersionGroups();
 
-  Future<int> downloadTo(String version, File destination);
+  Future<int> downloadTo(String version, File destination, bool ignoreChecksum);
 }
 
 class VersionGroup {

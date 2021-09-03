@@ -59,7 +59,8 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
 
   @protected
   Future<void> installJre(
-      Download download, AdoptiumFeatureRelease release, File jre) async {
+      Download download, AdoptiumFeatureRelease release, File jre,
+      {bool ignoreChecksum = false}) async {
     var destination = await getJDKFolder();
     var jdkFolder = destination.childDirectory(release.releaseName);
     if (await jdkFolder.exists()) {
@@ -70,7 +71,7 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
       }
     }
 
-    await download.download(jre);
+    await download.download(jre, ignoreChecksum);
 
     _log.fine('Unpacking ${jre.path} to ${destination.path}');
 

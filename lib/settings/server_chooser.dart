@@ -5,13 +5,17 @@ import 'package:mcserv/distributions/distribution.dart';
 import 'settings.dart';
 import 'settings_loader.dart';
 
-Future<Installation?> chooseServer() async {
+Future<Installation?> chooseServer({String? existingPath}) async {
   var settings = await loadSettings();
   var servers = settings.installations;
 
   if (servers.isEmpty) {
     print(localizations.noServersYet);
     return null;
+  }
+
+  if (existingPath != null) {
+    return servers.firstWhere((element) => element.location == existingPath);
   }
 
   var ask = Select(

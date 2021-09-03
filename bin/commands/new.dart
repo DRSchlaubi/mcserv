@@ -1,10 +1,10 @@
+import 'package:args/args.dart';
 import 'package:file/file.dart';
 import 'package:interact/interact.dart';
 import 'package:logging/logging.dart';
 import 'package:mcserv/commands/command.dart';
 import 'package:mcserv/distributions/distribution.dart';
 import 'package:mcserv/distributions/metadata/distribution_api.dart';
-import 'package:mcserv/jdk/chooser.dart';
 import 'package:mcserv/mc_installer/mc_installer_helper.dart';
 import 'package:mcserv/script/script_generator.dart';
 import 'package:mcserv/settings/settings.dart';
@@ -13,12 +13,21 @@ import 'package:mcserv/utils/constants.dart';
 import 'package:mcserv/utils/recommendation_util.dart';
 import 'package:mcserv/utils/utils.dart';
 
+import 'abstract/jvm_option_mixin.dart';
+import 'abstract/version_option_mixin.dart';
+import 'abstract/yes_flag_mixin.dart';
+
 const String _mcEula = 'https://account.mojang.com/documents/minecraft_eula';
+const String _acceptEula = 'accept-eula';
+const String _distribution = 'distribution';
 
 var _log = Logger('NewCommand');
 
-class NewCommand extends Command {
+class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
   final _metadata = DistributionMetaDataApi(makeDio(_log));
+
+  @override
+  String get description => 'Creates a new server installation';
 
   @override
   String get prompt => localizations.newCommand;
@@ -27,11 +36,18 @@ class NewCommand extends Command {
   String get name => 'new';
 
   @override
+  ArgParser get argParser =>
+      withJvmOption(withVersionFlag(withYesFlag(ArgParser())))
+        ..addFlag(_acceptEula)
+        ..addOption(_distribution);
+
+  @override
   Future<void> execute() async {
     final directory = await _askDirectory();
     final distribution = _askDistribution();
     final acceptEula = distribution.requiresEula
-        ? confirm(localizations.acceptEula(_mcEula), defaultValue: true)
+        ? confirm(localizations.acceptEula(_mcEula),
+            defaultValue: true, predefined: argResults[_acceptEula])
         : false;
 
     final version = await distribution.askForVersion();
@@ -42,13 +58,14 @@ class NewCommand extends Command {
     final versionMeta =
         meta?.versions.firstWhere((element) => element.version == version);
     final useRecommendedFlags = versionMeta?.recommendedFlagKey != null
-        ? confirm(localizations.useAikarFlags, defaultValue: true)
+        ? globalConfirm(localizations.useAikarFlags, defaultValue: true)
         : false;
 
-    final jre = await choseJRE(
+    final jre = await askForJre(
         from: versionMeta?.javaOptions.min, to: versionMeta?.javaOptions.max);
 
-    final build = await distribution.installServer(version, directory);
+    final build = await distribution.installServer(version, directory,
+        ignoreChecksum: hasYesFlag);
     final scriptGen = ScriptGenerator.forPlatform();
 
     await scriptGen.writeStartScript(directory, jarName, jre.path, [
@@ -74,9 +91,9 @@ class NewCommand extends Command {
     final ask = Input(prompt: localizations.destinationDirectory);
 
     final path = ask.interact();
-    final directory = fs.directory(path);
+    final directory = findDirectory(path);
     if (!await directory.exists()) {
-      if (!confirm(localizations.overwriteDestinationDirectory)) {
+      if (!globalConfirm(localizations.overwriteDestinationDirectory)) {
         return _askDirectory();
       }
 
@@ -84,7 +101,7 @@ class NewCommand extends Command {
     }
 
     if (!(await directory.list().isEmpty)) {
-      if (!confirm(localizations.createDestinationDirectory)) {
+      if (!globalConfirm(localizations.createDestinationDirectory)) {
         return _askDirectory();
       }
     }
@@ -93,6 +110,9 @@ class NewCommand extends Command {
   }
 
   Distribution _askDistribution() {
+    if (argResults[_distribution] != null) {
+      return Distribution.forName(argResults[_distribution]);
+    }
     final ask = Select(
         prompt: localizations.chooseServerDistro,
         options: Distribution.all

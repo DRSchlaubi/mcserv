@@ -22,7 +22,7 @@ class Download {
   Download(this.uri,
       {this.checksum, this.hashingAlgorithm = HashingAlgorithm.sha256});
 
-  Future<void> download(File destination) async {
+  Future<void> download(File destination, bool ignoreChecksum) async {
     _log.fine('Starting download to $uri');
 
     final client = Client();

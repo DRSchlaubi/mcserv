@@ -12,9 +12,8 @@ class UnixJreFinder extends JreFinder {
 
   @override
   Future<List<String>> produceAdditionalDirs() async {
-    final userHome = Platform.environment['HOME']!;
-    final sdkManJava = fs.directory('$userHome/.sdkman/candidates/java/');
-    final lib = fs.directory('/usr/lib/jvm');
+    final sdkManJava = findDirectory('~/.sdkman/candidates/java/');
+    final lib = findDirectory('/usr/lib/jvm');
 
     final sdkManJres = await scanDir(sdkManJava);
     final linuxJres = await scanDir(lib);
