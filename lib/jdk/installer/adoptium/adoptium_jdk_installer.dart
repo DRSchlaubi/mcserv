@@ -7,6 +7,7 @@ import 'package:mcserv/jdk/installer/adoptium/windows_adoptium_jdk_installer.dar
 import 'package:mcserv/jdk/installer/jdk_installer.dart';
 import 'package:mcserv/utils/localizations_util.dart';
 import 'package:mcserv/utils/platform_utils/platform_utils.dart';
+import 'package:mcserv/utils/status_util.dart';
 import 'package:mcserv/utils/utils.dart';
 import 'package:meta/meta.dart';
 
@@ -33,7 +34,6 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
 
   @override
   Future<void> installVersion(int version, String variant) async {
-    print(version <= 8 ? 'jre' : 'jdk');
     final release = (await _adoptium.retrieveRelease(
             version, Platform.operatingSystem, variant, architecture,
             imageType: version <= 8 ? 'jre' : 'jdk'))
@@ -75,11 +75,13 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
 
     _log.fine('Unpacking ${jre.path} to ${destination.path}');
 
-    await unarchive(destination, jre);
+    await doInProgress((status) async {
+      await unarchive(destination, jre);
 
-    await processUnpackedJDK(jdkFolder);
-
-    await jre.delete();
+      status.prompt = 'Cleaning up';
+      await processUnpackedJDK(jdkFolder);
+      await jre.delete();
+    }, initialPrompt: 'Installing JRE', donePrompt: 'JRE Installation complete');
   }
 
   @override
