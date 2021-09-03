@@ -6,6 +6,7 @@ import 'package:interact/interact.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:intl/locale.dart';
 import 'package:logging/logging.dart';
+import 'package:mcserv/distributions/download.dart';
 import 'package:mcserv/intl/localizations.dart';
 import 'package:mcserv/utils/fs_util.dart';
 import 'package:mcserv/utils/localizations_util.dart';
@@ -105,6 +106,9 @@ void main(List<String> arguments) async {
   final commandArgs = _pickCommand(arguments, parser, args);
 
   await runner.runCommand(commandArgs);
+
+  Download.client.close();
+  closeDio();
 }
 
 Future<void> _version() async {
