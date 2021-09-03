@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:file/file.dart';
+import 'package:filesize/filesize.dart';
 import 'package:http/http.dart';
 import 'package:interact/interact.dart';
 import 'package:logging/logging.dart';
@@ -31,7 +32,8 @@ class Download {
     final contentLength = request.contentLength!;
     final progress = Progress(
         length: contentLength,
-        rightPrompt: (progress) => '$progress/$contentLength').interact();
+        rightPrompt: (progress) => '${filesize(progress)}/${filesize(
+            contentLength)}').interact();
 
     final chunks = await request.stream.map((s) {
       progress.increase(s.length);
@@ -47,7 +49,8 @@ class Download {
 
     if (request.statusCode > 299) {
       throw Exception(
-          'Received invalid status code: ${request.statusCode} Body: ${utf8.decode(bytes)}');
+          'Received invalid status code: ${request.statusCode} Body: ${utf8
+              .decode(bytes)}');
     }
 
     await doInProgress((status) async {
