@@ -8,10 +8,10 @@ const jvmInstallOption = 'jvm';
 const jvmVersionOption = 'jvm-version';
 
 mixin JvmOption on Command {
-  String get preselectedInstallation =>
-      sanitizePath(argResults[jvmInstallOption]);
+  String? get preselectedInstallation =>
+      (argResults[jvmInstallOption] as String?)?.sanitizePath();
 
-  int get preselectedJvmVersion => argResults[jvmVersionOption];
+  int? get preselectedJvmVersion => argResults[jvmVersionOption];
 
   ArgParser withJvmOption(ArgParser argParser) =>
       argParser..addOption(jvmVersionOption)..addOption(jvmInstallOption);

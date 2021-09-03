@@ -17,7 +17,7 @@ import 'commands/command.dart';
 
 Future<ArgResults> _parseArguments(
     ArgParser parser, List<String> arguments) async {
-  for(var command in allCommands) {
+  for (var command in allCommands) {
     parser.addCommand(command.name, command.argParser);
   }
   parser.addCommand('help');
@@ -25,6 +25,7 @@ Future<ArgResults> _parseArguments(
   parser.addFlag('verbose',
       abbr: 'v', help: localizations.verboseLoggingHelp, negatable: false);
   parser.addFlag('version');
+  parser.addFlag('ascii', negatable: true, defaultsTo: Platform.isWindows);
   parser.addFlag('help',
       abbr: 'h', help: localizations.helpFlagHelp, negatable: false);
   parser.addOption('log-level',
@@ -51,6 +52,9 @@ Never _help(ArgParser parser, {FormatException? e}) {
 Future<void> _initalFlags(ArgParser parser, ArgResults args) async {
   if (args['version']) {
     await _version();
+  }
+  if (args['ascii']) {
+    Theme.defaultTheme = Theme.basicTheme;
   }
 }
 
@@ -87,7 +91,7 @@ Future<void> _initI18n() async {
   var locale = Locale.parse("en_US");
   try {
     locale = Locale.parse(name);
-  } on FormatException catch(e) {
+  } on FormatException catch (e) {
     Logger('LocaleLoader').warning('Could not load locale', e);
   }
   localizations = await Localizations.load(locale);

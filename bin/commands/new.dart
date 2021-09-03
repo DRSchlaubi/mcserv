@@ -20,6 +20,7 @@ import 'abstract/yes_flag_mixin.dart';
 const String _mcEula = 'https://account.mojang.com/documents/minecraft_eula';
 const String _acceptEula = 'accept-eula';
 const String _distribution = 'distribution';
+const String _destination = 'destination';
 
 var _log = Logger('NewCommand');
 
@@ -39,7 +40,8 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
   ArgParser get argParser =>
       withJvmOption(withVersionFlag(withYesFlag(ArgParser())))
         ..addFlag(_acceptEula)
-        ..addOption(_distribution);
+        ..addOption(_distribution, abbr: 'd')
+        ..addOption(_destination, abbr: 'D');
 
   @override
   Future<void> execute() async {
@@ -66,6 +68,10 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
 
     final build = await distribution.installServer(version, directory,
         ignoreChecksum: hasYesFlag);
+    final status = Spinner(
+        icon: Theme.defaultTheme.successPrefix,
+        rightPrompt: (done) =>
+            done ? 'Finalizing installation' : 'Installation done').interact();
     final scriptGen = ScriptGenerator.forPlatform();
 
     await scriptGen.writeStartScript(directory, jarName, jre.path, [
@@ -85,19 +91,28 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
         jre.version.languageVersion,
         jre.path,
         useRecommendedFlags));
+
+    status.done();
   }
 
   Future<Directory> _askDirectory() async {
-    final ask = Input(prompt: localizations.destinationDirectory);
+    final String path;
+    final predefined = argResults[_destination];
+    if (predefined != null) {
+      path = predefined;
+    } else {
+      final ask = Input(prompt: localizations.destinationDirectory);
 
-    final path = ask.interact();
+      path = ask.interact();
+    }
     final directory = findDirectory(path);
+
     if (!await directory.exists()) {
       if (!globalConfirm(localizations.overwriteDestinationDirectory)) {
         return _askDirectory();
       }
 
-      await directory.create();
+      await directory.create(recursive: true);
     }
 
     if (!(await directory.list().isEmpty)) {
