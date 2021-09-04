@@ -107,6 +107,7 @@ void main(List<String> arguments) async {
   final runner = CommandRunner('mcserv', 'mcservdesc');
   allCommands.forEach(runner.addCommand);
 
+  _catchSigint();
   final commandArgs = _pickCommand(arguments, parser, args);
 
   await runner.runCommand(commandArgs);
@@ -114,6 +115,17 @@ void main(List<String> arguments) async {
   Download.client.close();
   closeDio();
 }
+
+void _catchSigint() {
+  // Reset interact cursor to avoid cursor being invisible after SIGINT
+  _watchSignal(ProcessSignal.sigint);
+}
+
+void _watchSignal(ProcessSignal signal) =>
+    signal.watch().forEach((event) {
+      print('sigint');
+      reset();
+    });
 
 Future<void> _version() async {
   final mcServInstall = getInstallationDirectory();

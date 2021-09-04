@@ -249,12 +249,10 @@ packages:
   interact:
     dependency: "direct main"
     description:
-      path: "."
-      ref: patch-1
-      resolved-ref: a2ff782908b22685b2dff5b1cbeeaafff46793b5
-      url: "https://github.com/DRSchlaubi/interact"
-    source: git
-    version: "2.0.1"
+      name: interact
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   intl:
     dependency: "direct main"
     description:

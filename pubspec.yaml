@@ -12,10 +12,7 @@ environment:
 publish_to: none
 
 dependencies:
-  interact:
-    git:
-      ref: patch-1
-      url: https://github.com/DRSchlaubi/interact
+  interact: ^2.1.0
   meta: ^1.7.0
   file: ^6.1.2
   logging: ^1.0.1
