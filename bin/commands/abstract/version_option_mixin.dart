@@ -9,6 +9,6 @@ mixin VersionOption on Command {
   ArgParser withVersionFlag(ArgParser argParser) =>
       argParser..addOption(versionOption);
 
-  Future<String> askForVersion(Distribution distribution) =>
+  Future<String?> askForVersion(Distribution distribution) =>
       distribution.askForVersion(predefined: preselectedVersion);
 }

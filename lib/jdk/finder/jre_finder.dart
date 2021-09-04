@@ -9,8 +9,6 @@ import 'package:meta/meta.dart';
 import 'unix_jre_finder.dart';
 import 'windows_jre_finder.dart';
 
-//language=RegExp
-final _javaVersionRegex = RegExp('version "([0-9_.]*)"');
 
 abstract class JreFinder {
   factory JreFinder.forPlatform() {
@@ -96,27 +94,6 @@ abstract class JreFinder {
       return null;
     }
 
-    final match = _javaVersionRegex.firstMatch(output);
-    if (match == null) {
-      log.severe('Could not parse java version output: $output');
-      return null;
-    }
-    final version = match.group(1)!;
-    if (version.startsWith('1.')) {
-      // pre java 10 versioning
-      final languageVersion = int.parse(version[2]); // 1.<version>
-      final updateSeparator = version.indexOf('_');
-      final update = int.parse(version.substring(updateSeparator + 1));
-
-      return JreVersion(languageVersion, update);
-    } else {
-      // java 10+ versioning
-      final languageVersion =
-          int.parse(version.substring(0, 2)); // first 2 chars
-      final lastVersionSeparator = version.lastIndexOf('.');
-      final update = int.parse(version.substring(lastVersionSeparator + 1));
-
-      return JreVersion(languageVersion, update);
-    }
+    return JreVersion.tryParse(output);
   }
 }

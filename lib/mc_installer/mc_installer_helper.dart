@@ -1,7 +1,7 @@
 import 'package:file/file.dart';
 import 'package:interact/interact.dart';
 import 'package:mcserv/distributions/distribution.dart';
-import 'package:mcserv/utils/localizations_util.dart';
+import 'package:mcserv/utils/utils.dart';
 
 const versionOption = 'server-version';
 
@@ -25,12 +25,14 @@ extension McInstallerHelper on Distribution {
     return versionsGroups[versionGroupIndex];
   }
 
-  Future<String> askForVersion({String? predefined}) async {
+  Future<String?> askForVersion({String? predefined}) async {
     final versionGroup = await _askVersionGroup(predefined);
 
     final versions = (await retrieveVersions(versionGroup)).versions;
     if (predefined != null) {
-      return versions.firstWhere((element) => element == predefined);
+      return versions.find((element) => element, predefined,
+          errorMessage: () =>
+              'Version $predefined is not supported by distribution $name');
     }
     if (versions.length > 1) {
       final versionAsk = Select(

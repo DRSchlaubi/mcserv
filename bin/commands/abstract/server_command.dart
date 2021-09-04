@@ -19,8 +19,8 @@ abstract class ServerCommand extends Command {
   @mustCallSuper
   @override
   Future<void> execute() async {
-    final server =
-        await chooseServer(existingPath: (argResults['server'] as String?)?.sanitizePath());
+    final server = await chooseServer(
+        existingPath: (argResults['server'] as String?)?.sanitizePath());
     if (server == null) {
       return;
     }

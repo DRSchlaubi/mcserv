@@ -59,7 +59,12 @@ class UpdateCommand extends ServerCommand
         return;
       }
       reinstall = true;
-      version = await askForVersion(distribution);
+      final versionResponse = await askForVersion(distribution);
+      if (versionResponse != null) {
+        version = versionResponse;
+      } else {
+        return;
+      }
       newVersion =
           meta?.versions.firstWhere((element) => element.version == version);
     }
@@ -71,10 +76,14 @@ class UpdateCommand extends ServerCommand
       if ((newVersion?.javaOptions.min ?? -1) > server.javaVersion) {
         print(
             'This version requires a newer version of Java. Please select or install a sufficient version');
-        jre = (await askForJre(
+        final selectedJre = (await askForJre(
                 from: newVersion?.javaOptions.min,
                 to: newVersion?.javaOptions.max))
-            .path;
+            ?.path;
+        if (selectedJre == null) {
+          return;
+        }
+        jre = selectedJre;
       }
 
       final generator = ScriptGenerator.forPlatform();

@@ -40,7 +40,7 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
   ArgParser get argParser =>
       withJvmOption(withVersionFlag(withYesFlag(ArgParser())))
         ..addFlag(_acceptEula)
-        ..addOption(_distribution, abbr: 'd')
+        ..addOption(_distribution, abbr: 'd', allowed: Distribution.names)
         ..addOption(_destination, abbr: 'D');
 
   @override
@@ -52,7 +52,10 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
             defaultValue: true, predefined: argResults[_acceptEula])
         : false;
 
-    final version = await distribution.askForVersion();
+    final version = await askForVersion(distribution);
+    if (version == null) {
+      return;
+    }
 
     final meta = distribution.hasMetadata
         ? (await _metadata.getDistributionMetaData(distribution.name))
@@ -65,6 +68,9 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
 
     final jre = await askForJre(
         from: versionMeta?.javaOptions.min, to: versionMeta?.javaOptions.max);
+    if(jre == null) {
+      return;
+    }
 
     final build = await distribution.installServer(version, directory,
         ignoreChecksum: hasYesFlag);

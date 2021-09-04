@@ -1,3 +1,5 @@
+import 'package:mcserv/jdk/jre_installation.dart';
+
 abstract class JDKInstaller {
   static const String cacheFolder = 'jdk_download_cache';
 
@@ -5,5 +7,5 @@ abstract class JDKInstaller {
 
   Future<List<int>> retrieveVersions();
 
-  Future<void> installVersion(int version, String variant);
+  Future<JreInstallation> installVersion(int version, String variant, bool ignoreChecksum, bool overrideExistingJdk);
 }
