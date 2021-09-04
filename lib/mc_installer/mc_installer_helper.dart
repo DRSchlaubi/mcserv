@@ -32,7 +32,7 @@ extension McInstallerHelper on Distribution {
     if (predefined != null) {
       return versions.find((element) => element, predefined,
           errorMessage: () =>
-              'Version $predefined is not supported by distribution $name');
+              localizations.versionNotSupported(predefined, name));
     }
     if (versions.length > 1) {
       final versionAsk = Select(

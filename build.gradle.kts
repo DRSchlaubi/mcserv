@@ -48,7 +48,7 @@ tasks {
             "intl_translation:generate_from_arb",
             "--output-dir=bin/intl",
             "--no-use-deferred-loading",
-            "bin/intl/localizations.dart",
+            "lib/intl/localizations.dart",
             "i18n/intl_*.arb"
         )
 

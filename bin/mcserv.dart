@@ -122,7 +122,6 @@ void _catchSigint() {
   // Reset interact cursor to avoid cursor being invisible after SIGINT
   var sigints = 0;
   _sigIntListener = ProcessSignal.sigint.watch().listen((event) {
-    print('sigint $sigints');
     if (sigints++ >= 1) {
       exit(1);
     } else {

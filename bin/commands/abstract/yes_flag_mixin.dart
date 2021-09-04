@@ -1,6 +1,7 @@
 import 'package:args/args.dart';
 import 'package:mcserv/commands/command.dart';
 import 'package:mcserv/utils/confirm.dart' as confirm_lib;
+import 'package:mcserv/utils/localizations_util.dart';
 
 mixin YesFlag on Command {
   bool? get yesFlagValue => argResults[confirm_lib.yesFlag];
@@ -11,7 +12,7 @@ mixin YesFlag on Command {
     ..addFlag(confirm_lib.yesFlag,
         abbr: 'y',
         defaultsTo: null,
-        help: 'Answers all yes/no prompts with yes');
+        help: localizations.yesFlagDescription);
 
   bool globalConfirm(String prompt,
           {defaultValue = false, waitForNewLine = false}) =>

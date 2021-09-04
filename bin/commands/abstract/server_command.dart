@@ -3,6 +3,7 @@ import 'package:mcserv/commands/command.dart';
 import 'package:mcserv/settings/server_chooser.dart';
 import 'package:mcserv/settings/settings.dart';
 import 'package:mcserv/utils/fs_util.dart';
+import 'package:mcserv/utils/localizations_util.dart';
 import 'package:meta/meta.dart';
 
 abstract class ServerCommand extends Command {
@@ -13,7 +14,7 @@ abstract class ServerCommand extends Command {
   ArgParser makeArgParser() => ArgParser()
     ..addOption('server',
         abbr: 's',
-        help: 'The path to the server to delete',
+        help: localizations.serverOptionDescription,
         valueHelp: '~/servers/server1');
 
   @mustCallSuper

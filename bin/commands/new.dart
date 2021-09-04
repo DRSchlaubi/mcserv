@@ -38,7 +38,7 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
 
   @override
   ArgParser get argParser =>
-      withJvmOption(withVersionFlag(withYesFlag(ArgParser())))
+      withJvmOption(withVersionFlag(withYesFlag(ArgParser()), localizations.versionFlagDescriptionNew))
         ..addFlag(_acceptEula)
         ..addOption(_distribution, abbr: 'd', allowed: Distribution.names)
         ..addOption(_destination, abbr: 'D');

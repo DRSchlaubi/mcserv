@@ -17,7 +17,7 @@ Future<Installation?> chooseServer({String? existingPath}) async {
 
   if (existingPath != null) {
     return servers.find((e) => e.location, 'value',
-        errorMessage: () => 'There is no server at $existingPath');
+        errorMessage: () => localizations.noServer(existingPath));
   }
 
   var ask = Select(

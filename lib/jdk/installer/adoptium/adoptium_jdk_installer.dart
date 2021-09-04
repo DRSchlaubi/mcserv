@@ -81,7 +81,7 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
       }
     }
 
-    print('Downloading Java');
+    print(localizations.downloadingJava);
     await download.download(jre, ignoreChecksum);
 
     _log.fine('Unpacking ${jre.path} to ${destination.path}');
