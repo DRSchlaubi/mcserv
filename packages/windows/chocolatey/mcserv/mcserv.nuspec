@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>mcserv</id>
+    <version>0.0.1.20210904</version>
+ <packageSourceUrl>https://github.com/DRSchlaubi/mcserv</packageSourceUrl>
+    <owners>DRSchlaubi</owners>
+    <title>mcserv (Install)</title>
+    <authors>DRSchlaubi, NyCodeGHG, NiggelGame</authors>
+    <projectUrl>https://mcserv.how</projectUrl>
+    <iconUrl>http://rawcdn.githack.com/__REPLACE_YOUR_REPO__/master/icons/mcserv.png</iconUrl>
+    <copyright>2021 Michael Rittmeister</copyright>
+    <licenseUrl>https://github.com/DRSchlaubi/mcserv/blob/main/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectSourceUrl>https://github.com/DRSchlaubi/mcserv</projectSourceUrl>
+    <docsUrl>https://docs.mcserv.how</docsUrl>
+    <bugTrackerUrl>https://github.com/DRSchlaubi/mcserv/issues</bugTrackerUrl>
+    <tags>mcserv bukkit minecraft minecraft-server paper spigot</tags>
+    <summary>CLI utility to manage MC Server installations</summary>
+    <description><![CDATA[
+# Usage
+```
+PS C:\Users\micha\IdeaProjects\mcserv>mcserv -h
+-v, --verbose         Enables verbose logging
+--[no-]version
+-h, --help            Gibt diese Hilfsnachricht aus
+--log-level       Setzt das Level des Loggers
+[ALL, FINEST, FINER, FINE, CONFIG, INFO (default), WARNING, SEVERE, SHOUT, OFF]
+```
+
+# Github:
+Github: https://github.com/DRSchlaubi/mcserv
+]]></description>
+    <releaseNotes>Initial Release</releaseNotes>
+  </metadata>
+  <files>
+    <!-- this section controls what actually gets packaged into the Chocolatey package -->
+    <file src="tools\**" target="tools" />
+    <!--Building from Linux? You may need this instead: <file src="tools/**" target="tools" />-->
+  </files>
+</package>

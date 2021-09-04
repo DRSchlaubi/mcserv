@@ -4,7 +4,25 @@ on:
     types: [ prereleased, released ]
 
 jobs:
-  # Credit: https://github.com/cli/cli/blob/351cd622e7499ab94b57ec5dbbcd2143c3761192/.github/workflows/releases.yml#L200-L214
+  chocolatey:
+    name: Update chocolatey package
+    runs-on: windows-2019
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup AU
+        uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: install au
+      - name: Update manifest file
+        env:
+          CHANGELOG: ${{ github.event.release.body }}
+        run: |
+          cd .\packages\windows\chocolatey\mcserv
+          .\update.ps1
+      # Credit: https://github.com/cli/cli/blob/351cd622e7499ab94b57ec5dbbcd2143c3761192/.github/workflows/releases.yml#L200-L214
+      - name: Push to Chocolatey community repo
+        run: choco push .\mcserv.0.0.1.20210904.nupkg -source https://push.chocolatey.org/ --api-key '${{ secrets.CHOCO_API_KEY }}'
   winget:
     name: Update winget manifest
     runs-on: windows-2019
