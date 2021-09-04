@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:args/args.dart';
@@ -14,6 +15,8 @@ import 'package:mcserv/utils/utils.dart';
 import 'package:path/path.dart' as path;
 
 import 'commands/command.dart';
+
+late StreamSubscription _sigIntListener;
 
 Future<ArgResults> _parseArguments(
     ArgParser parser, List<String> arguments) async {
@@ -49,7 +52,7 @@ Never _help(ArgParser parser, {FormatException? e}) {
   exit(1);
 }
 
-Future<void> _initalFlags(ArgParser parser, ArgResults args) async {
+Future<void> _initialFlags(ArgParser parser, ArgResults args) async {
   if (args['version']) {
     await _version();
   }
@@ -98,34 +101,42 @@ Future<void> _initI18n() async {
 }
 
 void main(List<String> arguments) async {
+  _catchSigint();
   await _initI18n();
   final parser = ArgParser();
   final args = await _parseArguments(parser, arguments);
   _initLogger(args);
-  await _initalFlags(parser, args);
+  await _initialFlags(parser, args);
 
   final runner = CommandRunner('mcserv', 'mcservdesc');
   allCommands.forEach(runner.addCommand);
 
-  _catchSigint();
   final commandArgs = _pickCommand(arguments, parser, args);
 
   await runner.runCommand(commandArgs);
 
-  Download.client.close();
-  closeDio();
+  _close();
 }
 
 void _catchSigint() {
   // Reset interact cursor to avoid cursor being invisible after SIGINT
-  _watchSignal(ProcessSignal.sigint);
+  var sigints = 0;
+  _sigIntListener = ProcessSignal.sigint.watch().listen((event) {
+    print('sigint $sigints');
+    if (sigints++ >= 1) {
+      exit(1);
+    } else {
+      _close();
+    }
+  });
 }
 
-void _watchSignal(ProcessSignal signal) =>
-    signal.watch().forEach((event) {
-      print('sigint');
-      reset();
-    });
+void _close() {
+  reset();
+  _sigIntListener.cancel();
+  Download.client.close();
+  closeDio();
+}
 
 Future<void> _version() async {
   final mcServInstall = getInstallationDirectory();
