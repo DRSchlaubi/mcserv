@@ -1,13 +1,34 @@
 name: Release
 on:
   release:
-    types: [prereleased, released]
+    types: [ prereleased, released ]
 
 jobs:
-  # Patch changelog, commit and push to the current repository
+  # Credit: https://github.com/cli/cli/blob/351cd622e7499ab94b57ec5dbbcd2143c3761192/.github/workflows/releases.yml#L200-L214
+  winget:
+    name: Update winget manifest
+    runs-on: windows-2019
+    steps:
+      - name: Setup winget-create
+        shell: pwsh
+        env:
+          WINGETCREATE_VERSION: v0.2.0.29-preview
+        run: iwr https://github.com/microsoft/winget-create/releases/download/${env:WINGETCREATE_VERSION}/wingetcreate.exe -OutFile wingetcreate.exe
+
+      - name: Bump Winget manifest
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.UPLOAD_GITHUB_TOKEN }}
+        run: |
+          $tagname = $env:GITHUB_REF.Replace("refs/tags/", "")
+          $version = $tagname.Replace("v", "")
+          $url = "https://github.com/DRSchlaubi/mcserv/releases/download/${tagname}/mcserv-${version}.msi"
+          .\wingetcreate.exe update McServ.McServ --url $url --version $version
+          if ($version -notmatch "-") {
+            .\wingetcreate.exe submit .\manifests\m\McServ\McServ\${version}\ --token $env:GITHUB_TOKEN
+      # Patch changelog, commit and push to the current repository
   changelog:
     name: Update Changelog
-    needs: release
     runs-on: ubuntu-latest
     steps:
 
