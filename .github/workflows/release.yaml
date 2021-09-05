@@ -1,7 +1,7 @@
 name: Release
 on:
   release:
-    types: [ prereleased, released, edited ]
+    types: [ prereleased, released ]
 
 jobs:
   chocolatey:
@@ -97,8 +97,10 @@ jobs:
           token: ${{ secrets.UPLOAD_GITHUB_TOKEN }}
       - name: Update mcserv version in docs
         uses: mikefarah/yq@master
+        env:
+          VERSION: ${{ github.event.release.name }}
         with:
-          cmd: yq eval ".extra.version = ${{ github.event.release.name }}" mkdocs.yml
+          cmd: yq eval ".extra.version = $VERSION" mkdocs.yml
       - name: Commit files
         run: |
           git config --local user.email "action@github.com"
