@@ -9,7 +9,7 @@ plugins {
     id("org.jetbrains.changelog") version "1.2.1"
 }
 
-version = "0.0.1"
+version = "0.0.2"
 
 changelog {
     version.set(project.version.toString())

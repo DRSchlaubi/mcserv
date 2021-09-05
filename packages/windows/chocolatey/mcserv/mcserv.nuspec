@@ -8,7 +8,7 @@
     <title>mcserv (Install)</title>
     <authors>DRSchlaubi, NyCodeGHG, NiggelGame</authors>
     <projectUrl>https://mcserv.how</projectUrl>
-    <iconUrl>http://rawcdn.githack.com/__REPLACE_YOUR_REPO__/master/icons/mcserv.png</iconUrl>
+    <!--<iconUrl>http://rawcdn.githack.com/__REPLACE_YOUR_REPO__/master/icons/mcserv.png</iconUrl>-->
     <copyright>2021 Michael Rittmeister</copyright>
     <licenseUrl>https://github.com/DRSchlaubi/mcserv/blob/main/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
