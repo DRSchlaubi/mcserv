@@ -97,10 +97,13 @@ jobs:
           token: ${{ secrets.UPLOAD_GITHUB_TOKEN }}
       - name: Update mcserv version in docs
         uses: mikefarah/yq@master
-        env:
-          version: ${{ github.event.release.name }}
         with:
-          cmd: yq eval ".extra.version = $VERSION" mkdocs.yml
+          cmd: yq eval ".extra.version = ${{ github.event.release.name }}" mkdocs.yml
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Update version"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
