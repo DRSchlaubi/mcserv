@@ -20,8 +20,13 @@ jobs:
         run: |
           cd .\packages\windows\chocolatey\mcserv
           .\update.ps1
+      - name: Login to Chocolatey community repo
+        run: choco apikey --key '${{ secrets.CHOCO_API_KEY }}' --source https://push.chocolatey.org/
       - name: Push to Chocolatey community repo
-        run: choco push .\mcserv.0.0.1.20210904.nupkg -source https://push.chocolatey.org/ --api-key '${{ secrets.CHOCO_API_KEY }}'
+        shell: pwsh
+        run: |
+          cd packages\windows\chocolatey\McServ
+          Push-Package
 
   # Credit: https://github.com/cli/cli/blob/351cd622e7499ab94b57ec5dbbcd2143c3761192/.github/workflows/releases.yml#L200-L214
   winget:

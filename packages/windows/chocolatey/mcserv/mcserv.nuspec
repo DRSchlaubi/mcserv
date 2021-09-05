@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>mcserv</id>
-    <version>0.0.1.20210904</version>
+    <version>0.0.1.20210905</version>
  <packageSourceUrl>https://github.com/DRSchlaubi/mcserv</packageSourceUrl>
     <owners>DRSchlaubi</owners>
     <title>mcserv (Install)</title>
@@ -31,7 +31,7 @@ PS C:\Users\micha\IdeaProjects\mcserv>mcserv -h
 # Github:
 Github: https://github.com/DRSchlaubi/mcserv
 ]]></description>
-    <releaseNotes>Initial Release</releaseNotes>
+    <releaseNotes>changed</releaseNotes>
   </metadata>
   <files>
     <!-- this section controls what actually gets packaged into the Chocolatey package -->
