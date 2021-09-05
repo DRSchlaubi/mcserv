@@ -16,13 +16,13 @@ class WindowsJreFinder extends JreFinder {
     final userHome = Platform.environment['UserProfile']!;
 
     final oracleBinaries =
-        await scanDir(fs.directory('C:\\Program Files\\Java'));
+        await scanDir(findDirectory('C:\\Program Files\\Java'));
     final adoptOpenJdkBinaries =
-        await scanDir(fs.directory('C:\\Program Files\\AdoptOpenJDK'));
+        await scanDir(findDirectory('C:\\Program Files\\AdoptOpenJDK'));
     final adoptiumBinaries =
-        await scanDir(fs.directory('C:\\Program Files\\Eclipse Foundation'));
+        await scanDir(findDirectory('C:\\Program Files\\Eclipse Foundation'));
     final intelliJBinaries =
-        await scanDir(fs.directory(path.join(userHome, '.jdks')));
+        await scanDir(findJoinedDirectory([userHome, '.jdks']));
 
     return [
       ...oracleBinaries,

@@ -9,7 +9,7 @@ plugins {
     id("org.jetbrains.changelog") version "1.2.1"
 }
 
-version = "0.0.1"
+version = "0.0.2"
 
 changelog {
     version.set(project.version.toString())
@@ -48,7 +48,7 @@ tasks {
             "intl_translation:generate_from_arb",
             "--output-dir=bin/intl",
             "--no-use-deferred-loading",
-            "bin/intl/localizations.dart",
+            "lib/intl/localizations.dart",
             "i18n/intl_*.arb"
         )
 

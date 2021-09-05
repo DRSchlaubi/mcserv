@@ -28,6 +28,22 @@ class Localizations {
   String get logLevelHelp => Intl.message('Sets the log level',
       name: 'logLevelHelp', locale: localeName);
 
+  String get yesFlagDescription =>
+      Intl.message('Answers all yes/no prompts with yes',
+          name: 'yesFlagDescription', locale: localeName);
+
+  String get serverOptionDescription =>
+      Intl.message('The path to the server to delete',
+          name: 'serverOptionDescription', locale: localeName);
+
+  String get jvmPathOptionDescription =>
+      Intl.message('Path to the Java installation to use',
+          name: 'jvmPathOptionDescription', locale: localeName);
+
+  String get jvmVersionOptionDescription =>
+      Intl.message('Java version to install',
+          name: 'jvmVersionOptionDescription', locale: localeName);
+
   // Commands
 
   String get pickCommand => Intl.message('What do you want to do?',
@@ -45,9 +61,17 @@ class Localizations {
   String get updateCommand => Intl.message('Update an existing Server',
       name: 'updateCommand', locale: localeName);
 
+  String get updateCommandIndev =>
+      Intl.message('This feature is currently in development',
+          name: 'updateCommandIndev', locale: localeName);
+
   // new Command
   String get destinationDirectory => Intl.message('Destination Directory',
       name: 'destinationDirectory', locale: localeName);
+
+  String get versionFlagDescriptionNew =>
+      Intl.message('The MC version to install',
+          name: 'versionFlagDescriptionNew', locale: localeName);
 
   String acceptEula(String eula) =>
       Intl.message('Do you accept the MC Eula? ($eula)',
@@ -90,6 +114,10 @@ class Localizations {
       Intl.message('You already have the latest build',
           name: 'alreadyOnLatestBuild', locale: localeName);
 
+  String get versionFlagDescriptionUpdate =>
+      Intl.message('The MC version to upgrade to',
+          name: 'versionFlagDescriptionUpdate', locale: localeName);
+
   String get upgradeVersion =>
       Intl.message('Do you want to upgrade the version instead?',
           name: 'upgradeVersion', locale: localeName);
@@ -103,13 +131,23 @@ class Localizations {
       Intl.message('Java $languageVersion ($update) at $path',
           name: 'javaInstallation', args: [languageVersion, update, path]);
 
+  String noJavaInstallation(String at) =>
+      Intl.message('There is no Java Installation at $at',
+          name: 'noJavaInstallation', args: [at], locale: localeName);
+
   String get pickLanguageVersion =>
       Intl.message('Which version do you want to install?',
           name: 'pickLanguageVersion', locale: localeName);
 
+  String get downloadingJava => Intl.message('Downloading Java',
+      name: 'downloadingJava', locale: localeName);
+
   // Server chooser
   String get noServersYet => Intl.message("You don't have any servers yet",
       name: 'noServersYet', locale: localeName);
+
+  String noServer(String at) => Intl.message('There is no server at $at',
+      name: 'noServer', args: [at], locale: localeName);
 
   String get chooseServer =>
       Intl.message('Choose a server', name: 'chooseServer', locale: localeName);
@@ -120,6 +158,13 @@ class Localizations {
           args: [distributionName, version, build, location],
           name: 'serverInstallation',
           locale: location);
+
+  String versionNotSupported(String version, String distribution) =>
+      Intl.message(
+          'Version $version is not supported by distribution $distribution',
+          name: 'versionNotSupported',
+          args: [version, distribution],
+          locale: localeName);
 
   // Installer
   String get overwriteExistingJava => Intl.message(

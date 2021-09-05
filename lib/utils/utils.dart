@@ -10,3 +10,5 @@ export 'process_util.dart';
 export 'tar_util.dart';
 export 'collection_utils.dart';
 export 'installation.dart';
+export 'recommendation_util.dart';
+export 'input_validator.dart';

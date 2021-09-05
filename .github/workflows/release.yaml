@@ -1,0 +1,108 @@
+name: Release
+on:
+  release:
+    types: [ prereleased, released ]
+
+jobs:
+  chocolatey:
+    name: Update chocolatey package
+    runs-on: windows-2019
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup AU
+        uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: install au
+      - name: Update manifest file
+        env:
+          CHANGELOG: ${{ github.event.release.body }}
+        run: |
+          cd .\packages\windows\chocolatey\mcserv
+          .\update.ps1
+      - name: Push to Chocolatey community repo
+        run: choco push .\mcserv.0.0.1.20210904.nupkg -source https://push.chocolatey.org/ --api-key '${{ secrets.CHOCO_API_KEY }}'
+
+  # Credit: https://github.com/cli/cli/blob/351cd622e7499ab94b57ec5dbbcd2143c3761192/.github/workflows/releases.yml#L200-L214
+  winget:
+    name: Update winget manifest
+    runs-on: windows-2019
+    steps:
+      - name: Setup winget-create
+        shell: pwsh
+        env:
+          WINGETCREATE_VERSION: v0.2.0.29-preview
+        run: iwr https://github.com/microsoft/winget-create/releases/download/${env:WINGETCREATE_VERSION}/wingetcreate.exe -OutFile wingetcreate.exe
+
+      - name: Bump Winget manifest
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.UPLOAD_GITHUB_TOKEN }}
+        run: |
+          $tagname = $env:GITHUB_REF.Replace("refs/tags/", "")
+          $version = $tagname.Replace("v", "")
+          $url = "https://github.com/DRSchlaubi/mcserv/releases/download/${tagname}/mcserv-${version}.msi"
+          .\wingetcreate.exe update McServ.McServ --url $url --version $version
+          if ($version -notmatch "-") {
+            .\wingetcreate.exe submit .\manifests\m\McServ\McServ\${version}\ --token $env:GITHUB_TOKEN
+    # Patch changelog, commit and push to the current repository
+  changelog:
+    name: Update Changelog
+    runs-on: ubuntu-latest
+    steps:
+
+      # Setup Java 11 environment for the next steps
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: 11
+
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v2.3.4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      # Update Unreleased section with the current version
+      - name: Patch Changelog
+        run: ./gradlew patchChangelog
+
+      # Commit patched Changelog
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Update changelog" -a
+      # Push changes
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+  update_docs:
+    name: Update docs
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout documentation site
+        uses: actions/checkout@v2
+        with:
+          repository: mcservcli/docs
+          token: ${{ secrets.UPLOAD_GITHUB_TOKEN }}
+      - name: Read version
+        id: read_version
+        env:
+          V1: ${{ github.event.release.tag_name }}
+        run: |
+          - echo "::set-output name=VERSION::$(echo $V1 | cut -b 2-)"
+      - name: Update mcserv version in docs
+        uses: mikefarah/yq@master
+        env:
+          version: ${{ steps.read_version.outputs.VERSION }}
+        with:
+          cmd: yq eval ".extra.version = $VERSION" mkdocs.yml
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: main
+          github_token: ${{ secrets.UPLOAD_GITHUB_TOKEN }}

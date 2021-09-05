@@ -1,17 +1,23 @@
 import 'package:interact/interact.dart';
-import 'package:mcserv/utils/localizations_util.dart';
-
 import 'package:mcserv/distributions/distribution.dart';
+import 'package:mcserv/utils/localizations_util.dart';
+import 'package:mcserv/utils/utils.dart';
+
 import 'settings.dart';
 import 'settings_loader.dart';
 
-Future<Installation?> chooseServer() async {
+Future<Installation?> chooseServer({String? existingPath}) async {
   var settings = await loadSettings();
   var servers = settings.installations;
 
   if (servers.isEmpty) {
     print(localizations.noServersYet);
     return null;
+  }
+
+  if (existingPath != null) {
+    return servers.find((e) => e.location, 'value',
+        errorMessage: () => localizations.noServer(existingPath));
   }
 
   var ask = Select(
