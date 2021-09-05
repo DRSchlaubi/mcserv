@@ -9,7 +9,7 @@ import 'paper/travertine_distribution.dart';
 import 'paper/waterfall_distribution.dart';
 
 abstract class Distribution {
-  static List<Distribution> all = [
+  static final List<Distribution> all = [
     PaperMCDistribution(),
     WaterfallDistribution(),
     TravertineDistribution(),
@@ -18,6 +18,9 @@ abstract class Distribution {
     BungeeCordDistribution()
   ];
 
+  static final List<String> names =
+      all.map((e) => e.name).toList(growable: false);
+
   @protected
   Distribution();
 
@@ -25,8 +28,11 @@ abstract class Distribution {
       all.firstWhere((element) => element.name == name);
 
   bool get hasMetadata => false;
+
   bool get requiresEula => true;
+
   bool get supportsVersionGroups => true;
+
   bool get recommended => false;
 
   String get displayName;
@@ -39,7 +45,7 @@ abstract class Distribution {
 
   Future<List<String>> retrieveVersionGroups();
 
-  Future<int> downloadTo(String version, File destination);
+  Future<int> downloadTo(String version, File destination, bool ignoreChecksum);
 }
 
 class VersionGroup {

@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-08-24T20:12:30.054954",
+  "@@last_modified": "2021-09-04T22:49:17.713605",
   "verboseLoggingHelp": "Enables verbose logging",
   "@verboseLoggingHelp": {
     "type": "text",
@@ -12,6 +12,26 @@
   },
   "logLevelHelp": "Sets the log level",
   "@logLevelHelp": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "yesFlagDescription": "Answers all yes/no prompts with yes",
+  "@yesFlagDescription": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "serverOptionDescription": "The path to the server to delete",
+  "@serverOptionDescription": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "jvmPathOptionDescription": "Path to the Java installation to use",
+  "@jvmPathOptionDescription": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "jvmVersionOptionDescription": "Java version to install",
+  "@jvmVersionOptionDescription": {
     "type": "text",
     "placeholders": {}
   },
@@ -40,8 +60,18 @@
     "type": "text",
     "placeholders": {}
   },
+  "updateCommandIndev": "This feature is currently in development",
+  "@updateCommandIndev": {
+    "type": "text",
+    "placeholders": {}
+  },
   "destinationDirectory": "Destination Directory",
   "@destinationDirectory": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "versionFlagDescriptionNew": "The MC version to install",
+  "@versionFlagDescriptionNew": {
     "type": "text",
     "placeholders": {}
   },
@@ -97,6 +127,11 @@
     "type": "text",
     "placeholders": {}
   },
+  "versionFlagDescriptionUpdate": "The MC version to upgrade to",
+  "@versionFlagDescriptionUpdate": {
+    "type": "text",
+    "placeholders": {}
+  },
   "upgradeVersion": "Do you want to upgrade the version instead?",
   "@upgradeVersion": {
     "type": "text",
@@ -116,8 +151,20 @@
       "path": {}
     }
   },
+  "noJavaInstallation": "There is no Java Installation at {at}",
+  "@noJavaInstallation": {
+    "type": "text",
+    "placeholders": {
+      "at": {}
+    }
+  },
   "pickLanguageVersion": "Which version do you want to install?",
   "@pickLanguageVersion": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "downloadingJava": "Downloading Java",
+  "@downloadingJava": {
     "type": "text",
     "placeholders": {}
   },
@@ -125,6 +172,13 @@
   "@noServersYet": {
     "type": "text",
     "placeholders": {}
+  },
+  "noServer": "There is no server at {at}",
+  "@noServer": {
+    "type": "text",
+    "placeholders": {
+      "at": {}
+    }
   },
   "chooseServer": "Choose a server",
   "@chooseServer": {
@@ -141,6 +195,14 @@
       "location": {}
     }
   },
+  "versionNotSupported": "Version {version} is not supported by distribution {distribution}",
+  "@versionNotSupported": {
+    "type": "text",
+    "placeholders": {
+      "version": {},
+      "distribution": {}
+    }
+  },
   "overwriteExistingJava": "Selected JDK is already installed, do you want to overwrite it?",
   "@overwriteExistingJava": {
     "type": "text",
@@ -148,6 +210,11 @@
   },
   "downloadDone": "Download finished, syncing changes to fs!",
   "@downloadDone": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "recommended": "Recommended",
+  "@recommended": {
     "type": "text",
     "placeholders": {}
   }

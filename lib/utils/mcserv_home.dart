@@ -34,7 +34,7 @@ Future<Directory> _homeChild(String childPath) async {
 }
 
 Future<Directory> _getOrCreate({String? path, Directory? directory}) async {
-  final dir = (path != null ? fs.directory(path) : directory)!;
+  final dir = (path != null ? findDirectory(path) : directory)!;
   if (!await dir.exists()) {
     await dir.create();
   }

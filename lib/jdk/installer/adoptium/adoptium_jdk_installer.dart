@@ -5,8 +5,10 @@ import 'package:logging/logging.dart';
 import 'package:mcserv/distributions/download.dart';
 import 'package:mcserv/jdk/installer/adoptium/windows_adoptium_jdk_installer.dart';
 import 'package:mcserv/jdk/installer/jdk_installer.dart';
+import 'package:mcserv/jdk/jre_installation.dart';
 import 'package:mcserv/utils/localizations_util.dart';
 import 'package:mcserv/utils/platform_utils/platform_utils.dart';
+import 'package:mcserv/utils/status_util.dart';
 import 'package:mcserv/utils/utils.dart';
 import 'package:meta/meta.dart';
 
@@ -32,8 +34,7 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
   }
 
   @override
-  Future<void> installVersion(int version, String variant) async {
-    print(version <= 8 ? 'jre' : 'jdk');
+  Future<JreInstallation> installVersion(int version, String variant, bool ignoreChecksum, bool overrideExistingJdk) async {
     final release = (await _adoptium.retrieveRelease(
             version, Platform.operatingSystem, variant, architecture,
             imageType: version <= 8 ? 'jre' : 'jdk'))
@@ -54,31 +55,48 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
       await jre.create();
     }
 
-    await installJre(download, release, jre);
+    // pretend this is a java -version output
+    var sanitizedVersion = release.releaseName.substring(4);
+    if (sanitizedVersion.contains('+')) {
+      sanitizedVersion =
+          sanitizedVersion.substring(0, sanitizedVersion.indexOf('+'));
+    }
+
+    return await installJre(
+        JreVersion.parse(sanitizedVersion), download, release, jre, ignoreChecksum, overrideExistingJdk);
   }
 
   @protected
-  Future<void> installJre(
-      Download download, AdoptiumFeatureRelease release, File jre) async {
-    var destination = await getJDKFolder();
-    var jdkFolder = destination.childDirectory(release.releaseName);
+  Future<JreInstallation> installJre(JreVersion version, Download download,
+      AdoptiumFeatureRelease release, File jre,
+      bool ignoreChecksum, bool overrideExistingJdk) async {
+    final destination = await getJDKFolder();
+    final jdkFolder = destination.childDirectory(release.releaseName);
+    final installation = JreInstallation(version, jdkFolder.absolute.path);
     if (await jdkFolder.exists()) {
-      if (confirm(localizations.overwriteExistingJava, defaultValue: false)) {
+      if (confirm(localizations.overwriteExistingJava, defaultValue: false, predefined: overrideExistingJdk)) {
         await jdkFolder.delete(recursive: true);
       } else {
-        return; // Just skip installation process
+        return installation; // Just skip installation process
       }
     }
 
-    await download.download(jre);
+    print(localizations.downloadingJava);
+    await download.download(jre, ignoreChecksum);
 
     _log.fine('Unpacking ${jre.path} to ${destination.path}');
 
-    await unarchive(destination, jre);
+    await doInProgress((status) async {
+      await unarchive(destination, jre);
 
-    await processUnpackedJDK(jdkFolder);
+      status.prompt = 'Cleaning up';
+      await processUnpackedJDK(jdkFolder);
+      await jre.delete();
+    },
+        initialPrompt: 'Installing JRE',
+        donePrompt: 'JRE Installation complete');
 
-    await jre.delete();
+    return installation;
   }
 
   @override

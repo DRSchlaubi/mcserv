@@ -27,14 +27,14 @@ abstract class PlainDistribution extends Distribution {
   Future<ChecksumInfo?> getChecksumInfoForVersion(String version) async => null;
 
   @override
-  Future<int> downloadTo(String version, File destination) async {
+  Future<int> downloadTo(String version, File destination, bool ignoreChecksum) async {
     final build = getDownloadForVersion(version);
     final checksum = await getChecksumInfoForVersion(version);
 
     await Download(build,
             checksum: checksum?.checksum,
             hashingAlgorithm: checksum?.hashingAlgorithm)
-        .download(destination);
+        .download(destination, ignoreChecksum);
 
     return -1;
   }

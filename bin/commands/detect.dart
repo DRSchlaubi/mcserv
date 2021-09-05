@@ -10,6 +10,6 @@ class DetectCommand extends Command {
 
   @override
   Future<void> execute() async {
-    print('This feature is currently in development');
+    print(localizations.updateCommandIndev);
   }
 }
