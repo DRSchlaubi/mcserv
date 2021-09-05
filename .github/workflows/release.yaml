@@ -45,6 +45,7 @@ jobs:
           .\wingetcreate.exe update McServ.McServ --url $url --version $version
           if ($version -notmatch "-") {
             .\wingetcreate.exe submit .\manifests\m\McServ\McServ\${version}\ --token $env:GITHUB_TOKEN
+          }
     # Patch changelog, commit and push to the current repository
   changelog:
     name: Update Changelog
@@ -98,7 +99,7 @@ jobs:
       - name: Update mcserv version in docs
         uses: mikefarah/yq@master
         env:
-          version: ${{ steps.read_version.outputs.VERSION }}
+          version: ${{ github.event.release.name }}
         with:
           cmd: yq eval ".extra.version = $VERSION" mkdocs.yml
       - name: Push changes

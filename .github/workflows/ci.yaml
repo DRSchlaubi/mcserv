@@ -211,5 +211,5 @@ jobs:
           body: ${{ needs.build_metadata.outputs.changelog }}
           draft: true
           tag_name: v${{ needs.build_metadata.outputs.version }}
-          release_name: v${{ needs.build_metadata.outputs.version }}
+          release_name: ${{ needs.build_metadata.outputs.version }}
           files: release_files/*
