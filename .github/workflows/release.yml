@@ -20,9 +20,10 @@ jobs:
         run: |
           cd .\packages\windows\chocolatey\mcserv
           .\update.ps1
-      # Credit: https://github.com/cli/cli/blob/351cd622e7499ab94b57ec5dbbcd2143c3761192/.github/workflows/releases.yml#L200-L214
       - name: Push to Chocolatey community repo
         run: choco push .\mcserv.0.0.1.20210904.nupkg -source https://push.chocolatey.org/ --api-key '${{ secrets.CHOCO_API_KEY }}'
+
+  # Credit: https://github.com/cli/cli/blob/351cd622e7499ab94b57ec5dbbcd2143c3761192/.github/workflows/releases.yml#L200-L214
   winget:
     name: Update winget manifest
     runs-on: windows-2019
@@ -44,7 +45,7 @@ jobs:
           .\wingetcreate.exe update McServ.McServ --url $url --version $version
           if ($version -notmatch "-") {
             .\wingetcreate.exe submit .\manifests\m\McServ\McServ\${version}\ --token $env:GITHUB_TOKEN
-      # Patch changelog, commit and push to the current repository
+    # Patch changelog, commit and push to the current repository
   changelog:
     name: Update Changelog
     runs-on: ubuntu-latest
