@@ -9,7 +9,6 @@ import 'package:meta/meta.dart';
 import 'unix_jre_finder.dart';
 import 'windows_jre_finder.dart';
 
-
 abstract class JreFinder {
   factory JreFinder.forPlatform() {
     if (Platform.isLinux) {

@@ -10,9 +10,7 @@ mixin YesFlag on Command {
 
   ArgParser withYesFlag(ArgParser parser) => parser
     ..addFlag(confirm_lib.yesFlag,
-        abbr: 'y',
-        defaultsTo: null,
-        help: localizations.yesFlagDescription);
+        abbr: 'y', defaultsTo: null, help: localizations.yesFlagDescription);
 
   bool globalConfirm(String prompt,
           {defaultValue = false, waitForNewLine = false}) =>

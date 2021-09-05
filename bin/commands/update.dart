@@ -32,8 +32,9 @@ class UpdateCommand extends ServerCommand
   String get prompt => localizations.updateCommand;
 
   @override
-  ArgParser get argParser =>
-      withJvmOption(withVersionFlag(withYesFlag(makeArgParser()), localizations.versionFlagDescriptionUpdate));
+  ArgParser get argParser => withJvmOption(withVersionFlag(
+      withYesFlag(makeArgParser()),
+      localizations.versionFlagDescriptionUpdate));
 
   @override
   Future<void> runOnServer(Installation server) async {

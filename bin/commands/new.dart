@@ -37,11 +37,11 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
   String get name => 'new';
 
   @override
-  ArgParser get argParser =>
-      withJvmOption(withVersionFlag(withYesFlag(ArgParser()), localizations.versionFlagDescriptionNew))
-        ..addFlag(_acceptEula)
-        ..addOption(_distribution, abbr: 'd', allowed: Distribution.names)
-        ..addOption(_destination, abbr: 'D');
+  ArgParser get argParser => withJvmOption(withVersionFlag(
+      withYesFlag(ArgParser()), localizations.versionFlagDescriptionNew))
+    ..addFlag(_acceptEula)
+    ..addOption(_distribution, abbr: 'd', allowed: Distribution.names)
+    ..addOption(_destination, abbr: 'D');
 
   @override
   Future<void> execute() async {
@@ -68,7 +68,7 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
 
     final jre = await askForJre(
         from: versionMeta?.javaOptions.min, to: versionMeta?.javaOptions.max);
-    if(jre == null) {
+    if (jre == null) {
       return;
     }
 

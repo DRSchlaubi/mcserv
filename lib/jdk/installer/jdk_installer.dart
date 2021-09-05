@@ -7,5 +7,6 @@ abstract class JDKInstaller {
 
   Future<List<int>> retrieveVersions();
 
-  Future<JreInstallation> installVersion(int version, String variant, bool ignoreChecksum, bool overrideExistingJdk);
+  Future<JreInstallation> installVersion(int version, String variant,
+      bool ignoreChecksum, bool overrideExistingJdk);
 }

@@ -34,7 +34,8 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
   }
 
   @override
-  Future<JreInstallation> installVersion(int version, String variant, bool ignoreChecksum, bool overrideExistingJdk) async {
+  Future<JreInstallation> installVersion(int version, String variant,
+      bool ignoreChecksum, bool overrideExistingJdk) async {
     final release = (await _adoptium.retrieveRelease(
             version, Platform.operatingSystem, variant, architecture,
             imageType: version <= 8 ? 'jre' : 'jdk'))
@@ -62,19 +63,24 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
           sanitizedVersion.substring(0, sanitizedVersion.indexOf('+'));
     }
 
-    return await installJre(
-        JreVersion.parse(sanitizedVersion), download, release, jre, ignoreChecksum, overrideExistingJdk);
+    return await installJre(JreVersion.parse(sanitizedVersion), download,
+        release, jre, ignoreChecksum, overrideExistingJdk);
   }
 
   @protected
-  Future<JreInstallation> installJre(JreVersion version, Download download,
-      AdoptiumFeatureRelease release, File jre,
-      bool ignoreChecksum, bool overrideExistingJdk) async {
+  Future<JreInstallation> installJre(
+      JreVersion version,
+      Download download,
+      AdoptiumFeatureRelease release,
+      File jre,
+      bool ignoreChecksum,
+      bool overrideExistingJdk) async {
     final destination = await getJDKFolder();
     final jdkFolder = destination.childDirectory(release.releaseName);
     final installation = JreInstallation(version, jdkFolder.absolute.path);
     if (await jdkFolder.exists()) {
-      if (confirm(localizations.overwriteExistingJava, defaultValue: false, predefined: overrideExistingJdk)) {
+      if (confirm(localizations.overwriteExistingJava,
+          defaultValue: false, predefined: overrideExistingJdk)) {
         await jdkFolder.delete(recursive: true);
       } else {
         return installation; // Just skip installation process

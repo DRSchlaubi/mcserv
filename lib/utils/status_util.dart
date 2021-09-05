@@ -25,7 +25,7 @@ Future<void> doInProgress(ExpensiveTask task,
     {String? donePrompt, String? initialPrompt}) async {
   final status = Status(donePrompt, initialPrompt);
   await task(status);
-  if(!status._done) {
+  if (!status._done) {
     status.done();
   }
 }

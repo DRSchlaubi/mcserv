@@ -30,11 +30,8 @@ mixin JvmOption on YesFlag {
       (argResults[jvmVersionOption] as String?)?.tryParseToInt();
 
   ArgParser withJvmOption(ArgParser argParser) => argParser
-    ..addOption(
-      jvmVersionOption,
-      help: localizations.jvmVersionOptionDescription,
-      valueHelp: '16'
-    )
+    ..addOption(jvmVersionOption,
+        help: localizations.jvmVersionOptionDescription, valueHelp: '16')
     ..addOption(jvmInstallOption,
         help: localizations.jvmPathOptionDescription, valueHelp: _exampleJre());
 

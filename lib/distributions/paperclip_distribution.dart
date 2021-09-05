@@ -12,7 +12,8 @@ abstract class PaperclipDistribution extends Distribution {
       retrieveLatestPaperBuildFor(version).then((value) => value.build);
 
   @override
-  Future<int> downloadTo(String version, File destination, bool ignoreChecksum) async {
+  Future<int> downloadTo(
+      String version, File destination, bool ignoreChecksum) async {
     final download = await retrieveLatestPaperBuildFor(version);
 
     await download.download.download(destination, ignoreChecksum);
