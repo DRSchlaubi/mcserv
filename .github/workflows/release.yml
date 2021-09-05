@@ -79,3 +79,30 @@ jobs:
         with:
           branch: main
           github_token: ${{ secrets.GITHUB_TOKEN }}
+  update_docs:
+    name: Update docs
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout documentation site
+        uses: actions/checkout@v2
+        with:
+          repository: mcservcli/docs
+          token: ${{ secrets.UPLOAD_GITHUB_TOKEN }}
+      - name: Read version
+        id: read_version
+        env:
+          V1: ${{ github.event.release.tag_name }}
+        run: |
+          - echo "::set-output name=VERSION::$(echo $V1 | cut -b 2-
+        )"
+      - name: Update mcserv version in docs
+        uses: mikefarah/yq@master
+        env:
+          version: ${{ steps.read_version.outputs.VERSION }}
+        with:
+          cmd: yq eval ".extra.version = $VERSION" mkdocs.yml
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: main
+          github_token: ${{ secrets.UPLOAD_GITHUB_TOKEN }}
