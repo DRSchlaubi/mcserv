@@ -94,8 +94,7 @@ jobs:
         env:
           V1: ${{ github.event.release.tag_name }}
         run: |
-          - echo "::set-output name=VERSION::$(echo $V1 | cut -b 2-
-        )"
+          - echo "::set-output name=VERSION::$(echo $V1 | cut -b 2-)"
       - name: Update mcserv version in docs
         uses: mikefarah/yq@master
         env:
