@@ -17,7 +17,7 @@ import '../utils/confirm.dart';
 final _log = Logger('Downloader');
 
 class Download {
-  static final client = Client();
+  final client = Client();
   final Uri uri;
   final String? checksum;
   final HashingAlgorithm? hashingAlgorithm;
@@ -51,6 +51,9 @@ class Download {
       throw Exception(
           'Received invalid status code: ${request.statusCode} Body: ${utf8.decode(bytes)}');
     }
+
+    progress.done();
+    client.close();
 
     await doInProgress((status) async {
       if (checksum != null) {
