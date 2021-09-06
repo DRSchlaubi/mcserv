@@ -65,6 +65,19 @@ class Localizations {
       Intl.message('This feature is currently in development',
           name: 'updateCommandIndev', locale: localeName);
 
+  // completion command
+
+  String get shellCompletionsOnWindows => Intl.message(
+      "Shell completion isn't supported on Windows, do you want to generate the script anyways?",
+      name: 'shellCompletionsOnWindows',
+      locale: localeName);
+
+  String shellNotSupported(String shell) => Intl.message(
+      "Your shell at $shell isn't officially supported, do you want to generate the script anyways?",
+      name: 'shellNotSupported',
+      args: [shell],
+      locale: localeName);
+
   // new Command
   String get destinationDirectory => Intl.message('Destination Directory',
       name: 'destinationDirectory', locale: localeName);

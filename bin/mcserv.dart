@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
+import 'package:completion/completion.dart' as completion;
 import 'package:interact/interact.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:intl/locale.dart';
@@ -36,7 +37,7 @@ Future<ArgResults> _parseArguments(
       allowed: Level.LEVELS.map((e) => e.name));
 
   try {
-    final args = parser.parse(arguments);
+    final args = completion.tryArgsCompletion(arguments, parser);
     return args;
   } on FormatException catch (e) {
     _help(parser, e: e);
@@ -79,7 +80,10 @@ ArgResults _pickCommand(
 
   final select = Select(
           prompt: localizations.pickCommand,
-          options: allCommands.map((e) => e.prompt).toList())
+          options: allCommands
+              .where((e) => e.promptable)
+              .map((e) => e.prompt)
+              .toList())
       .interact();
 
   return parser.parse([...args, allCommands[select].name]);

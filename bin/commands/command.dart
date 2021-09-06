@@ -1,5 +1,6 @@
 import 'package:mcserv/commands/command.dart';
 
+import 'completion.dart';
 import 'delete.dart';
 import 'detect.dart';
 import 'new.dart';
@@ -10,4 +11,5 @@ final List<Command> allCommands = [
   DetectCommand(),
   UpdateCommand(),
   DeleteCommand(),
+  CompletionCommand()
 ];
