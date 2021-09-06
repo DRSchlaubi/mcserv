@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-09-04T22:49:17.713605",
+  "@@last_modified": "2021-09-06T23:03:05.820747",
   "verboseLoggingHelp": "Enables verbose logging",
   "@verboseLoggingHelp": {
     "type": "text",
@@ -64,6 +64,18 @@
   "@updateCommandIndev": {
     "type": "text",
     "placeholders": {}
+  },
+  "shellCompletionsOnWindows": "Shell completion isn't supported on Windows, do you want to generate the script anyways?",
+  "@shellCompletionsOnWindows": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "shellNotSupported": "Your shell at {shell} isn't officially supported, do you want to generate the script anyways?",
+  "@shellNotSupported": {
+    "type": "text",
+    "placeholders": {
+      "shell": {}
+    }
   },
   "destinationDirectory": "Destination Directory",
   "@destinationDirectory": {
