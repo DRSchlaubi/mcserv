@@ -118,7 +118,7 @@ void main(List<String> arguments) async {
 
   await runner.runCommand(commandArgs);
 
-  _close();
+  _close(!arguments.contains(completion.completionCommandName));
 }
 
 void _catchSigint() {
@@ -128,13 +128,15 @@ void _catchSigint() {
     if (sigints++ >= 1) {
       exit(1);
     } else {
-      _close();
+      _close(true);
     }
   });
 }
 
-void _close() {
-  reset();
+void _close(bool resetInteract) {
+  if(resetInteract) {
+    reset();
+  }
   _sigIntListener.cancel();
   closeDio();
 }
