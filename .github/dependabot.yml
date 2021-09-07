@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+    reviewers:
+      - drschlaubi
+      - nycodeghg
+  - package-ecosystem: gitsubmodule
+    directory: /packages/arch/mcserv
+    schedule:
+      interval: daily
+    reviewers:
+      - nycodeghg
+  - package-ecosystem: gitsubmodule
+    directory: /packages/arch/mcserv-git
+    schedule:
+      interval: daily
+    reviewers:
+      - nycodeghg
