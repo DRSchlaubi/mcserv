@@ -9,6 +9,8 @@ abstract class Command extends command_runner.Command<void> {
     addOptions();
   }
 
+  bool get promptable => true;
+
   String get prompt;
 
   @override

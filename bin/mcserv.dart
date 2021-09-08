@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
+import 'package:completion/completion.dart' as completion;
 import 'package:interact/interact.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:intl/locale.dart';
 import 'package:logging/logging.dart';
-import 'package:mcserv/distributions/download.dart';
 import 'package:mcserv/intl/localizations.dart';
 import 'package:mcserv/utils/fs_util.dart';
 import 'package:mcserv/utils/localizations_util.dart';
@@ -37,7 +37,7 @@ Future<ArgResults> _parseArguments(
       allowed: Level.LEVELS.map((e) => e.name));
 
   try {
-    final args = parser.parse(arguments);
+    final args = completion.tryArgsCompletion(arguments, parser);
     return args;
   } on FormatException catch (e) {
     _help(parser, e: e);
@@ -80,7 +80,10 @@ ArgResults _pickCommand(
 
   final select = Select(
           prompt: localizations.pickCommand,
-          options: allCommands.map((e) => e.prompt).toList())
+          options: allCommands
+              .where((e) => e.promptable)
+              .map((e) => e.prompt)
+              .toList())
       .interact();
 
   return parser.parse([...args, allCommands[select].name]);
@@ -115,7 +118,7 @@ void main(List<String> arguments) async {
 
   await runner.runCommand(commandArgs);
 
-  _close();
+  _close(!arguments.contains(completion.completionCommandName));
 }
 
 void _catchSigint() {
@@ -125,15 +128,16 @@ void _catchSigint() {
     if (sigints++ >= 1) {
       exit(1);
     } else {
-      _close();
+      _close(true);
     }
   });
 }
 
-void _close() {
-  reset();
+void _close(bool resetInteract) {
+  if(resetInteract) {
+    reset();
+  }
   _sigIntListener.cancel();
-  Download.client.close();
   closeDio();
 }
 

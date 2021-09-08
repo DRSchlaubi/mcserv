@@ -56,15 +56,8 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
       await jre.create();
     }
 
-    // pretend this is a java -version output
-    var sanitizedVersion = release.releaseName.substring(4);
-    if (sanitizedVersion.contains('+')) {
-      sanitizedVersion =
-          sanitizedVersion.substring(0, sanitizedVersion.indexOf('+'));
-    }
-
-    return await installJre(JreVersion.parse(sanitizedVersion), download,
-        release, jre, ignoreChecksum, overrideExistingJdk);
+    return await installJre(JreVersion(version, -1), download, release, jre,
+        ignoreChecksum, overrideExistingJdk);
   }
 
   @protected

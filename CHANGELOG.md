@@ -1,19 +1,11 @@
 # McServ
 
 ## [Unreleased]
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
 ### Fixed
+- Fix Bug causing process to not terminate correctly when downloading items
+- Fix JDK installer
 
-### Security
 ## [0.0.2] - 2021-09-05
-
 ### Added
 
 - non-interactive CLI flags for all interactive components

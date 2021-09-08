@@ -1,0 +1,31 @@
+name: mcserv
+version: 0.0.3
+summary: CLI utility to manage MC Server installations
+issues: https://github.com/DRSchlaubi/mcserv/issues
+source-code: https://github.com/DRSchlaubi/mcserv.git
+website: https://mcserv.how
+license: GPL-3.0
+grade: stable
+architectures:
+  - amd64
+description: |
+  Our documentation can be found at: https://docs.mcserv.how
+confinement: strict
+base: core18
+
+parts:
+  mcserv:
+    plugin: dump
+    source: https://github.com/DRSchlaubi/mcserv/releases/download/v$SNAPCRAFT_PROJECT_VERSION/mcserv-$SNAPCRAFT_PROJECT_VERSION-linux.tar.gz
+    source-type: tar
+    override-build: |
+      cp ./ $SNAPCRAFT_PART_INSTALL/ -r
+      ./mcserv completion > $SNAPCRAFT_PART_INSTALL/completion.sh
+
+apps:
+  mcserv:
+    command: mcserv
+    plugs:
+      - home
+      - network
+    completer: completion.sh
