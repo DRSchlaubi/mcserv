@@ -59,7 +59,7 @@ class Download {
       if (checksum != null) {
         final alg = hashingAlgorithm!;
         _log.fine('Expected ${alg.name} checksum: $checksum');
-        final digestHex = alg.hash(bytes);
+        final digestHex = alg.hashBytes(bytes);
         _log.fine('Actual ${alg.name} checksum: $digestHex');
 
         if (digestHex != checksum) {
@@ -84,7 +84,7 @@ class Download {
 enum HashingAlgorithm { sha256, md5 }
 
 extension ByteHasher on HashingAlgorithm {
-  String hash(List<int> bytes) {
+  String hashBytes(List<int> bytes) {
     Hash hash;
 
     switch (this) {

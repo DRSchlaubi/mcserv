@@ -1,8 +1,8 @@
 import org.gradle.internal.os.OperatingSystem
 
-fun path(vararg parts: String): String {
+fun path(fileEnding: String = "bat", vararg parts: String): String {
     return if(OperatingSystem.current().isWindows) {
-        parts.joinToString("""\""") + ".bat"
+        parts.joinToString("""\""") + "." + fileEnding
     } else {
         parts.joinToString("/")
     }

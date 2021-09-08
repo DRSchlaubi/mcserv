@@ -66,7 +66,7 @@ tasks {
     val versionFile = task("versionFile") {
         val outFile = project.buildDir.resolve("reports").resolve("version.txt").toPath()
         val parent = outFile.parent
-        if(!Files.isDirectory(parent)) {
+        if (!Files.isDirectory(parent)) {
             Files.createDirectories(parent)
         }
 
@@ -91,10 +91,11 @@ tasks {
         val destinationFile = destinationDir.resolve(fileName)
         group = "dart"
         dart(
-            "dart2native",
+            "dart", "compile", "exe",
             project.file("bin/mcserv.dart").absolutePath,
             "-o",
-            destinationFile.absolutePath
+            destinationFile.absolutePath,
+            fileEnding = "exe"
         )
         dependsOn(dartGenerate, versionFile)
         outputs.file(destinationFile)
