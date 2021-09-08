@@ -1,6 +1,18 @@
 # McServ
 
 ## [Unreleased]
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [0.0.3] - 2021-09-08
 ### Fixed
 - Fix Bug causing process to not terminate correctly when downloading items
 - Fix JDK installer
