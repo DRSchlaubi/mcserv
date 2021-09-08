@@ -101,7 +101,7 @@ jobs:
         run: |
           & 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe' sign /f certificate\certificate.pfx /p '${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}' /t http://timestamp.sectigo.com/ /d McServ build/distributions/mcserv.msi
       - name: Upload artifact
-        uses: actions/upload-artifact@v2.2.3
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: windows_msi
           path: ./build/distributions/mcserv.msi
@@ -121,7 +121,7 @@ jobs:
         with:
           arguments: dartPubGet assemble createReleasePackage
       - name: Upload artifact
-        uses: actions/upload-artifact@v2.2.3
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: linux_distribution
           path: ./build/packages/release/mcserv-${{ needs.build_metadata.outputs.version }}.*
@@ -146,7 +146,7 @@ jobs:
         with:
           arguments: dartPubGet assemble createReleasePackage
       - name: Upload artifact
-        uses: actions/upload-artifact@v2.2.3
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: macos_distribution
           path: ./build/packages/release/mcserv-${{ needs.build_metadata.outputs.version }}.*
