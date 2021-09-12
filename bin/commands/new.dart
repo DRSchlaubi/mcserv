@@ -58,7 +58,7 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
     }
 
     final meta = distribution.hasMetadata
-        ? (await _metadata.getDistributionMetaData(distribution.name))
+        ? (await _metadata.getDistributionMetaData(distribution.metadataKey))
         : null;
     final versionMeta =
         meta?.versions.firstWhere((element) => element.version == version);

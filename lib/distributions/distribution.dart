@@ -1,4 +1,5 @@
 import 'package:file/file.dart';
+import 'package:mcserv/distributions/nyper/nyper_distribution.dart';
 import 'package:mcserv/distributions/pl3x/purpur_distribution.dart';
 import 'package:mcserv/distributions/plain/bungeecord_distribution.dart';
 import 'package:mcserv/distributions/plain/velocity_distributions.dart';
@@ -14,6 +15,7 @@ abstract class Distribution {
     WaterfallDistribution(),
     TravertineDistribution(),
     PurPurDistribution(),
+    NyperDistribution(),
     VelocityDistribution(),
     BungeeCordDistribution()
   ];
@@ -38,6 +40,8 @@ abstract class Distribution {
   String get displayName;
 
   String get name;
+
+  String get metadataKey;
 
   Future<VersionGroup> retrieveVersions(String version);
 

@@ -5,6 +5,12 @@ class PurPurDistribution extends Pl3xDistribution {
   String get displayName => 'Purpur';
 
   @override
+  bool get hasMetadata => true;
+
+  @override
+  String get metadataKey => "paper";
+
+  @override
   String get name => 'purpur';
 
   @override
