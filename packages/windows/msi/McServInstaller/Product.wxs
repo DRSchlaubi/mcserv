@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="McServ" Language="1033" Version="$(env.VERSION)" Manufacturer="McServ" UpgradeCode="0135830b-4d57-4395-88ed-7bc9933b2eaa">
+  <Product Id="{F533613B-2F56-4E49-A8CC-EFD1BF1DD985}" Name="McServ" Language="1033" Version="$(env.VERSION)" Manufacturer="McServ" UpgradeCode="0135830b-4d57-4395-88ed-7bc9933b2eaa">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x64" />
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate EmbedCab="yes" />
