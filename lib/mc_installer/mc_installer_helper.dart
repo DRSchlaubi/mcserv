@@ -19,6 +19,9 @@ extension McInstallerHelper on Distribution {
       return predefined.substring(0, predefined.lastIndexOf('.'));
     }
     final versionsGroups = await retrieveVersionGroups();
+    if (versionsGroups.length == 1) {
+      return versionsGroups[0];
+    }
     final ask = Select(
         prompt: localizations.chooseServerVersion, options: versionsGroups);
     final versionGroupIndex = ask.interact();
