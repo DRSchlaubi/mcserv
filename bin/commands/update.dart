@@ -43,7 +43,7 @@ class UpdateCommand extends ServerCommand
         await distribution.retrieveLatestBuildFor(server.version);
 
     final meta = distribution.hasMetadata
-        ? (await _metadata.getDistributionMetaData(distribution.name))
+        ? (await _metadata.getDistributionMetaData(distribution.metadataKey))
         : null;
     var installedVersion = meta?.versions
         .firstWhere((element) => element.version == server.version);

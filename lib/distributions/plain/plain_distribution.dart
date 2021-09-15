@@ -27,6 +27,9 @@ abstract class PlainDistribution extends Distribution {
   Future<ChecksumInfo?> getChecksumInfoForVersion(String version) async => null;
 
   @override
+  String get metadataKey => name;
+
+  @override
   Future<int> downloadTo(
       String version, File destination, bool ignoreChecksum) async {
     final build = getDownloadForVersion(version);

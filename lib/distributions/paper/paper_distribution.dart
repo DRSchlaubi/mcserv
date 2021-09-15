@@ -16,6 +16,9 @@ abstract class PaperDistribution extends PaperclipDistribution {
   @override
   String get name => project;
 
+  @override
+  String get metadataKey => project;
+
   final _paper = PaperApi(makeDio(_log));
 
   @override
