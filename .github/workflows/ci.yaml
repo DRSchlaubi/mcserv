@@ -71,9 +71,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install Dart
-        uses: crazy-max/ghaction-chocolatey@v1
-        with:
-          args: install dart-sdk --no-progress
+        uses: dart-lang/setup-dart@7e4ec4f1811e09ce8f339b4d3044220ca799e6c6
       - uses: actions/setup-java@v1
         with:
           java-version: 11
@@ -84,7 +82,7 @@ jobs:
       - uses: gradle/gradle-build-action@v1
         name: Build MSI
         env:
-          DART_SDK: C:\tools\dart-sdk
+          DART_SDK: ${{ env.DART_HOME }}
         with:
           arguments: dartPubGet assembleMsi
       - name: Setup MSbuild
