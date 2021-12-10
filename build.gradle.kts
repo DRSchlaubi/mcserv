@@ -6,10 +6,10 @@ import java.io.InputStreamReader
 plugins {
     base
     id("local-properties")
-    id("org.jetbrains.changelog") version "1.2.1"
+    id("org.jetbrains.changelog") version "1.3.1"
 }
 
-version = "0.0.3"
+version = "0.0.4"
 
 changelog {
     version.set(project.version.toString())

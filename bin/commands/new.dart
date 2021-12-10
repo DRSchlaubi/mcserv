@@ -10,7 +10,6 @@ import 'package:mcserv/script/script_generator.dart';
 import 'package:mcserv/settings/settings.dart';
 import 'package:mcserv/settings/settings_helper.dart';
 import 'package:mcserv/utils/constants.dart';
-import 'package:mcserv/utils/recommendation_util.dart';
 import 'package:mcserv/utils/utils.dart';
 
 import 'abstract/jvm_option_mixin.dart';

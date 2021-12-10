@@ -4,6 +4,8 @@
 ### Added
 
 ### Changed
+- Update dependencies
+- Make Velocity use the PaperMC API
 
 ### Deprecated
 
