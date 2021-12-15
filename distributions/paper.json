@@ -1,6 +1,14 @@
 {
   "versions": [
     {
+      "version": "1.18.1",
+      "java": {
+        "min": 17,
+        "max": 17
+      },
+      "recommendedFlags": "aikar"
+    },
+    {
       "version": "1.18",
       "java": {
         "min": 17,
