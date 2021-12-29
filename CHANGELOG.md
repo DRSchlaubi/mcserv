@@ -10,6 +10,19 @@
 ### Removed
 
 ### Fixed
+
+### Security
+
+## [0.0.6] - 2021-12-29
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
 - Fix installer not asking for eula
 - Fix choco CI
 - Fix docs CI
@@ -20,8 +33,6 @@
 ### Fixed
 - Fix docs CI failing
 - Fix script generators not appending /bin/java
-
-### Security
 
 ## [0.0.4] - 2021-12-10
 ### Changed
