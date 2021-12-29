@@ -1,6 +1,7 @@
 Import-Module au
 
 function global:au_SearchReplace {
+    
     @{
         ".\tools\chocolateyInstall.ps1" = @{
             "(^\s*url64bit\s*=\s*)('.*')" = "`$1'$($Latest.URL64)'"
@@ -18,8 +19,10 @@ function global:au_GetLatest {
     $version = $tagName.Replace("v", "")
     $uri = "https://github.com/DRSchlaubi/mcserv/releases/download/${tagName}/mcserv-${version}.msi";
     $changelog = $env:CHANGELOG
-    $checksumUrl = uri + ".sha256"
-    $checksumFileContent =  (Invoke-webrequest -URI $checksumUrl).Content
+    $checksumUrl = $uri + ".sha256"
+    $checksumFileBytes = (Invoke-webrequest -URI $checksumUrl).Content
+    $checksumFileContent = [System.Text.Encoding]::UTF8.GetString($checksumFileBytes)
+    $checksum = $checksumFileContent.Substring(0, $checksumFileContent.IndexOf(" "))
 
     @{ URL64 = $uri; Version = $version; ReleaseNotes = $changelog; WorkingChecksum = $checksum }
 }

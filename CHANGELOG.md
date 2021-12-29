@@ -10,6 +10,9 @@
 ### Removed
 
 ### Fixed
+- Fix installer not asking for eula
+- Fix choco CI
+- Fix docs CI
 
 ### Security
 
