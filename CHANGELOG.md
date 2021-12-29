@@ -1,15 +1,9 @@
 # McServ
 
 ## [Unreleased]
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
 ### Fixed
+- Fix docs CI failing
+- Fix script generators not appending /bin/java
 
 ### Security
 
