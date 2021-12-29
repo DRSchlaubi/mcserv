@@ -1,18 +1,9 @@
 # McServ
 
 ## [Unreleased]
-### Fixed
-- Fix docs CI failing
-- Fix script generators not appending /bin/java
-
-### Security
-
-## [0.0.4] - 2021-12-10
 ### Added
 
 ### Changed
-- Update dependencies
-- Make Velocity use the PaperMC API
 
 ### Deprecated
 
@@ -21,6 +12,18 @@
 ### Fixed
 
 ### Security
+
+## [0.0.5] - 2021-12-29
+### Fixed
+- Fix docs CI failing
+- Fix script generators not appending /bin/java
+
+### Security
+
+## [0.0.4] - 2021-12-10
+### Changed
+- Update dependencies
+- Make Velocity use the PaperMC API
 
 ## [0.0.3] - 2021-09-08
 ### Fixed
