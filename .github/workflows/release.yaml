@@ -100,7 +100,7 @@ jobs:
         env:
           VERSION: ${{ github.event.release.name }}
         with:
-          cmd: yq eval ".extra.version = $VERSION" mkdocs.yml
+          cmd: yq eval '.extra.version = "v0.0.5"' -i mkdocs.yml
       - name: Commit files
         run: |
           git config --local user.email "action@github.com"

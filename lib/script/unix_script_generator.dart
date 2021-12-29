@@ -15,6 +15,7 @@ class UnixScriptGenerator extends ScriptGenerator {
     stringBuffer.writeln('#!/usr/bin/env sh');
     //language=sh
     stringBuffer.write(javaPath);
+    stringBuffer.write('/bin/java');
 
     if (additionalArgs.isNotEmpty) {
       stringBuffer.writeln(' \\');
