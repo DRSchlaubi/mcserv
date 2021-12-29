@@ -4,7 +4,7 @@ function global:au_SearchReplace {
     @{
         ".\tools\chocolateyInstall.ps1" = @{
             "(^\s*url64bit\s*=\s*)('.*')" = "`$1'$($Latest.URL64)'"
-             "(^\s*checksum64\s*=\s*)('.*')" = "`$1'$($Latest.Checksum64)'"
+             "(^\s*checksum64\s*=\s*)('.*')" = "`$1'$($Latest.WorkingChecksum)'"
 
         }
         "mcserv.nuspec" = @{
@@ -18,8 +18,10 @@ function global:au_GetLatest {
     $version = $tagName.Replace("v", "")
     $uri = "https://github.com/DRSchlaubi/mcserv/releases/download/${tagName}/mcserv-${version}.msi";
     $changelog = $env:CHANGELOG
+    $checksumUrl = uri + ".sha256"
+    $checksumFileContent =  (Invoke-webrequest -URI $checksumUrl).Content
 
-    @{ URL64 = $uri; Version = $version; ReleaseNotes = $changelog}
+    @{ URL64 = $uri; Version = $version; ReleaseNotes = $changelog; WorkingChecksum = $checksum }
 }
 
 update -ChecksumFor 64

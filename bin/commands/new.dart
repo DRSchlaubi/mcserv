@@ -48,9 +48,11 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
     final distribution = _askDistribution();
     final acceptEula = distribution.requiresEula
         ? confirm(localizations.acceptEula(_mcEula),
-            defaultValue: true, predefined: argResults[_acceptEula])
+            defaultValue: true,
+            predefined: argResults.arguments.isNotEmpty
+                ? argResults[_acceptEula]
+                : null)
         : false;
-
     final version = await askForVersion(distribution);
     if (version == null) {
       return;
