@@ -28,7 +28,7 @@
       "version": "1.17",
       "java": {
         "min": 16,
-        "max": 17
+        "max": 16
       },
       "recommendedFlags": "aikar"
     },
