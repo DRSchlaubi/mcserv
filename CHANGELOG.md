@@ -1,17 +1,11 @@
 # McServ
 
 ## [Unreleased]
-### Added
-
 ### Changed
-
-### Deprecated
-
-### Removed
+- Imrpoved JRE finding logic
 
 ### Fixed
-
-### Security
+- Fix mcserv installed JREs having wrongly detected home path (Fix #31)
 
 ## [0.0.6] - 2021-12-29
 ### Added

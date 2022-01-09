@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:logging/logging.dart';
+import 'package:mcserv/jdk/finder/jre_finder.dart';
 
 //language=RegExp
 final _javaVersionRegex = RegExp('version "([0-9_.]*)"');
@@ -8,7 +11,7 @@ class JreInstallation extends Equatable {
   final JreVersion version;
   final String path;
 
-  String get binary => path + '/bin/java';
+  String get binary => JreFinder.forPlatform().findBinary(path);
 
   JreInstallation(this.version, this.path);
 
