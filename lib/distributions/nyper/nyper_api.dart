@@ -1,11 +1,6 @@
 import 'package:mcserv/distributions/paper/paper_api.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:retrofit/retrofit.dart';
-
-import '../distribution.dart';
 
 part 'nyper_api.g.dart';
 

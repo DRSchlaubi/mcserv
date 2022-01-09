@@ -1,4 +1,3 @@
-      
 // DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
 // This is a library that provides messages for a de_DE locale. All the
 // messages from the main program should be duplicated here with the same
@@ -22,31 +21,52 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(eula) => "Akzeptierst du die MC Eula? (${eula})";
 
-  static m1(languageVersion, update, path) => "Java ${languageVersion} (${update}) in ${path}";
+  static m1(languageVersion, update, path) =>
+      "Java ${languageVersion} (${update}) in ${path}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function> {
-    "acceptEula" : m0,
-    "chooseServerDistro" : MessageLookupByLibrary.simpleMessage("Server Distribution auswählen"),
-    "chooseServerSubVersion" : MessageLookupByLibrary.simpleMessage("Unterversion auswählen"),
-    "chooseServerVersion" : MessageLookupByLibrary.simpleMessage("Server Version auswählen"),
-    "createDestinationDirectory" : MessageLookupByLibrary.simpleMessage("Der angegebene Ordner enthält bereits Dateien, möchtest du trotzdem fortfahren?"),
-    "deleteCommand" : MessageLookupByLibrary.simpleMessage("Einen Server Löschen"),
-    "destinationDirectory" : MessageLookupByLibrary.simpleMessage("Zielverzeichnis"),
-    "detectCommand" : MessageLookupByLibrary.simpleMessage("Einen existierenden Server hinzufügen"),
-    "downloadDone" : MessageLookupByLibrary.simpleMessage("Download abgeschlossen, Änderungen werden mit dem Dateisystem synchronisiert!"),
-    "downloadingDistro" : MessageLookupByLibrary.simpleMessage("Distribution wird heruntergeladen"),
-    "helpFlagHelp" : MessageLookupByLibrary.simpleMessage("Gibt diese Hilfsnachricht aus"),
-    "javaInstallation" : m1,
-    "logLevelHelp" : MessageLookupByLibrary.simpleMessage("Setzt das Level des Loggers"),
-    "newCommand" : MessageLookupByLibrary.simpleMessage("Neuen Server erstellen"),
-    "overwriteDestinationDirectory" : MessageLookupByLibrary.simpleMessage("Der angegebene Ordner existiert nicht, möchtest du ihn erstellen?"),
-    "overwriteExistingJava" : MessageLookupByLibrary.simpleMessage("Das ausgewählte JDK ist bereits installiert, möchtest du es überschreiben?"),
-    "pickCommand" : MessageLookupByLibrary.simpleMessage("Was möchtest du tun?"),
-    "pickJavaInstallation" : MessageLookupByLibrary.simpleMessage("Welche Java Installation möchtest du benutzen?"),
-    "pickLanguageVersion" : MessageLookupByLibrary.simpleMessage("Welche Version möchtest du installieren?"),
-    "updateCommand" : MessageLookupByLibrary.simpleMessage("Einen existierenden Sever aktualisieren"),
-    "useAikarFlags" : MessageLookupByLibrary.simpleMessage("Möchtest du Aikar\'s JVM flags nutzen?"),
-    "verboseLoggingHelp" : MessageLookupByLibrary.simpleMessage("Enables verbose logging")
-  };
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "acceptEula": m0,
+        "chooseServerDistro": MessageLookupByLibrary.simpleMessage(
+            "Server Distribution auswählen"),
+        "chooseServerSubVersion":
+            MessageLookupByLibrary.simpleMessage("Unterversion auswählen"),
+        "chooseServerVersion":
+            MessageLookupByLibrary.simpleMessage("Server Version auswählen"),
+        "createDestinationDirectory": MessageLookupByLibrary.simpleMessage(
+            "Der angegebene Ordner enthält bereits Dateien, möchtest du trotzdem fortfahren?"),
+        "deleteCommand":
+            MessageLookupByLibrary.simpleMessage("Einen Server Löschen"),
+        "destinationDirectory":
+            MessageLookupByLibrary.simpleMessage("Zielverzeichnis"),
+        "detectCommand": MessageLookupByLibrary.simpleMessage(
+            "Einen existierenden Server hinzufügen"),
+        "downloadDone": MessageLookupByLibrary.simpleMessage(
+            "Download abgeschlossen, Änderungen werden mit dem Dateisystem synchronisiert!"),
+        "downloadingDistro": MessageLookupByLibrary.simpleMessage(
+            "Distribution wird heruntergeladen"),
+        "helpFlagHelp": MessageLookupByLibrary.simpleMessage(
+            "Gibt diese Hilfsnachricht aus"),
+        "javaInstallation": m1,
+        "logLevelHelp":
+            MessageLookupByLibrary.simpleMessage("Setzt das Level des Loggers"),
+        "newCommand":
+            MessageLookupByLibrary.simpleMessage("Neuen Server erstellen"),
+        "overwriteDestinationDirectory": MessageLookupByLibrary.simpleMessage(
+            "Der angegebene Ordner existiert nicht, möchtest du ihn erstellen?"),
+        "overwriteExistingJava": MessageLookupByLibrary.simpleMessage(
+            "Das ausgewählte JDK ist bereits installiert, möchtest du es überschreiben?"),
+        "pickCommand":
+            MessageLookupByLibrary.simpleMessage("Was möchtest du tun?"),
+        "pickJavaInstallation": MessageLookupByLibrary.simpleMessage(
+            "Welche Java Installation möchtest du benutzen?"),
+        "pickLanguageVersion": MessageLookupByLibrary.simpleMessage(
+            "Welche Version möchtest du installieren?"),
+        "updateCommand": MessageLookupByLibrary.simpleMessage(
+            "Einen existierenden Sever aktualisieren"),
+        "useAikarFlags": MessageLookupByLibrary.simpleMessage(
+            "Möchtest du Aikar\'s JVM flags nutzen?"),
+        "verboseLoggingHelp":
+            MessageLookupByLibrary.simpleMessage("Enables verbose logging")
+      };
 }

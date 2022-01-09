@@ -3,6 +3,8 @@ import 'package:logging/logging.dart';
 import 'package:mcserv/distributions/distribution.dart';
 import 'package:mcserv/distributions/metadata/distribution_api.dart';
 import 'package:mcserv/distributions/plain/plain_distribution.dart';
+import 'package:mcserv/jdk/finder/jre_finder.dart';
+import 'package:mcserv/jdk/jre_installation.dart';
 import 'package:mcserv/mc_installer/mc_installer_helper.dart';
 import 'package:mcserv/script/script_generator.dart';
 import 'package:mcserv/settings/settings.dart';
@@ -73,14 +75,23 @@ class UpdateCommand extends ServerCommand
     if (reinstall) {
       _log.warning(
           'This will reinstall the server, starting the new server might corrupt world data');
-      var jre = server.javaPath;
-      if ((newVersion?.javaOptions.min ?? -1) > server.javaVersion) {
-        print(
-            'This version requires a newer version of Java. Please select or install a sufficient version');
+      final availableJres = await JreFinder.forPlatform().findInstalledJres();
+      final jrePath = server.javaPath;
+      JreInstallation? jre = availableJres
+          // ignore: unnecessary_cast
+          .map((e) => e as JreInstallation?)
+          .firstWhere((element) => element?.path == jrePath,
+              orElse: () => null);
+      if ((newVersion?.javaOptions.min ?? -1) > server.javaVersion ||
+          jre == null) {
+        if (jre == null) {
+          print(localizations.jreVanished);
+        } else {
+          print(localizations.jreNotScufficientForNewVersion);
+        }
         final selectedJre = (await askForJre(
-                from: newVersion?.javaOptions.min,
-                to: newVersion?.javaOptions.max))
-            ?.path;
+            from: newVersion?.javaOptions.min,
+            to: newVersion?.javaOptions.max));
         if (selectedJre == null) {
           return;
         }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
@@ -35,28 +36,25 @@ abstract class JreFinder {
     final paths = <String>{
       if (javaHome != null) javaHome,
       javaCommand,
-      ..._findBinaries(mcservJres),
-      ..._findBinaries(additionalPaths)
+      ...mcservJres,
+      ...additionalPaths
     };
 
     final foundVersions = <JreInstallation>[];
 
     for (var element in paths) {
-      final binary = element.trim();
+      final javaHome = element.trim();
+      final binary = findBinary(javaHome);
       final version = await detectVersion(binary);
       if (version != null) {
-        foundVersions.add(JreInstallation(version, binary));
+        foundVersions.add(JreInstallation(version, javaHome));
       }
     }
 
     return foundVersions.toSet().toList(); // distinct()
   }
 
-  @protected
   String findBinary(String javaHome);
-
-  Iterable<String> _findBinaries(Iterable<String> homes) =>
-      homes.map(findBinary);
 
   @protected
   Future<List<String>> scanDir(Directory dir) async {

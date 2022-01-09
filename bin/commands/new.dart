@@ -81,7 +81,7 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
             done ? 'Finalizing installation' : 'Installation done').interact();
     final scriptGen = ScriptGenerator.forPlatform();
 
-    await scriptGen.writeStartScript(directory, jarName, jre.path, [
+    await scriptGen.writeStartScript(directory, jarName, jre, [
       if (useRecommendedFlags) ...meta!.flags[versionMeta!.recommendedFlagKey]!
     ]);
 

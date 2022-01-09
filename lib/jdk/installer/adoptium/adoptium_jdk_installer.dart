@@ -67,7 +67,8 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
       bool ignoreChecksum,
       bool overrideExistingJdk) async {
     final destination = await getJDKFolder();
-    final jdkFolder = destination.childDirectory(release.releaseName);
+    final jdkFolder = destination.childDirectory(
+        release.releaseName + (version.languageVersion <= 8 ? '-jre' : ''));
     final installation = JreInstallation(version, jdkFolder.absolute.path);
     if (await jdkFolder.exists()) {
       if (confirm(localizations.overwriteExistingJava,
@@ -85,7 +86,6 @@ abstract class AdoptiumJDKInstaller extends JDKInstaller {
 
     await doInProgress((status) async {
       await unarchive(destination, jre);
-
       status.prompt = 'Cleaning up';
       await processUnpackedJDK(jdkFolder);
       await jre.delete();

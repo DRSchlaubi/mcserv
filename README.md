@@ -9,7 +9,7 @@ CLI utility to manage MC server installations.
 
 # Installation
 
-Linux and macOS: `curl -fsSL https://get.mcserv.how | sh`
+Linux: https://docs.mcserv.how/install/#linux
 Windows: `winget install mcserv`
 
 # Supported Platforms

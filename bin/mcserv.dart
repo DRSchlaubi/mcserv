@@ -132,7 +132,7 @@ void _catchSigint() {
 }
 
 void _close(bool resetInteract) {
-  if(resetInteract) {
+  if (resetInteract) {
     reset();
   }
   _sigIntListener.cancel();

@@ -193,4 +193,14 @@ class Localizations {
   // Misc
   String get recommended =>
       Intl.message('Recommended', name: 'recommended', locale: localeName);
+
+  String get jreVanished => Intl.message(
+      'The selected JRE for this server, no longer exist, please select a new one',
+      name: 'jreVanished',
+      locale: localeName);
+
+  String get jreNotScufficientForNewVersion => Intl.message(
+      'This version requires a newer version of Java. Please select or install a sufficient version',
+      name: 'jreNotScufficientForNewVersion',
+      locale: localeName);
 }
