@@ -1,14 +1,6 @@
 # McServ
 
 ## [Unreleased]
-### Changed
-- Imrpoved JRE finding logic
-
-### Fixed
-- Fix mcserv installed JREs having wrongly detected home path (Fix #31)
-- Fix new Eclipse Adoptium JREs not being detected
-
-## [0.0.6] - 2021-12-29
 ### Added
 
 ### Changed
@@ -18,11 +10,22 @@
 ### Removed
 
 ### Fixed
+
+### Security
+
+## [0.1.0] - 2022-01-09
+### Changed
+- Imrpoved JRE finding logic
+
+### Fixed
+- Fix mcserv installed JREs having wrongly detected home path (Fix #31)
+- Fix new Eclipse Adoptium JREs not being detected
+
+## [0.0.6] - 2021-12-29
+### Fixed
 - Fix installer not asking for eula
 - Fix choco CI
 - Fix docs CI
-
-### Security
 
 ## [0.0.5] - 2021-12-29
 ### Fixed
