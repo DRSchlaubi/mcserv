@@ -15,8 +15,6 @@ class WindowsScriptGenerator extends ScriptGenerator {
     stringBuffer.writeln('@echo off');
 
     stringBuffer.write(sanitizedJavaPath);
-    stringBuffer.write('/bin/java.exe');
-
     if (additionalArgs.isNotEmpty) {
       stringBuffer.writeln(' ^');
       for (var arg in additionalArgs) {

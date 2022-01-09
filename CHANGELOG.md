@@ -1,17 +1,9 @@
 # McServ
 
 ## [Unreleased]
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
 
 ### Fixed
-
-### Security
+- Fixed Windows script generator
 
 ## [0.1.0] - 2022-01-09
 ### Changed
