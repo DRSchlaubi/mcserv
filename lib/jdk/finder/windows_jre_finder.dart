@@ -21,6 +21,8 @@ class WindowsJreFinder extends JreFinder {
         await scanDir(findDirectory('C:\\Program Files\\AdoptOpenJDK'));
     final adoptiumBinaries =
         await scanDir(findDirectory('C:\\Program Files\\Eclipse Foundation'));
+    final otherAdoptiumBinaries =
+        await scanDir(findDirectory('C:\\Program Files\\Eclipse Adoptium'));
     final intelliJBinaries =
         await scanDir(findJoinedDirectory([userHome, '.jdks']));
 
@@ -28,6 +30,7 @@ class WindowsJreFinder extends JreFinder {
       ...oracleBinaries,
       ...adoptOpenJdkBinaries,
       ...adoptiumBinaries,
+      ...otherAdoptiumBinaries,
       ...intelliJBinaries
     ];
   }
