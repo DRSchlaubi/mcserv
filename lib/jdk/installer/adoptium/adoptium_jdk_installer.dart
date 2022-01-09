@@ -6,9 +6,7 @@ import 'package:mcserv/distributions/download.dart';
 import 'package:mcserv/jdk/installer/adoptium/windows_adoptium_jdk_installer.dart';
 import 'package:mcserv/jdk/installer/jdk_installer.dart';
 import 'package:mcserv/jdk/jre_installation.dart';
-import 'package:mcserv/utils/localizations_util.dart';
 import 'package:mcserv/utils/platform_utils/platform_utils.dart';
-import 'package:mcserv/utils/status_util.dart';
 import 'package:mcserv/utils/utils.dart';
 import 'package:meta/meta.dart';
 

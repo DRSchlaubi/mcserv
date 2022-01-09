@@ -10,7 +10,6 @@ import 'package:mcserv/script/script_generator.dart';
 import 'package:mcserv/settings/settings.dart';
 import 'package:mcserv/settings/settings_helper.dart';
 import 'package:mcserv/utils/constants.dart';
-import 'package:mcserv/utils/recommendation_util.dart';
 import 'package:mcserv/utils/utils.dart';
 
 import 'abstract/jvm_option_mixin.dart';
@@ -49,9 +48,11 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
     final distribution = _askDistribution();
     final acceptEula = distribution.requiresEula
         ? confirm(localizations.acceptEula(_mcEula),
-            defaultValue: true, predefined: argResults[_acceptEula])
+            defaultValue: true,
+            predefined: argResults.arguments.isNotEmpty
+                ? argResults[_acceptEula]
+                : null)
         : false;
-
     final version = await askForVersion(distribution);
     if (version == null) {
       return;
