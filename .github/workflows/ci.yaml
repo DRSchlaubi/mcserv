@@ -71,7 +71,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install Dart
-        uses: dart-lang/setup-dart@7e4ec4f1811e09ce8f339b4d3044220ca799e6c6
+        uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
       - uses: actions/setup-java@v1
         with:
           java-version: 11
@@ -111,7 +111,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install Dart
-        uses: dart-lang/setup-dart@v1
+        uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
       - uses: gradle/gradle-build-action@v2
         name: Build Distribution
         env:
@@ -136,7 +136,7 @@ jobs:
           distribution: adopt
           java-version: 11
       - name: Install Dart
-        uses: dart-lang/setup-dart@v1
+        uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
       - uses: gradle/gradle-build-action@v2
         name: Build Distribution
         env:
