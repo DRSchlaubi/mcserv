@@ -1,17 +1,11 @@
 # McServ
 
 ## [Unreleased]
-### Added
-
 ### Changed
+- Bump dependencies
 
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+### Fixes
+- Bump wingetcreate to fix checksum calculation
 
 ## [0.1.1] - 2022-01-09
 ### Fixed

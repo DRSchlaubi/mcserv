@@ -36,7 +36,7 @@ jobs:
       - name: Setup winget-create
         shell: pwsh
         env:
-          WINGETCREATE_VERSION: v0.2.0.29-preview
+          WINGETCREATE_VERSION: v1.0.4.0
         run: iwr https://github.com/microsoft/winget-create/releases/download/${env:WINGETCREATE_VERSION}/wingetcreate.exe -OutFile wingetcreate.exe
 
       - name: Bump Winget manifest
