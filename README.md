@@ -7,6 +7,9 @@ CLI utility to manage MC server installations.
 - Generate start scripts (with optimized JVM flags)
 - Update to the latest build
 
+# Demo
+[![asciicast](https://asciinema.org/a/0PHpU6CdGk57EKQk5Xja2Vc9j.svg)](https://asciinema.org/a/0PHpU6CdGk57EKQk5Xja2Vc9j)
+
 # Installation
 
 Linux: https://docs.mcserv.how/install/#linux
