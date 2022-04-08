@@ -24,7 +24,7 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: 2.16.0
+          sdk: 2.18.1
       - name: Install dependencies
         run: dart pub get
       - name: Analyze Dart
@@ -75,7 +75,7 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: 2.16.0
+          sdk: 2.18.1
       - uses: actions/setup-java@v3.5.1
         with:
           distribution: temurin
@@ -118,7 +118,7 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: 2.16.0
+          sdk: 2.18.1
       - uses: gradle/gradle-build-action@v2
         name: Build Distribution
         env:
@@ -145,7 +145,7 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1.3
         with:
-          sdk: 2.16.0
+          sdk: 2.18.1
       - uses: gradle/gradle-build-action@v2
         name: Build Distribution
         env:
