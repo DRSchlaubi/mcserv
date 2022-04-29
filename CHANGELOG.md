@@ -1,6 +1,19 @@
 # McServ
 
 ## [Unreleased]
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.1.3] - 2022-04-29
 ### Changed
 - Bump dependencies
 
