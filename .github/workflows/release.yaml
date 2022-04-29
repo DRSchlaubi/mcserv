@@ -47,7 +47,7 @@ jobs:
           $tagname = $env:GITHUB_REF.Replace("refs/tags/", "")
           $version = $tagname.Replace("v", "")
           $url = "https://github.com/DRSchlaubi/mcserv/releases/download/${tagname}/mcserv-${version}.msi"
-          .\wingetcreate.exe update McServ.McServ --url $url --version $version
+          .\wingetcreate.exe update McServ.McServ -u $url --version $version
           if ($version -notmatch "-") {
             .\wingetcreate.exe submit .\manifests\m\McServ\McServ\${version}\ --token $env:WINGET_GITHUB_TOKEN
           }
@@ -112,3 +112,4 @@ jobs:
         with:
           branch: main
           github_token: ${{ secrets.UPLOAD_GITHUB_TOKEN }}
+          force: true
