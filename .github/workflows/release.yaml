@@ -11,7 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup AU
-        uses: crazy-max/ghaction-chocolatey@v1
+        uses: crazy-max/ghaction-chocolatey@v2
         with:
           args: install au
       - name: Update manifest file
