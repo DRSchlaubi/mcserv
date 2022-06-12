@@ -43,6 +43,9 @@ abstract class JreFinder {
     final foundVersions = <JreInstallation>[];
 
     for (var element in paths) {
+      if (await FileSystemEntity.isLink(element)) {
+        continue;
+      }
       final javaHome = element.trim();
       final binary = findBinary(javaHome);
       final version = await detectVersion(binary);
