@@ -19,10 +19,11 @@ class _DistributionMetaDataApi implements DistributionMetaDataApi {
   Future<String?> _getDistributionMetaData(type) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<String>(_setStreamType<String>(
-        Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/$type.json',
+        Options(method: 'GET', headers: _headers, extra: _extra)
+            .compose(_dio.options, '/${type}.json',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data;

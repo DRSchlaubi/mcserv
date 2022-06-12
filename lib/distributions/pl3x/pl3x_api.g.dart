@@ -48,11 +48,12 @@ class _Pl3xApi implements Pl3xApi {
   Future<Pl3xProject> retrieveVersions(project) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<Pl3xProject>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/$project',
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/${project}',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = Pl3xProject.fromJson(_result.data!);
@@ -63,11 +64,12 @@ class _Pl3xApi implements Pl3xApi {
   Future<Pl3xBuild> retrieveLatestBuild(project, version) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<Pl3xBuild>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/$project/$version/latest',
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/${project}/${version}/latest',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = Pl3xBuild.fromJson(_result.data!);
