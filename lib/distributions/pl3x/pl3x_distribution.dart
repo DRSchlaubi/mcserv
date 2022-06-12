@@ -28,7 +28,7 @@ abstract class Pl3xDistribution extends PaperclipDistribution {
   Future<PaperDownloadItem> retrieveLatestPaperBuildFor(String version) async {
     final build = await _pl3x.retrieveLatestBuild(project, version);
     final download = Download(
-        Uri.parse('https://api.pl3x.net/v2/$project/$version/latest/download'),
+        Uri.parse('https://api.purpurmc.org/v2/$project/$version/latest/download'),
         checksum: build.md5,
         hashingAlgorithm: HashingAlgorithm.md5);
 

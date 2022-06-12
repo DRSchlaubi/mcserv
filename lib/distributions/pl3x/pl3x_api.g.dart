@@ -37,7 +37,7 @@ Map<String, dynamic> _$Pl3xBuildToJson(Pl3xBuild instance) => <String, dynamic>{
 
 class _Pl3xApi implements Pl3xApi {
   _Pl3xApi(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://api.pl3x.net/v2/';
+    baseUrl ??= 'https://api.purpurmc.org/v2/';
   }
 
   final Dio _dio;
