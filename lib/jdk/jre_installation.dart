@@ -3,7 +3,7 @@ import 'package:logging/logging.dart';
 import 'package:mcserv/jdk/finder/jre_finder.dart';
 
 //language=RegExp
-final _javaVersionRegex = RegExp('version "([0-9_.]*)"');
+final _javaVersionRegex = RegExp('version "([\\d_.]*)"');
 
 class JreInstallation extends Equatable {
   final JreVersion version;
