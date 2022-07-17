@@ -2,14 +2,23 @@
 
 ## [Unreleased]
 ### Added
+- Metadata for 1.19
 
 ### Changed
+- Update gradle wrapper to 7.4.2
+- Now using New Purpur API URL
+- Recommending Velocity over Waterfall
+- Showing latest minecraft versions at the top
+- Ignoring symlinked jdks
 
 ### Deprecated
 
 ### Removed
+- Nyper Support
 
 ### Fixed
+- Fixed missing metadata crash (See #41)
+- Unix Script Permissions
 
 ### Security
 

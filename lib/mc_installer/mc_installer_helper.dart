@@ -18,7 +18,8 @@ extension McInstallerHelper on Distribution {
     if (predefined != null) {
       return predefined.substring(0, predefined.lastIndexOf('.'));
     }
-    final versionsGroups = await retrieveVersionGroups();
+    final versionsGroups = await retrieveVersionGroups()
+        .then((groups) => groups.reversed.toList());
     if (versionsGroups.length == 1) {
       return versionsGroups[0];
     }
@@ -31,7 +32,7 @@ extension McInstallerHelper on Distribution {
   Future<String?> askForVersion({String? predefined}) async {
     final versionGroup = await _askVersionGroup(predefined);
 
-    final versions = (await retrieveVersions(versionGroup)).versions;
+    final versions = (await retrieveVersions(versionGroup)).versions.reversed.toList();
     if (predefined != null) {
       return versions.find((element) => element, predefined,
           errorMessage: () =>

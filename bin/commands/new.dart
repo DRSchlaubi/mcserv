@@ -1,4 +1,5 @@
 import 'package:args/args.dart';
+import 'package:collection/collection.dart';
 import 'package:file/file.dart';
 import 'package:interact/interact.dart';
 import 'package:logging/logging.dart';
@@ -62,7 +63,7 @@ class NewCommand extends Command with YesFlag, JvmOption, VersionOption {
         ? (await _metadata.getDistributionMetaData(distribution.metadataKey))
         : null;
     final versionMeta =
-        meta?.versions.firstWhere((element) => element.version == version);
+        meta?.versions.firstWhereOrNull((element) => element.version == version);
     final useRecommendedFlags = versionMeta?.recommendedFlagKey != null
         ? globalConfirm(localizations.useAikarFlags, defaultValue: true)
         : false;

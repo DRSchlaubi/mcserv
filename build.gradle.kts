@@ -9,7 +9,7 @@ plugins {
     id("org.jetbrains.changelog") version "1.3.1"
 }
 
-version = "0.1.3"
+version = "0.2.0"
 
 changelog {
     version.set(project.version.toString())
@@ -23,11 +23,11 @@ changelog {
 
 tasks {
     register<Exec>("dartPubGet") {
-        dart("pub", "get")
+        dart("dart", "pub", "get")
     }
 
     val dartGenerate = register<Exec>("dartGenerate") {
-        dart("pub", "run", "build_runner", "build", "--delete-conflicting-outputs")
+        dart("dart", "pub", "run", "build_runner", "build", "--delete-conflicting-outputs")
 
         inputs.dir(project.file("bin"))
         inputs.dir(project.file("lib"))
@@ -35,7 +35,14 @@ tasks {
     }
 
     register<Exec>("dartBuildArb") {
-        dart("pub", "run", "intl_translation:extract_to_arb", "--output-dir=i18n", "lib/intl/localizations.dart")
+        dart(
+            "dart",
+            "pub",
+            "run",
+            "intl_translation:extract_to_arb",
+            "--output-dir=i18n",
+            "lib/intl/localizations.dart"
+        )
 
         inputs.file("lib/intl/localizations.dart")
         outputs.dirs("i18n")
@@ -43,6 +50,7 @@ tasks {
 
     register<Exec>("dartReadArb") {
         dart(
+            "dart",
             "pub",
             "run",
             "intl_translation:generate_from_arb",
@@ -83,7 +91,8 @@ tasks {
     }
 
     val dartBuild = register<Exec>("dartBuild") {
-        val fileName = if (System.getProperty("os.name").startsWith("Windows")) "mcserv.exe" else "mcserv"
+        val fileName =
+            if (System.getProperty("os.name").startsWith("Windows")) "mcserv.exe" else "mcserv"
         val destinationDir = project.buildDir.resolve("dart")
         doFirst {
             destinationDir.mkdirs()

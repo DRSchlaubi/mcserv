@@ -5,7 +5,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'pl3x_api.g.dart';
 
-@RestApi(baseUrl: 'https://api.pl3x.net/v2/')
+@RestApi(baseUrl: 'https://api.purpurmc.org/v2/')
 abstract class Pl3xApi {
   factory Pl3xApi(Dio dio, {String baseUrl}) = _Pl3xApi;
 

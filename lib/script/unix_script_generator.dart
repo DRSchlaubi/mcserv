@@ -30,7 +30,7 @@ class UnixScriptGenerator extends ScriptGenerator {
     await file.writeAsString(stringBuffer.toString());
 
     // See https://github.com/dart-lang/sdk/issues/15078 for native calls
-    final exitCode = NativeLib.runChmod(file, 0x777);
+    final exitCode = NativeLib.runChmod(file, 484); // 484 = 0744 in octal = -rwxr--r--
     if (exitCode != 0) {
       _log.warning('Could not modify script permissions: $exitCode');
     }

@@ -91,10 +91,11 @@ class _AdoptiumApi implements AdoptiumApi {
   Future<AdoptiumReleases> retrieveReleases() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<AdoptiumReleases>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+            Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/info/available_releases',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
@@ -113,14 +114,15 @@ class _AdoptiumApi implements AdoptiumApi {
       r'architecture': architecture,
       r'image_type': imageType
     };
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<List<dynamic>>(
-        _setStreamType<List<AdoptiumFeatureRelease>>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(
-                    _dio.options, '/assets/feature_releases/$featureVersion/ga',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        _setStreamType<List<AdoptiumFeatureRelease>>(Options(
+                method: 'GET', headers: _headers, extra: _extra)
+            .compose(
+                _dio.options, '/assets/feature_releases/${featureVersion}/ga',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!
         .map((dynamic i) =>
             AdoptiumFeatureRelease.fromJson(i as Map<String, dynamic>))
