@@ -10,6 +10,7 @@
 - Recommending Velocity over Waterfall
 - Showing latest minecraft versions at the top
 - Ignoring symlinked jdks
+- Update dart tooling
 
 ### Deprecated
 
