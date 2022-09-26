@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: dart pub get
       - name: Analyze Dart
-        uses: zgosalvez/github-actions-analyze-dart@v1
+        uses: peterfortuin/github-actions-analyze-dart@main
   build_metadata:
     name: "Compile release metadata"
     runs-on: ubuntu-20.04
